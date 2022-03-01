@@ -1,0 +1,20 @@
+@import "../abstracts/variables";
+
+.ant-list-split .ant-list-item {
+    border-bottom: 1px solid #dbdde4 !important;
+}
+.ant-list-vertical .ant-list-item-action > li {
+    padding: 0 14px !important;
+}
+
+.ant-list-vertical .ant-list-item-extra {
+    margin-left: 10px !important;
+}
+
+.ant-list-item-action-split {
+    background-color: #9fb7e4 !important;
+}
+
+.ant-list-item-meta-content {
+    width: 100% !important;
+}

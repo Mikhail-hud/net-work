@@ -1,0 +1,37 @@
+@import "base/reset";
+@import "abstracts/mixin";
+@import "abstracts/variables";
+@import "layout/layout";
+@import "components/buttons";
+@import "components/drawer";
+@import "components/list";
+@import "components/menu";
+@import "components/scroll";
+@import "pages/loginPage";
+
+.send-message-form {
+    textarea {
+        width: 100%;
+        background-color: rgb(255, 255, 255);
+        padding: 2px 8px;
+        border: none;
+        outline: none;
+        border-radius: 16px 0px 16px 0px;
+        border-bottom: 3px solid $violet;
+        color: #313131;
+        font-size: 15px;
+        font-weight: 400;
+        transition: 0.2s ease-out;
+        min-height: 50px;
+    }
+
+    button {
+        background: none !important;
+        margin-top: 0.4rem;
+
+        &:hover {
+            color: $blue;
+            transition: 0.4s ease-out;
+        }
+    }
+}

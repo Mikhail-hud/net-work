@@ -1,0 +1,7 @@
+@import "../abstracts/mixin";
+
+@media (max-width: 320px) {
+    .ant-col-offset-5 {
+        margin-left: 0;
+    }
+}

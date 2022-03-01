@@ -1,0 +1,50 @@
+@import "../abstracts/variables";
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
+    background-image: url("../../assets/img/common/body-bg.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 53%;
+    background-color: rgb(241, 241, 261) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+p,
+span,
+button,
+input,
+textarea,
+i {
+    font-family: IBM Plex Serif, serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 500;
+    font-size: 21px;
+}
+
+.ant-comment-avatar {
+    margin-top: 0.33rem !important;
+}
+
+input[type="file"] {
+    display: none;
+    outline: 0;
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+}

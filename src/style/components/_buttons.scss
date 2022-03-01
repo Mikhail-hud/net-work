@@ -1,0 +1,33 @@
+@import "../abstracts/mixin";
+@import "../abstracts/variables";
+
+.ant-btn-round {
+    padding: 4px 12px !important;
+}
+.ant-btn,
+.ant-btn-round.ant-btn-lg {
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.ant-btn:focus {
+    color: rgba(0, 0, 0, 0.85) !important;
+    background: transparent !important;
+    border-color: transparent !important;
+}
+.ant-btn-dashed {
+    &:hover,
+    :focus {
+        color: black !important;
+        border-color: none !important;
+    }
+}
+.ant-btn,
+.ant-btn-primary .ant-btn-round {
+    background: $low-violet-color;
+    color: rgba(0, 0, 0, 0.85) !important;
+    font-weight: 200 !important;
+    &:hover {
+        @include hover-blue;
+    }
+}

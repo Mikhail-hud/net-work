@@ -1,0 +1,23 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixin";
+.ant-layout {
+    background: none !important;
+    min-height: 100vh !important;
+}
+
+.ant-layout-content {
+    position: relative;
+    -ms-flex: auto;
+    flex: auto;
+    min-height: 0;
+    margin: 16px 16px 24px !important;
+    padding: 20px !important;
+    box-shadow: $shadow-transparent;
+}
+.ant-layout-header {
+    height: 64px;
+    padding: 0 20px;
+    margin: 0 16px;
+    background: none;
+    box-shadow: $shadow-transparent;
+}
