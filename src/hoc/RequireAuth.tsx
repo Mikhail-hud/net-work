@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { LOGIN_PAGE_PATH } from "../constants/pathConstants";
-import { useAppSelector } from "../hooks/redux";
+import { useAppSelector } from "../hooks";
 
 const RequireAuth: React.FC<any> = ({ children }): JSX.Element => {
     const { pathname } = useLocation();

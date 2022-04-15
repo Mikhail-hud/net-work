@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { usersAPI } from "../../api/api";
+import { usersAPI } from "../../api";
 import { RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
-import { Notification } from "../../components/presentational/Notification";
+import { Notification } from "../../components";
 import { ToggleFollowingProgressPayload, UsersDataEntities, UsersQueryParameters } from "../../types/usersType";
 import { UsersState } from "../../types/reducerTypes";
 

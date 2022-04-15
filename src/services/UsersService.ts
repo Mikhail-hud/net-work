@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { baseURL, headers, credentials } from "../api/api";
+import { baseURL, headers, credentials } from "../api";
 import { FRIEND, PAGE, LIMIT } from "../constants/usersConstants";
 import { UsersDataEntities, UsersQueryParameters } from "../types/usersType";
 

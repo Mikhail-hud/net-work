@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { getAuthUserData } from "../store/actions/AuthAction";
+import { getAuthUserData } from "../store/actions";
 import { useAppDispatch, useAppSelector } from "./redux";
 
 export const useAppInitialize = () => {

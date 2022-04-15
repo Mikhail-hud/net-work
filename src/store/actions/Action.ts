@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { authAPI, securityAPI } from "../../api/api";
-import { Notification } from "../../components/presentational/Notification";
+import { authAPI, securityAPI } from "../../api";
+import { Notification } from "../../components";
 import { RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
 
 export const getAuthUserData = createAsyncThunk("auth/getAuthUserData", async () => {

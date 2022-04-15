@@ -5,7 +5,7 @@ import logo from "../../assets/img/common/logo.png";
 import { LogOutIcon } from "../../icons";
 import { LOGIN_PAGE_PATH } from "../../constants/pathConstants";
 import { Navigation } from "../Navigation";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { logOut } from "../../store/reducers/AuthSlice";
 
 const { Header } = Layout;
