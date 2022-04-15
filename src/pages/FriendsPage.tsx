@@ -1,8 +1,7 @@
 import React from "react";
 import { Layout } from "antd";
-import { useUsers } from "../hooks/useUsers";
-import Paginator from "../components/presentational/Paginator";
-import UsersList from "../components/UsersList/UsersList";
+import { useUsers } from "../hooks";
+import { Paginator, UsersList } from "../components";
 
 const { Content } = Layout;
 const FriendsPage: React.FC = (): JSX.Element => {

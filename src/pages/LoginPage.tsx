@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Input, Button, Checkbox, Row, Col, Typography, Layout } from "antd";
 import { UserOutlined, LockOutlined, SortDescendingOutlined } from "@ant-design/icons";
 import { logIn } from "../store/reducers/AuthSlice";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { UserCredential } from "../types/userType";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PUBLIC_PATH } from "../constants/pathConstants";

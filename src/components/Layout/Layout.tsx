@@ -1,9 +1,8 @@
 import React from "react";
 import { Layout } from "antd";
-import { Header } from "../Header";
 import { Outlet } from "react-router-dom";
-import { useAppInitialize } from "../../hooks/useAppInitialize";
-import Preloader from "../presentational/Preloader";
+import { useAppInitialize } from "../../hooks";
+import { Preloader, Header } from "../../components";
 
 const AppLayout: React.FC = (): JSX.Element => {
     const { initialized } = useAppInitialize();

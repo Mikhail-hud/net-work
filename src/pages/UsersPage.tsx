@@ -1,8 +1,7 @@
 import React from "react";
 import { Layout } from "antd";
-import Paginator from "../components/presentational/Paginator";
-import { useUsers } from "../hooks/useUsers";
-import UsersList from "../components/UsersList/UsersList";
+import { Paginator, UsersList } from "../components";
+import { useUsers } from "../hooks";
 
 const { Content } = Layout;
 

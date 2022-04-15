@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getAuthUserData, getCaptchaUrl } from "../actions/AuthAction";
+import { getAuthUserData, getCaptchaUrl } from "../actions";
 import { User, UserCredential } from "../../types/userType";
 import { ResultCodeTypes } from "../../types/apiTypes";
 import { UserState } from "../../types/reducerTypes";
-import { authAPI } from "../../api/api";
-import { Notification } from "../../components/presentational/Notification";
+import { authAPI } from "../../api";
+import { Notification } from "../../components";
 import {
     RESULT_CODE_REJECT_WITH_SECURITY,
     RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL,

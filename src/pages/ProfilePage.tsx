@@ -1,13 +1,14 @@
 import React from "react";
 import { Layout } from "antd";
-import { useParams } from "react-router-dom";
+import { useProfile } from "../hooks";
+
 const { Content } = Layout;
 
 const ProfilePage = () => {
-    const { userId } = useParams();
+    const { profile } = useProfile();
     return (
         <Content>
-            <h1>Profile {userId}</h1>
+            <h1>Profile {profile?.fullName}</h1>
         </Content>
     );
 };

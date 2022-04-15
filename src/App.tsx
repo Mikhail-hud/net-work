@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { ProfilePage, DialogsPage, UsersPage, FriendsPage, LoginPage, NotFoundPage } from "./pages";
+import { RequireAuth } from "./hoc";
 import {
     PUBLIC_PATH,
     PROFILE_PAGE_PATH,
@@ -12,7 +13,6 @@ import {
     LOGIN_PAGE_PATH,
     NOT_FOUND_PAGE_PATH,
 } from "./constants/pathConstants";
-import RequireAuth from "./hoc/RequireAuth";
 
 const App: React.FC = (): JSX.Element => {
     return (
