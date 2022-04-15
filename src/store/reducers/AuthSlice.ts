@@ -46,7 +46,7 @@ export const logIn = createAsyncThunk("auth/logIn", async (userData: UserCredent
 });
 export const logOut = createAsyncThunk("auth/logOut", async () => {
     try {
-        let response = await authAPI.logout();
+        const response = await authAPI.logout();
         if (response.resultCode === RESULT_CODE_SUCCESS) {
             return response.resultCode;
         }
@@ -59,12 +59,12 @@ export const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setLoginError: (state, action: PayloadAction<string>) => {
+        setLoginError: (state: UserState, action: PayloadAction<string>) => {
             state.error = action.payload;
         },
     },
     extraReducers: {
-        [logIn.fulfilled.type]: (state, action: PayloadAction<ResultCodeTypes>) => {
+        [logIn.fulfilled.type]: (state: UserState, action: PayloadAction<ResultCodeTypes>) => {
             if (action.payload === RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL) {
                 state.isLoading = false;
             }
@@ -78,7 +78,7 @@ export const authSlice = createSlice({
         [logIn.rejected.type]: state => {
             state.isLoading = false;
         },
-        [getAuthUserData.fulfilled.type]: (state, action: PayloadAction<User>) => {
+        [getAuthUserData.fulfilled.type]: (state: UserState, action: PayloadAction<User>) => {
             state.isLoading = false;
             if (action.payload) {
                 state.isAuth = true;
@@ -88,11 +88,11 @@ export const authSlice = createSlice({
         [getAuthUserData.rejected.type]: state => {
             state.isLoading = false;
         },
-        [getCaptchaUrl.fulfilled.type]: (state, action: PayloadAction<string>) => {
+        [getCaptchaUrl.fulfilled.type]: (state: UserState, action: PayloadAction<string>) => {
             state.isLoading = false;
             state.captchaUrl = action.payload;
         },
-        [logOut.fulfilled.type]: (state, action: PayloadAction<ResultCodeTypes>) => {
+        [logOut.fulfilled.type]: (state: UserState, action: PayloadAction<ResultCodeTypes>) => {
             if (action.payload === RESULT_CODE_SUCCESS) {
                 state.user = { id: null, email: null, login: null };
                 state.isAuth = false;

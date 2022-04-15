@@ -1,0 +1,33 @@
+@import "../abstracts/mixin";
+
+@media (max-width: 515px) {
+  .ant-list-lg .ant-list-item {
+    padding: 0px;
+  }
+  .ant-list-vertical .ant-list-item-action > li {
+    padding: 0 8px !important;
+  }
+  .ant-list-vertical .ant-list-item-meta-title {
+    margin-bottom: 0px;
+  }
+  .ant-list-vertical .ant-list-item-extra {
+    margin: auto !important;
+  }
+  .ant-list-vertical .ant-list-item-meta {
+    margin-bottom: 10px;
+  }
+  .ant-list-vertical .ant-list-item-action {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+  }
+}
+.user-list {
+  button {
+    background: none !important;
+    &:hover {
+      @include hover-blue;
+    }
+  }
+}

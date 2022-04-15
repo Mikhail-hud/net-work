@@ -1,8 +1,11 @@
 export interface UsersQueryParameters {
-    count: string;
-    page: string;
-    search?: string;
+    count: number;
+    page: number;
     friend?: boolean;
+}
+export interface ToggleFollowingProgressPayload {
+    isFetching: boolean;
+    userId: number;
 }
 
 export interface Photos {
