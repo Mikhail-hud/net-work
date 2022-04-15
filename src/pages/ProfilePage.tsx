@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 const { Content } = Layout;
 
 const ProfilePage = () => {
-    let { userId } = useParams();
+    const { userId } = useParams();
     return (
         <Content>
             <h1>Profile {userId}</h1>

@@ -3,21 +3,27 @@ import { Pagination, Row, Col } from "antd";
 import { useSearchParams } from "react-router-dom";
 import { PAGE, LIMIT } from "../../constants/usersConstants";
 import { getSearchParams } from "../../helpers/urlHelpers";
-import { INITIAL_PARAMS } from "../../constants/usersConstants";
+import { UsersQueryParameters } from "../../types/usersType";
 
 type Props = {
     totalItemsCount: number;
     isFetching: boolean;
+    fetchFriends: boolean;
 };
 
-const Paginator: React.FC<Props> = ({ totalItemsCount, isFetching }): JSX.Element => {
+const Paginator: React.FC<Props> = ({ totalItemsCount, isFetching, fetchFriends }): JSX.Element => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const params = getSearchParams(searchParams, INITIAL_PARAMS) as Record<string, any>;
+    const params = getSearchParams(searchParams);
     const currentPage = Number(searchParams.get(PAGE.key));
     const pageSize = Number(searchParams.get(LIMIT.key));
     const onChange = (nextPage, nextPageSize) => {
-        setSearchParams({ ...params, [PAGE.key]: nextPage, [LIMIT.key]: nextPageSize });
+        setSearchParams({
+            ...params,
+            [PAGE.key]: nextPage,
+            [LIMIT.key]: nextPageSize,
+        } as Record<keyof UsersQueryParameters, any>);
     };
+    const showTotalPrefix = fetchFriends ? "Friends" : "Users";
 
     return (
         <Row justify="center">
@@ -33,7 +39,7 @@ const Paginator: React.FC<Props> = ({ totalItemsCount, isFetching }): JSX.Elemen
                     showSizeChanger
                     onChange={onChange}
                     showQuickJumper
-                    showTotal={total => `${total} Users`}
+                    showTotal={total => `${total} ${showTotalPrefix}`}
                 />
             </Col>
         </Row>

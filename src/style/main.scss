@@ -7,7 +7,10 @@
 @import "components/list";
 @import "components/menu";
 @import "components/scroll";
+@import "components/users";
 @import "pages/loginPage";
+@import "pages/usersPage";
+@import "pages/friendsPage";
 
 .send-message-form {
     textarea {
