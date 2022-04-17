@@ -4,6 +4,7 @@ import { RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
 import { Notification } from "../../components";
 import { ToggleFollowingProgressPayload, UsersDataEntities, UsersQueryParameters } from "../../types/usersType";
 import { UsersState } from "../../types/reducerTypes";
+import { FRIEND, PAGE, SEARCH, LIMIT } from "../../constants/usersConstants";
 
 const initialState: UsersState = {
     users: [],
@@ -14,9 +15,14 @@ const initialState: UsersState = {
 
 export const fetchUsers = createAsyncThunk(
     "users/fetchUsers",
-    async ({ count, page, friend }: UsersQueryParameters) => {
+    async ({
+        count = LIMIT.default,
+        page = PAGE.default,
+        friend = FRIEND.default,
+        term = SEARCH.default,
+    }: UsersQueryParameters) => {
         try {
-            return await usersAPI.getUsers(page, count, friend);
+            return await usersAPI.getUsers({ page, count, friend, term });
         } catch (e) {
             Notification(e.message);
         }

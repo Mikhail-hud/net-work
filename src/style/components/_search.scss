@@ -1,0 +1,14 @@
+@import "../abstracts/mixin";
+@import "../abstracts/variables";
+
+.search-field {
+  .ant-input-group-addon {
+    background-color: transparent !important;
+    button {
+      &:hover {
+        transform: none !important;
+      }
+    }
+  }
+
+}

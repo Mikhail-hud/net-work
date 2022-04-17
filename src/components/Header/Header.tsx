@@ -1,8 +1,8 @@
 import React from "react";
 import { Layout, Avatar, Image, Row, Col, Button, Tooltip } from "antd";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/img/common/logo.png";
-import { LogOutIcon } from "../../icons";
+import { logo } from "../../assets/img/common";
+import { LogOutIcon, LogInIcon } from "../../icons";
 import { LOGIN_PAGE_PATH } from "../../constants/pathConstants";
 import { Navigation } from "../Navigation";
 import { useAppDispatch, useAppSelector } from "../../hooks";
@@ -41,7 +41,7 @@ const AppHeader: React.FC = (): JSX.Element => {
                             shape="round"
                             size="large"
                             onClick={handleLoginLogout}
-                            icon={<LogOutIcon />}
+                            icon={isAuth ? <LogOutIcon /> : <LogInIcon />}
                         />
                     </Tooltip>
                 </Col>

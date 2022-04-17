@@ -8,9 +8,13 @@
 @import "components/menu";
 @import "components/scroll";
 @import "components/usersList";
+@import "components/search";
+@import "components/profileStatus";
+@import "components/profileDetails";
 @import "pages/loginPage";
 @import "pages/usersPage";
 @import "pages/friendsPage";
+@import "pages/profilePage";
 
 .send-message-form {
     textarea {

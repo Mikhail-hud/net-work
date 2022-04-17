@@ -5,4 +5,5 @@ export interface ProfileState {
     profile: UserProfile;
     status: string;
     isFetching: boolean;
+    isPhotoSaving: boolean;
 }

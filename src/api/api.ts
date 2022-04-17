@@ -1,4 +1,5 @@
 import axios from "axios";
+import { UsersQueryParameters } from "../types/usersType";
 
 export const baseURL = "https://social-network.samuraijs.com/api/1.0/";
 export const credentials = "include";
@@ -12,8 +13,8 @@ const instance = axios.create({
 });
 
 export const usersAPI = {
-    getUsers(currentPage: number, pageSize: number, friend: boolean) {
-        return instance.get(`users?page=${currentPage}&count=${pageSize}&friend=${friend}`).then(response => {
+    getUsers({ count, page, friend, term }: UsersQueryParameters) {
+        return instance.get(`users?page=${page}&count=${count}&friend=${friend}&term=${term}`).then(response => {
             return response.data;
         });
     },
@@ -39,23 +40,33 @@ export const profileAPI = {
     },
 
     getStatus(id) {
-        return instance.get(`profile/status/${id}`);
+        return instance.get(`profile/status/${id}`).then(reponse => {
+            return reponse.data;
+        });
     },
     updateStatus(status) {
-        return instance.put(`profile/status/`, { status: status });
+        return instance.put(`profile/status/`, { status: status }).then(response => {
+            return response.data;
+        });
     },
     savePhoto(photoFile) {
         const formData = new FormData();
         formData.append("image", photoFile);
-        return instance.put(`profile/photo/`, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
+        return instance
+            .put(`profile/photo/`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            .then(response => {
+                return response.data;
+            });
     },
 
     saveProfile(profile) {
-        return instance.put(`profile`, profile);
+        return instance.put(`profile`, profile).then(response => {
+            return response.data;
+        });
     },
 };
 

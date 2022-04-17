@@ -30,3 +30,11 @@ export interface UserProfile {
     photos: UserProfilePhotos;
     userId: number;
 }
+
+export interface ProfileLogoFile {
+    lastModified: number;
+    name: string;
+    size: number;
+    type: string;
+    webkitRelativePath: string;
+}

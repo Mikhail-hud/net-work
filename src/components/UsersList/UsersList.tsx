@@ -1,7 +1,7 @@
 import { Avatar, Button, Col, Image, List, Row, Skeleton } from "antd";
 import { GithubOutlined, MessageOutlined, UserAddOutlined, UserDeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import logo from "../../assets/img/common/logo.png";
+import { logo } from "../../assets/img/common";
 import React from "react";
 import { NetWorkUser } from "../../types/usersType";
 

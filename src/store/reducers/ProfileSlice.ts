@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { profileAPI } from "../../api";
 import { Notification } from "../../components";
 import { ProfileState } from "../../types/reducerTypes";
-import { UserProfile } from "../../types/profileTypes";
+import { ProfileLogoFile, UserProfile, UserProfilePhotos } from "../../types/profileTypes";
+import { RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
 
 const initialState: ProfileState = {
     posts: [
@@ -37,6 +38,7 @@ const initialState: ProfileState = {
     profile: null,
     status: "",
     isFetching: true,
+    isPhotoSaving: false,
 };
 
 export const fetchProfile = createAsyncThunk("profile/fetchProfile", async (userId: number) => {
@@ -47,10 +49,44 @@ export const fetchProfile = createAsyncThunk("profile/fetchProfile", async (user
     }
 });
 
+export const getStatus = createAsyncThunk("profile/getStatus", async (userId: number) => {
+    try {
+        return await profileAPI.getStatus(userId);
+    } catch (e) {
+        Notification(e.message);
+    }
+});
+export const updateStatus = createAsyncThunk("profile/updateStatus", async (status: string, { dispatch }) => {
+    try {
+        const response = await profileAPI.updateStatus(status);
+        if (response.resultCode === RESULT_CODE_SUCCESS) {
+            dispatch(setStatus(status));
+        }
+    } catch (e) {
+        Notification(e.message);
+    }
+});
+
+export const savePhoto = createAsyncThunk("profile/savePhoto", async (file: ProfileLogoFile) => {
+    try {
+        const response = await profileAPI.savePhoto(file);
+        if (response.resultCode === RESULT_CODE_SUCCESS) {
+            return response.data.photos;
+        }
+    } catch (e) {
+        Notification(e.message);
+    }
+});
+
 export const profileSlice = createSlice({
     name: "profile",
     initialState,
-    reducers: {},
+    reducers: {
+        setStatus: (state: ProfileState, action: PayloadAction<string>) => {
+            const { payload } = action;
+            state.status = payload;
+        },
+    },
     extraReducers: {
         [fetchProfile.pending.type]: state => {
             state.isFetching = true;
@@ -60,8 +96,20 @@ export const profileSlice = createSlice({
             state.isFetching = false;
             state.profile = payload;
         },
+        [savePhoto.pending.type]: (state: ProfileState) => {
+            state.isPhotoSaving = true;
+        },
+        [savePhoto.fulfilled.type]: (state: ProfileState, action: PayloadAction<UserProfilePhotos>) => {
+            const { payload } = action;
+            state.profile.photos = payload;
+            state.isPhotoSaving = false;
+        },
+        [getStatus.fulfilled.type]: (state: ProfileState, action: PayloadAction<string>) => {
+            const { payload } = action;
+            state.status = payload;
+        },
     },
 });
 
-// export const { toggleFollowingProgress } = usersSlice.actions;
+export const { setStatus } = profileSlice.actions;
 export default profileSlice.reducer;
