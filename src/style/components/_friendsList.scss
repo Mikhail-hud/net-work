@@ -1,0 +1,14 @@
+@import "../abstracts/mixin";
+
+.friend-card {
+  img {
+    width: 100%;
+    height: auto;
+  }
+  button {
+    background: none !important;
+    &:hover {
+      @include hover-blue;
+    }
+  }
+}

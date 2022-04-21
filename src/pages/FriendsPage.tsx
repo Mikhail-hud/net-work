@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout, Row, Col } from "antd";
 import { useUsers } from "../hooks";
-import { Paginator, UsersList, Search } from "../components";
+import { Paginator, Search, FriendList } from "../components";
 
 const { Content } = Layout;
 const FriendsPage: React.FC = (): JSX.Element => {
@@ -17,7 +17,7 @@ const FriendsPage: React.FC = (): JSX.Element => {
                 </Col>
             </Row>
             <Paginator isFetching={isFetching} totalItemsCount={totalCount} fetchFriends={fetchFriends} />
-            <UsersList
+            <FriendList
                 users={users}
                 isFetching={isFetching}
                 followingInProgress={followingInProgress}
