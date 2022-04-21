@@ -11,34 +11,8 @@
 @import "components/search";
 @import "components/profileStatus";
 @import "components/profileDetails";
+@import "components/postForm";
 @import "pages/loginPage";
 @import "pages/usersPage";
 @import "pages/friendsPage";
 @import "pages/profilePage";
-
-.send-message-form {
-    textarea {
-        width: 100%;
-        background-color: rgb(255, 255, 255);
-        padding: 2px 8px;
-        border: none;
-        outline: none;
-        border-radius: 16px 0px 16px 0px;
-        border-bottom: 3px solid $violet;
-        color: #313131;
-        font-size: 15px;
-        font-weight: 400;
-        transition: 0.2s ease-out;
-        min-height: 50px;
-    }
-
-    button {
-        background: none !important;
-        margin-top: 0.4rem;
-
-        &:hover {
-            color: $blue;
-            transition: 0.4s ease-out;
-        }
-    }
-}

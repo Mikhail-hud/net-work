@@ -2,40 +2,32 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { profileAPI } from "../../api";
 import { Notification } from "../../components";
 import { ProfileState } from "../../types/reducerTypes";
-import { ProfileLogoFile, UserProfile, UserProfilePhotos } from "../../types/profileTypes";
+import { NewPostData, ProfileLogoFile, UserProfile, UserProfilePhotos } from "../../types/profileTypes";
 import { RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
 
 const initialState: ProfileState = {
-    posts: [
-        {
-            id: 1,
-            message: "React.Js, - a JavaScript library for building user interfaces",
-            likesCount: 1,
-            dislikesCount: 10,
+    posts: [],
+    profile: {
+        aboutMe: null,
+        contacts: {
+            facebook: null,
+            github: null,
+            instagram: null,
+            mainLink: null,
+            twitter: null,
+            vk: null,
+            website: null,
+            youtube: null,
         },
-        {
-            id: 2,
-            message: "React makes it painless to create interactive UIs.",
-            likesCount: 6,
-            dislikesCount: 20,
+        fullName: null,
+        lookingForAJob: null,
+        lookingForAJobDescription: null,
+        photos: {
+            large: null,
+            small: null,
         },
-        {
-            id: 3,
-            message:
-                "Build encapsulated components that manage their own state, then compose them to make complex UIs.",
-            likesCount: 2,
-            dislikesCount: 2,
-        },
-        {
-            id: 4,
-            message:
-                "We don’t make assumptions about the rest of your technology stack, so you can develop new features in React without rewriting existing code",
-            likesCount: 7,
-            dislikesCount: 0,
-        },
-        { id: 5, message: "Have a good day!!!!", likesCount: 5, dislikesCount: 4 },
-    ],
-    profile: null,
+        userId: null,
+    },
     status: "",
     isFetching: true,
     isPhotoSaving: false,
@@ -86,6 +78,29 @@ export const profileSlice = createSlice({
             const { payload } = action;
             state.status = payload;
         },
+        getPosts: (state: ProfileState, action: PayloadAction<number>) => {
+            const { payload } = action;
+            const posts = JSON.parse(localStorage.getItem(String(payload))) ?? [];
+            state.posts = [...posts];
+        },
+        addPost: (state: ProfileState, action: PayloadAction<NewPostData>) => {
+            const { payload } = action;
+            const rand = 100000 + Math.random() * (10000 + 1 - 10);
+            const newPost = {
+                id: rand,
+                likesCount: 0,
+                dislikesCount: 0,
+                ...payload,
+            };
+            localStorage.setItem(String(state.profile.userId), JSON.stringify([...state.posts, newPost]));
+            state.posts = [...state.posts, newPost];
+        },
+        deletePost: (state: ProfileState, action: PayloadAction<number>) => {
+            const { payload } = action;
+            const posts = state.posts.filter(post => post.id !== payload);
+            localStorage.setItem(String(state.profile.userId), JSON.stringify(posts));
+            state.posts = [...posts];
+        },
     },
     extraReducers: {
         [fetchProfile.pending.type]: state => {
@@ -111,5 +126,5 @@ export const profileSlice = createSlice({
     },
 });
 
-export const { setStatus } = profileSlice.actions;
+export const { setStatus, addPost, deletePost, getPosts } = profileSlice.actions;
 export default profileSlice.reducer;

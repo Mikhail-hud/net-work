@@ -1,6 +1,13 @@
-export interface Post {
+export interface NewPostData {
+    postText: string;
+    postUserId: number;
+    userFullName: string;
+    userPhoto: string;
+    postDate: string;
+}
+
+export interface Post extends NewPostData {
     id: number;
-    message: string;
     likesCount: number;
     dislikesCount: number;
 }

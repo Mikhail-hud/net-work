@@ -10,7 +10,7 @@ export const initializeSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [getAuthUserData.fulfilled.type]: state => {
+        [getAuthUserData.fulfilled.type]: (state: InitializeState) => {
             state.initialized = true;
         },
     },

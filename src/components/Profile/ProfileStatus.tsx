@@ -6,7 +6,7 @@ type Props = {
     isOwner: boolean;
     onUpdateStatus: (status: string) => void;
 };
-const ProfileStatus: React.FC<Props> = ({ status, isOwner, onUpdateStatus }) => {
+const ProfileStatus: React.FC<Props> = ({ status, isOwner, onUpdateStatus }): JSX.Element => {
     const [localStatus, setLocalStatus] = useState(status);
     const [editMode, setEditMode] = useState(false);
 

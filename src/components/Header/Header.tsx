@@ -14,7 +14,7 @@ const logInLogOutColStyle = { display: "flex", alignItems: "center" };
 const avatarStyle = { width: 32 };
 
 const AppHeader: React.FC = (): JSX.Element => {
-    const { isAuth } = useAppSelector(state => state.authReducer);
+    const { isAuth, user } = useAppSelector(state => state.authReducer);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const handleLoginLogout = (): void => {
@@ -29,7 +29,7 @@ const AppHeader: React.FC = (): JSX.Element => {
         <Header>
             <Row wrap={false} justify="space-between" gutter={10}>
                 <Col>
-                    <Avatar src={<Image src={logo} style={avatarStyle} />} />
+                    <Avatar src={<Image src={user?.photos?.large ?? logo} style={avatarStyle} />} />
                 </Col>
                 <Col style={navigationColStyle}>
                     <Navigation />

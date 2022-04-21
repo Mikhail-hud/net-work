@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getAuthUserData, getCaptchaUrl } from "../actions";
+import { getAuthUserData, getAuthUserProfileData, getCaptchaUrl } from "../actions";
 import { User, UserCredential } from "../../types/userType";
 import { ResultCodeTypes } from "../../types/apiTypes";
 import { UserState } from "../../types/reducerTypes";
@@ -10,12 +10,32 @@ import {
     RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL,
     RESULT_CODE_SUCCESS,
 } from "../../constants/apiResultCodeConstans";
+import { UserProfile } from "../../types/profileTypes";
 
 const initialState: UserState = {
     user: {
         id: null,
         email: null,
         login: null,
+        aboutMe: null,
+        contacts: {
+            facebook: null,
+            github: null,
+            instagram: null,
+            mainLink: null,
+            twitter: null,
+            vk: null,
+            website: null,
+            youtube: null,
+        },
+        fullName: null,
+        lookingForAJob: null,
+        lookingForAJobDescription: null,
+        photos: {
+            large: null,
+            small: null,
+        },
+        userId: null,
     },
     isAuth: false,
     captchaUrl: null,
@@ -79,7 +99,6 @@ export const authSlice = createSlice({
             state.isLoading = false;
         },
         [getAuthUserData.fulfilled.type]: (state: UserState, action: PayloadAction<User>) => {
-            state.isLoading = false;
             if (action.payload) {
                 state.isAuth = true;
                 state.user = action.payload;
@@ -88,13 +107,18 @@ export const authSlice = createSlice({
         [getAuthUserData.rejected.type]: state => {
             state.isLoading = false;
         },
+        [getAuthUserProfileData.fulfilled.type]: (state: UserState, action: PayloadAction<UserProfile>) => {
+            const { payload } = action;
+            state.isLoading = false;
+            state.user = { ...state.user, ...payload };
+        },
         [getCaptchaUrl.fulfilled.type]: (state: UserState, action: PayloadAction<string>) => {
             state.isLoading = false;
             state.captchaUrl = action.payload;
         },
         [logOut.fulfilled.type]: (state: UserState, action: PayloadAction<ResultCodeTypes>) => {
             if (action.payload === RESULT_CODE_SUCCESS) {
-                state.user = { id: null, email: null, login: null };
+                state.user = null;
                 state.isAuth = false;
             }
         },

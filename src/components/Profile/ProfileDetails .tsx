@@ -6,7 +6,7 @@ import { UserProfile } from "../../types/profileTypes";
 type Props = {
     profile: UserProfile;
 };
-const ProfileDetails: React.FC<Props> = ({ profile }) => {
+const ProfileDetails: React.FC<Props> = ({ profile }): JSX.Element => {
     const { fullName, aboutMe, lookingForAJob, lookingForAJobDescription, contacts } = profile;
     const icon = {
         github,

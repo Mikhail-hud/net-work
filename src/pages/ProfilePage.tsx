@@ -3,13 +3,27 @@ import { Layout, Row, Col, Button, Tooltip } from "antd";
 import { logo } from "../assets/img/common";
 import { EditOutlined } from "@ant-design/icons";
 import { useProfile } from "../hooks";
-import { Preloader, ProfileStatus, ProfileDetails } from "../components";
+import { Preloader, ProfileStatus, ProfileDetails, PostForm, PostsElements } from "../components";
 import { UpdateLogoImg } from "../icons";
 
 const { Content } = Layout;
 
 const ProfilePage = () => {
-    const { profile, isFetching, setEditMode, onMainPhotoSelected, onUpdateStatus, isOwner, status } = useProfile();
+    const {
+        profile,
+        isFetching,
+        isOwner,
+        status,
+        posts,
+        user,
+        setEditMode,
+        onMainPhotoSelected,
+        onUpdateStatus,
+        onAddDislike,
+        onAddLike,
+        onAddPost,
+        onDeletePost,
+    } = useProfile();
 
     if (isFetching) {
         return (
@@ -51,6 +65,21 @@ const ProfilePage = () => {
             </Row>
             <Row>
                 <ProfileDetails profile={profile} />
+            </Row>
+            <Row>
+                <h2>My posts</h2>
+                <Col xs={24}>
+                    <PostsElements
+                        user={user}
+                        posts={posts}
+                        onAddDislike={onAddDislike}
+                        onAddLike={onAddLike}
+                        onDeletePost={onDeletePost}
+                    />
+                </Col>
+                <Col xs={24}>
+                    <PostForm onAddPost={onAddPost} user={user} />
+                </Col>
             </Row>
         </Content>
     );
