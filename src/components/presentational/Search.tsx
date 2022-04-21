@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useState } from "react";
 import { Input } from "antd";
 import { useSearchParams } from "react-router-dom";
-import { SEARCH } from "../../constants/usersConstants";
+import { PAGE, SEARCH } from "../../constants/usersConstants";
+import { SearchOutlined } from "@ant-design/icons";
 import { getSearchParams } from "../../helpers/urlHelpers";
 import { UsersQueryParameters } from "../../types/usersType";
 
@@ -17,12 +18,14 @@ const Search: React.FC<Props> = ({ fetchFriends }): JSX.Element => {
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setLocalValue(event.target.value);
+        handleSearch(event.target.value);
     };
 
     const handleSearch = (value: string): void => {
         if (value) {
             setSearchParams({
                 ...params,
+                [PAGE.key]: PAGE.default,
                 [SEARCH.key]: value,
             } as Record<keyof UsersQueryParameters, any>);
         } else {
@@ -33,11 +36,12 @@ const Search: React.FC<Props> = ({ fetchFriends }): JSX.Element => {
     const showTotalPrefix = fetchFriends ? "friends" : "users";
 
     return (
-        <Input.Search
-            className="search-field"
-            onSearch={handleSearch}
+        <Input
+            allowClear
+            suffix={<SearchOutlined style={{ fontSize: "1.1em" }} />}
             onChange={handleChange}
             placeholder={`Searching for ${showTotalPrefix}`}
+            onReset={() => handleSearch("")}
             value={localValue}
         />
     );

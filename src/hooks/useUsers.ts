@@ -13,7 +13,7 @@ export const useUsers = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const fetchFriends = location.pathname === FRIENDS_PAGE_PATH;
     searchParams.append(FRIEND.key, String(fetchFriends));
-    const { page, count, friend } = getSearchParams(searchParams);
+    const { page, count, friend, term } = getSearchParams(searchParams);
     const { isFetching, users, totalCount, followingInProgress } = useAppSelector(state => state.usersReducer);
     const handleFollowUnfollow = (followed: boolean, userId: number) => {
         if (followed) {
@@ -24,12 +24,16 @@ export const useUsers = () => {
     };
 
     useEffect(() => {
+        if (term) {
+            setSearchParams({ page, count, friend, term } as Record<keyof UsersQueryParameters, any>);
+            return;
+        }
         setSearchParams({ page, count, friend } as Record<keyof UsersQueryParameters, any>);
     }, []);
 
     useEffect(() => {
-        dispatch(fetchUsers({ page, count, friend }));
-    }, [page, count, friend]);
+        dispatch(fetchUsers({ page, count, friend, term }));
+    }, [page, count, friend, term]);
 
     return {
         handleFollowUnfollow,
