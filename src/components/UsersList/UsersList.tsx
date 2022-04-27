@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { logo } from "../../assets/img/common";
 import React from "react";
 import { NetWorkUser } from "../../types/usersType";
+import { DIALOGS_PAGE_PATH } from "../../constants/pathConstants";
 
 const imgStyle = { width: 100, borderRadius: "50%" };
 const avatarStyle = { width: "100px", height: "100px" };
@@ -40,20 +41,9 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                                     >
                                         {user?.followed ? "Unfollow" : "Follow"}
                                     </Button>,
-                                    <Button
-                                        type="dashed"
-                                        shape="round"
-                                        disabled={true}
-                                        key={user?.id}
-                                        icon={<GithubOutlined />}
-                                    />,
-                                    <Link to={`/dialogs`} key={user?.id}>
-                                        <Button
-                                            type="dashed"
-                                            shape="round"
-                                            disabled={true}
-                                            icon={<MessageOutlined />}
-                                        />
+                                    <Button type="dashed" shape="round" key={user?.id} icon={<GithubOutlined />} />,
+                                    <Link to={DIALOGS_PAGE_PATH} key={user?.id}>
+                                        <Button type="dashed" shape="round" icon={<MessageOutlined />} />
                                     </Link>,
                                 ]
                             }

@@ -1,10 +1,13 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useCallback, useState } from "react";
 import { Input } from "antd";
+import debounce from "lodash.debounce";
 import { useSearchParams } from "react-router-dom";
 import { PAGE, SEARCH } from "../../constants/usersConstants";
 import { SearchOutlined } from "@ant-design/icons";
 import { getSearchParams } from "../../helpers/urlHelpers";
 import { UsersQueryParameters } from "../../types/usersType";
+
+const ASYNC_INPUT_DEBOUNCE_TIME = 400;
 
 type Props = {
     fetchFriends: boolean;
@@ -18,7 +21,7 @@ const Search: React.FC<Props> = ({ fetchFriends }): JSX.Element => {
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setLocalValue(event.target.value);
-        handleSearch(event.target.value);
+        handleChangeDebounced(event.target.value);
     };
 
     const handleSearch = (value: string): void => {
@@ -33,6 +36,11 @@ const Search: React.FC<Props> = ({ fetchFriends }): JSX.Element => {
             setSearchParams(searchParams);
         }
     };
+
+    const handleChangeDebounced = useCallback(
+        debounce(value => handleSearch(value), ASYNC_INPUT_DEBOUNCE_TIME),
+        []
+    );
     const showTotalPrefix = fetchFriends ? "friends" : "users";
 
     return (
@@ -41,7 +49,7 @@ const Search: React.FC<Props> = ({ fetchFriends }): JSX.Element => {
             suffix={<SearchOutlined style={{ fontSize: "1.1em" }} />}
             onChange={handleChange}
             placeholder={`Searching for ${showTotalPrefix}`}
-            onReset={() => handleSearch("")}
+            onReset={() => handleChangeDebounced(" ")}
             value={localValue}
         />
     );

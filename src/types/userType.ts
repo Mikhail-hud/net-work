@@ -1,9 +1,10 @@
 import { UserProfile } from "./profileTypes";
 
-export interface User extends UserProfile {
+export interface User {
     id: number;
     email: string;
     login: string;
+    profile: UserProfile;
 }
 
 export interface UserCredential {

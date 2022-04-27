@@ -17,25 +17,27 @@ const initialState: UserState = {
         id: null,
         email: null,
         login: null,
-        aboutMe: null,
-        contacts: {
-            facebook: null,
-            github: null,
-            instagram: null,
-            mainLink: null,
-            twitter: null,
-            vk: null,
-            website: null,
-            youtube: null,
+        profile: {
+            aboutMe: null,
+            contacts: {
+                facebook: null,
+                github: null,
+                instagram: null,
+                mainLink: null,
+                twitter: null,
+                vk: null,
+                website: null,
+                youtube: null,
+            },
+            fullName: null,
+            lookingForAJob: null,
+            lookingForAJobDescription: null,
+            photos: {
+                large: null,
+                small: null,
+            },
+            userId: null,
         },
-        fullName: null,
-        lookingForAJob: null,
-        lookingForAJobDescription: null,
-        photos: {
-            large: null,
-            small: null,
-        },
-        userId: null,
     },
     isAuth: false,
     captchaUrl: null,
@@ -101,7 +103,7 @@ export const authSlice = createSlice({
         [getAuthUserData.fulfilled.type]: (state: UserState, action: PayloadAction<User>) => {
             if (action.payload) {
                 state.isAuth = true;
-                state.user = action.payload;
+                state.user = { ...state.user, ...action.payload };
             }
         },
         [getAuthUserData.rejected.type]: state => {
@@ -110,7 +112,7 @@ export const authSlice = createSlice({
         [getAuthUserProfileData.fulfilled.type]: (state: UserState, action: PayloadAction<UserProfile>) => {
             const { payload } = action;
             state.isLoading = false;
-            state.user = { ...state.user, ...payload };
+            state.user.profile = payload;
         },
         [getCaptchaUrl.fulfilled.type]: (state: UserState, action: PayloadAction<string>) => {
             state.isLoading = false;

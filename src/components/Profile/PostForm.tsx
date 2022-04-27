@@ -4,7 +4,6 @@ import { Row, Col, Typography, Button } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { Notification } from "../../components";
 import { useAppSelector } from "../../hooks";
-import { logo } from "../../assets/img/common";
 import {
     ACCESS_MESSAGE_AUTORIZATION_DENIED,
     ACCESS_DESCRIPTION_AUTORIZATION_DENIED,
@@ -35,9 +34,7 @@ const PostForm: React.FC<Props> = ({ onAddPost, user }): JSX.Element => {
         if (isAuth) {
             onAddPost({
                 postText: newPost.trim(),
-                postUserId: user?.id,
-                userFullName: user?.fullName,
-                userPhoto: user?.photos?.large ?? logo,
+                profile: user.profile,
                 postDate: moment().format(),
             });
             reset();

@@ -4,6 +4,7 @@ import { Card, Row, Col, Button, Popconfirm } from "antd";
 import { GithubOutlined, UserDeleteOutlined, MessageOutlined, UserAddOutlined } from "@ant-design/icons";
 import { logo } from "../../assets/img/common";
 import { NetWorkUser } from "../../types/usersType";
+import { DIALOGS_PAGE_PATH } from "../../constants/pathConstants";
 
 const { Meta } = Card;
 
@@ -78,7 +79,7 @@ const FriendsList: React.FC<Props> = ({
                                     />
                                 ),
 
-                                <NavLink key={friend.id} to={`/dialogs/${friend?.id}`}>
+                                <NavLink key={friend.id} to={DIALOGS_PAGE_PATH}>
                                     <Button type="dashed" shape="round" icon={<MessageOutlined />} />
                                 </NavLink>,
                                 <Button key={friend.id} type="dashed" shape="round" icon={<GithubOutlined />} />,

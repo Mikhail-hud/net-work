@@ -1,6 +1,6 @@
 import React from "react";
 import { Menu } from "antd";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import {
     DIALOGS_PAGE_PATH,
     FRIENDS_PAGE_PATH,
@@ -51,7 +51,7 @@ const Navigation = () => {
             {navigationLinks.map(item => {
                 return (
                     <Menu.Item key={item.key} icon={item.icon}>
-                        <Link to={item.slug}>{item.title}</Link>
+                        <NavLink to={item.slug}>{item.title}</NavLink>
                     </Menu.Item>
                 );
             })}

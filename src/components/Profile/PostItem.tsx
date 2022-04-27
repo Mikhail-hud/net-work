@@ -13,6 +13,7 @@ import { Notification } from "../presentational";
 import { User } from "../../types/userType";
 import { Link } from "react-router-dom";
 import { PROFILE_PAGE_PATH } from "../../constants/pathConstants";
+import { DATE_TWELVE_HOUR } from "../../constants/dateFormatConstants";
 
 type Props = {
     user: User;
@@ -23,7 +24,7 @@ type Props = {
 };
 
 const PostItem: React.FC<Props> = ({ post, onAddLike, onAddDislike, onDeletePost, user }): JSX.Element => {
-    const { id, likesCount, dislikesCount, postText, postUserId } = post;
+    const { id, likesCount, dislikesCount, postText, profile } = post;
     const { isAuth } = useAppSelector(state => state.authReducer);
 
     const [action, setAction] = useState<"liked" | "disliked">();
@@ -59,7 +60,7 @@ const PostItem: React.FC<Props> = ({ post, onAddLike, onAddDislike, onDeletePost
             </span>
         </Tooltip>,
         <span key="comment-basic-reply-to">Reply to</span>,
-        user.id === postUserId && (
+        user?.id === profile.userId && (
             <span key="comment-basic-delete" onClick={() => handleDeletePost(id)}>
                 Delete
                 <DeleteOutlined />
@@ -71,15 +72,15 @@ const PostItem: React.FC<Props> = ({ post, onAddLike, onAddDislike, onDeletePost
         <Comment
             actions={actions}
             key={id}
-            author={post?.userFullName}
+            author={profile?.fullName}
             avatar={
-                <Link to={user.id === postUserId ? PROFILE_PAGE_PATH : `/profile/` + postUserId}>
-                    <Avatar src={post?.userPhoto ?? logo} alt="post_profile_photo" />
+                <Link to={user?.id === profile?.userId ? PROFILE_PAGE_PATH : `/profile/` + profile?.userId}>
+                    <Avatar src={profile?.photos?.large ?? logo} alt="post_profile_photo" />
                 </Link>
             }
             content={<p>{postText}</p>}
             datetime={
-                <Tooltip title={moment().format("MMM DD, YYYY, hh:mm a")}>
+                <Tooltip title={moment().format(DATE_TWELVE_HOUR)}>
                     <span>{moment(post?.postDate).fromNow()}</span>
                 </Tooltip>
             }

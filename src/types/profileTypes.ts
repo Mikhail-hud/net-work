@@ -1,9 +1,7 @@
 export interface NewPostData {
     postText: string;
-    postUserId: number;
-    userFullName: string;
-    userPhoto: string;
     postDate: string;
+    profile: UserProfile;
 }
 
 export interface Post extends NewPostData {

@@ -29,7 +29,7 @@ export const useUsers = () => {
             return;
         }
         setSearchParams({ page, count, friend } as Record<keyof UsersQueryParameters, any>);
-    }, []);
+    }, [page, count, friend, term]);
 
     useEffect(() => {
         dispatch(fetchUsers({ page, count, friend, term }));
