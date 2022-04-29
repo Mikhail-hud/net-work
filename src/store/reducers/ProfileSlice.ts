@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { profileAPI } from "../../api";
 import { Notification } from "../../components";
 import { ProfileState } from "../../types/reducerTypes";
-import { NewPostData, ProfileLogoFile, UserProfile, UserProfilePhotos } from "../../types/profileTypes";
+import { NewLikeData, NewPostData, ProfileLogoFile, UserProfile, UserProfilePhotos } from "../../types/profileTypes";
 import { RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
 
 const initialState: ProfileState = {
@@ -88,18 +88,55 @@ export const profileSlice = createSlice({
             const rand = 100000 + Math.random() * (10000 + 1 - 10);
             const newPost = {
                 id: rand,
-                likesCount: 0,
-                dislikesCount: 0,
+                likes: {
+                    likesCount: 0,
+                    usersProfile: [],
+                },
                 ...payload,
             };
             localStorage.setItem(String(state.profile.userId), JSON.stringify([...state.posts, newPost]));
             state.posts = [...state.posts, newPost];
         },
+        addLike: (state: ProfileState, action: PayloadAction<NewLikeData>) => {
+            const { payload } = action;
+            const posts = state.posts.map(post => {
+                if (
+                    post.id === payload.id &&
+                    !post.likes.usersProfile.some(profile => profile?.userId === payload?.userProfile?.userId)
+                ) {
+                    return {
+                        ...post,
+                        likes: {
+                            ...post.likes,
+                            likesCount: post.likes.likesCount + 1,
+                            usersProfile: [...post.likes.usersProfile, payload.userProfile],
+                        },
+                    };
+                }
+                if (post.id === payload.id) {
+                    return {
+                        ...post,
+                        likes: {
+                            ...post.likes,
+                            likesCount: post.likes.likesCount - 1,
+                            usersProfile: [
+                                ...post.likes.usersProfile.filter(
+                                    profile => profile.userId !== payload.userProfile.userId
+                                ),
+                            ],
+                        },
+                    };
+                }
+                return post;
+            });
+            localStorage.setItem(String(state.profile.userId), JSON.stringify(posts));
+            state.posts = posts;
+        },
         deletePost: (state: ProfileState, action: PayloadAction<number>) => {
             const { payload } = action;
             const posts = state.posts.filter(post => post.id !== payload);
             localStorage.setItem(String(state.profile.userId), JSON.stringify(posts));
-            state.posts = [...posts];
+            state.posts = posts;
         },
     },
     extraReducers: {
@@ -126,5 +163,5 @@ export const profileSlice = createSlice({
     },
 });
 
-export const { setStatus, addPost, deletePost, getPosts } = profileSlice.actions;
+export const { setStatus, addPost, deletePost, getPosts, addLike } = profileSlice.actions;
 export default profileSlice.reducer;

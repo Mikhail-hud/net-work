@@ -9,8 +9,9 @@ import {
     deletePost,
     getPosts,
     fetchProfile,
+    addLike,
 } from "../store/reducers/ProfileSlice";
-import { NewPostData } from "../types/profileTypes";
+import { NewLikeData, NewPostData } from "../types/profileTypes";
 
 export const useProfile = () => {
     const dispatch = useAppDispatch();
@@ -33,12 +34,8 @@ export const useProfile = () => {
         dispatch(addPost(newPostData));
     };
 
-    const onAddLike = (id: number): void => {
-        console.log(id);
-    };
-
-    const onAddDislike = (id: number): void => {
-        console.log(id);
+    const onAddLike = (newLikeData: NewLikeData): void => {
+        dispatch(addLike(newLikeData));
     };
 
     const onDeletePost = (id: number): void => {
@@ -55,7 +52,6 @@ export const useProfile = () => {
         editMode,
         setEditMode,
         onMainPhotoSelected,
-        onAddDislike,
         onAddLike,
         onAddPost,
         onDeletePost,

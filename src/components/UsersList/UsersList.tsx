@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { logo } from "../../assets/img/common";
 import React from "react";
 import { NetWorkUser } from "../../types/usersType";
-import { DIALOGS_PAGE_PATH } from "../../constants/pathConstants";
+import { DIALOGS_PAGE_PATH, PROFILE_PAGE_PATH } from "../../constants/pathConstants";
+import { useAppSelector } from "../../hooks";
 
 const imgStyle = { width: 100, borderRadius: "50%" };
 const avatarStyle = { width: "100px", height: "100px" };
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, followingInProgress }): JSX.Element => {
+    const { user } = useAppSelector(state => state.authReducer);
     return (
         <Row justify="center">
             <Col xs={24} sm={24} md={18} lg={14} xl={12} xxl={10}>
@@ -26,23 +28,24 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                     size="large"
                     dataSource={users}
                     loading={isFetching}
-                    renderItem={user => (
+                    renderItem={userItem => (
                         <List.Item
-                            key={user.id}
+                            key={userItem.id}
                             actions={
-                                !isFetching && [
+                                !isFetching &&
+                                user?.id !== userItem?.id && [
                                     <Button
-                                        onClick={() => handleFollowUnfollow(user?.followed, user?.id)}
+                                        onClick={() => handleFollowUnfollow(userItem?.followed, userItem?.id)}
                                         type="dashed"
                                         shape="round"
-                                        key={user?.id}
-                                        loading={followingInProgress.some(id => id === user.id)}
-                                        icon={user?.followed ? <UserDeleteOutlined /> : <UserAddOutlined />}
+                                        key={userItem?.id}
+                                        loading={followingInProgress.some(id => id === userItem.id)}
+                                        icon={userItem?.followed ? <UserDeleteOutlined /> : <UserAddOutlined />}
                                     >
-                                        {user?.followed ? "Unfollow" : "Follow"}
+                                        {userItem?.followed ? "Unfollow" : "Follow"}
                                     </Button>,
-                                    <Button type="dashed" shape="round" key={user?.id} icon={<GithubOutlined />} />,
-                                    <Link to={DIALOGS_PAGE_PATH} key={user?.id}>
+                                    <Button type="dashed" shape="round" key={userItem?.id} icon={<GithubOutlined />} />,
+                                    <Link to={DIALOGS_PAGE_PATH} key={userItem?.id}>
                                         <Button type="dashed" shape="round" icon={<MessageOutlined />} />
                                     </Link>,
                                 ]
@@ -51,15 +54,25 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                                 !isFetching && (
                                     <Avatar
                                         style={avatarStyle}
-                                        src={<Image src={user?.photos?.large ?? logo} style={imgStyle} />}
+                                        src={<Image src={userItem?.photos?.large ?? logo} style={imgStyle} />}
                                     />
                                 )
                             }
                         >
                             <Skeleton loading={isFetching} active>
                                 <List.Item.Meta
-                                    title={<Link to={`/profile/` + user?.id}>{user?.name}</Link>}
-                                    description={user?.status}
+                                    title={
+                                        <Link
+                                            to={
+                                                user?.id === userItem?.id
+                                                    ? PROFILE_PAGE_PATH
+                                                    : `/profile/` + userItem?.id
+                                            }
+                                        >
+                                            {userItem?.name}
+                                        </Link>
+                                    }
+                                    description={userItem?.status}
                                 />
                             </Skeleton>
                         </List.Item>

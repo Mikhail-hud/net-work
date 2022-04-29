@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Tooltip, Avatar, Comment } from "antd";
 import { logo } from "../../assets/img/common";
-import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled, DeleteOutlined } from "@ant-design/icons";
+import { LikeOutlined, LikeFilled, DeleteOutlined } from "@ant-design/icons";
 import {
     ACCESS_MESSAGE_AUTORIZATION_DENIED,
     ACCESS_DESCRIPTION_AUTORIZATION_DENIED,
 } from "../../constants/accessConstans";
 import { useAppSelector } from "../../hooks";
-import { Post } from "../../types/profileTypes";
+import { NewLikeData, Post, UserProfile } from "../../types/profileTypes";
 import moment from "moment";
 import { Notification } from "../presentational";
 import { User } from "../../types/userType";
@@ -18,20 +18,17 @@ import { DATE_TWELVE_HOUR } from "../../constants/dateFormatConstants";
 type Props = {
     user: User;
     post: Post;
-    onAddDislike: (id: number) => void;
-    onAddLike: (id: number) => void;
+    onAddLike: (newLikeData: NewLikeData) => void;
     onDeletePost: (id: number) => void;
 };
 
-const PostItem: React.FC<Props> = ({ post, onAddLike, onAddDislike, onDeletePost, user }): JSX.Element => {
-    const { id, likesCount, dislikesCount, postText, profile } = post;
+const PostItem: React.FC<Props> = ({ post, onAddLike, onDeletePost, user }): JSX.Element => {
+    const { id, likes, postText, profile } = post;
     const { isAuth } = useAppSelector(state => state.authReducer);
+    const likeDislikeSwitch = likes?.usersProfile?.some(profile => profile?.userId === user.id);
 
-    const [action, setAction] = useState<"liked" | "disliked">();
-
-    const handleLike = (id: number): void => {
-        onAddLike(id);
-        setAction("liked");
+    const handleLike = (id: number, userProfile: UserProfile): void => {
+        onAddLike({ id, userProfile });
     };
 
     const handleDeletePost = (id: number): void => {
@@ -42,23 +39,26 @@ const PostItem: React.FC<Props> = ({ post, onAddLike, onAddDislike, onDeletePost
         }
     };
 
-    const handleDislike = (id: number): void => {
-        onAddDislike(id);
-        setAction("disliked");
-    };
     const actions = [
-        <Tooltip key="comment-basic-like" title="Like">
-            <span onClick={() => handleLike(id)}>
-                {action === "liked" ? <LikeFilled /> : <LikeOutlined />}
-                <span className="comment-action">{likesCount}</span>
-            </span>
-        </Tooltip>,
-        <Tooltip key="comment-basic-dislike" title="Dislike">
-            <span onClick={() => handleDislike(id)}>
-                {action === "disliked" ? <DislikeFilled /> : <DislikeOutlined />}
-                <span className="comment-action">{dislikesCount}</span>
-            </span>
-        </Tooltip>,
+        <Avatar.Group
+            key="avatar-group"
+            maxCount={2}
+            size="small"
+            style={{ paddingRight: "5px" }}
+            maxStyle={{ color: "#f56a00", backgroundColor: "#fde3cf" }}
+        >
+            {likes?.usersProfile?.map(profile => (
+                <Tooltip key={profile.userId} title={profile?.fullName} placement="top">
+                    <Link to={user?.id === profile?.userId ? PROFILE_PAGE_PATH : `/profile/` + profile?.userId}>
+                        <Avatar src={profile?.photos?.large} />
+                    </Link>
+                </Tooltip>
+            ))}
+        </Avatar.Group>,
+        <span key="comment-basic-like" onClick={() => handleLike(id, user?.profile)}>
+            {likeDislikeSwitch ? <LikeFilled /> : <LikeOutlined />}
+            <span className="comment-action">{likes?.likesCount}</span>
+        </span>,
         <span key="comment-basic-reply-to">Reply to</span>,
         user?.id === profile.userId && (
             <span key="comment-basic-delete" onClick={() => handleDeletePost(id)}>

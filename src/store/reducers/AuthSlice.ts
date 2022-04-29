@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getAuthUserData, getAuthUserProfileData, getCaptchaUrl } from "../actions";
-import { User, UserCredential } from "../../types/userType";
+import { UserCredential } from "../../types/userType";
 import { ResultCodeTypes } from "../../types/apiTypes";
-import { UserState } from "../../types/reducerTypes";
+import { UserDataPayload, UserState } from "../../types/reducerTypes";
 import { authAPI } from "../../api";
 import { Notification } from "../../components";
 import {
@@ -100,10 +100,15 @@ export const authSlice = createSlice({
         [logIn.rejected.type]: state => {
             state.isLoading = false;
         },
-        [getAuthUserData.fulfilled.type]: (state: UserState, action: PayloadAction<User>) => {
-            if (action.payload) {
+        [getAuthUserData.pending.type]: (state: UserState) => {
+            state.isLoading = true;
+        },
+        [getAuthUserData.fulfilled.type]: (state: UserState, action: PayloadAction<UserDataPayload>) => {
+            if (action.payload.resultCode === RESULT_CODE_SUCCESS) {
                 state.isAuth = true;
-                state.user = { ...state.user, ...action.payload };
+                state.user = { ...state.user, ...action.payload.data };
+            } else {
+                state.isLoading = false;
             }
         },
         [getAuthUserData.rejected.type]: state => {

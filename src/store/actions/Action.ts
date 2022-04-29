@@ -1,14 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { authAPI, profileAPI, securityAPI } from "../../api";
 import { Notification } from "../../components";
-import { RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
+import { RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL, RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
 
 export const getAuthUserData = createAsyncThunk("auth/getAuthUserData", async (a_, { dispatch }) => {
     try {
         const response = await authAPI.me();
         if (response.resultCode === RESULT_CODE_SUCCESS) {
             dispatch(getAuthUserProfileData(response?.data?.id));
-            return response.data;
+            return response;
+        }
+        if (response.resultCode === RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL) {
+            return response;
         }
     } catch (e) {
         Notification(e.message);

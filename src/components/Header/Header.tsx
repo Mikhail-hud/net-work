@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Avatar, Image, Row, Col, Button, Tooltip } from "antd";
+import { Layout, Avatar, Image, Row, Col, Button, Tooltip, Skeleton } from "antd";
 import { useNavigate } from "react-router-dom";
 import { logo } from "../../assets/img/common";
 import { LogOutIcon, LogInIcon } from "../../icons";
@@ -14,7 +14,7 @@ const logInLogOutColStyle = { display: "flex", alignItems: "center" };
 const avatarStyle = { width: 32 };
 
 const AppHeader: React.FC = (): JSX.Element => {
-    const { isAuth, user } = useAppSelector(state => state.authReducer);
+    const { isAuth, user, isLoading } = useAppSelector(state => state.authReducer);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const handleLoginLogout = (): void => {
@@ -24,12 +24,15 @@ const AppHeader: React.FC = (): JSX.Element => {
             navigate(LOGIN_PAGE_PATH);
         }
     };
-
     return (
         <Header>
             <Row wrap={false} justify="space-between" gutter={10}>
                 <Col>
-                    <Avatar src={<Image src={user?.profile?.photos?.large ?? logo} style={avatarStyle} />} />
+                    {isLoading ? (
+                        <Skeleton.Avatar active={isLoading} size="default" shape="circle" />
+                    ) : (
+                        <Avatar src={<Image src={user?.profile?.photos?.large ?? logo} style={avatarStyle} />} />
+                    )}
                 </Col>
                 <Col style={navigationColStyle}>
                     <Navigation />

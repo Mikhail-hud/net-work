@@ -1,0 +1,8 @@
+@import "../abstracts/mixin";
+@import "../abstracts/variables";
+
+.ant-comment-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}

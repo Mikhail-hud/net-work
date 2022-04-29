@@ -19,7 +19,6 @@ const ProfilePage = () => {
         setEditMode,
         onMainPhotoSelected,
         onUpdateStatus,
-        onAddDislike,
         onAddLike,
         onAddPost,
         onDeletePost,
@@ -34,9 +33,11 @@ const ProfilePage = () => {
     }
     return (
         <Content>
-            <h1 style={{ textTransform: "capitalize" }}>{profile?.fullName}</h1>
-            <Row className="profile-card">
-                <Col style={{ position: "absolute", top: "18px", right: "20px" }}>
+            <Row className="profile-header" gutter={[10, 0]}>
+                <Col>
+                    <h1>{profile?.fullName}</h1>
+                </Col>
+                <Col>
                     {isOwner && (
                         <Button
                             type="primary"
@@ -50,32 +51,32 @@ const ProfilePage = () => {
                         </Button>
                     )}
                 </Col>
-                <Col>
-                    <img src={profile?.photos?.large ?? logo} alt="avatar" />
-                    {isOwner && (
-                        <Tooltip title="Upload your photo!">
-                            <label>
-                                <UpdateLogoImg />
-                                <input type="file" onChange={onMainPhotoSelected} />
-                            </label>
-                        </Tooltip>
-                    )}
+            </Row>
+            <Row className="profile-info">
+                <Col span={24}>
+                    <Row className="profile-card">
+                        <Col>
+                            <img src={profile?.photos?.large ?? logo} alt="avatar" />
+                            {isOwner && (
+                                <Tooltip title="Upload your photo!">
+                                    <label>
+                                        <UpdateLogoImg />
+                                        <input type="file" onChange={onMainPhotoSelected} />
+                                    </label>
+                                </Tooltip>
+                            )}
+                        </Col>
+                        <Col>{<ProfileStatus status={status} onUpdateStatus={onUpdateStatus} isOwner={isOwner} />}</Col>
+                    </Row>
+                    <Row>
+                        <ProfileDetails profile={profile} />
+                    </Row>
+                    <h2>My posts</h2>
                 </Col>
-                <Col>{<ProfileStatus status={status} onUpdateStatus={onUpdateStatus} isOwner={isOwner} />}</Col>
             </Row>
             <Row>
-                <ProfileDetails profile={profile} />
-            </Row>
-            <Row>
-                <h2>My posts</h2>
                 <Col xs={24}>
-                    <PostsElements
-                        user={user}
-                        posts={posts}
-                        onAddDislike={onAddDislike}
-                        onAddLike={onAddLike}
-                        onDeletePost={onDeletePost}
-                    />
+                    <PostsElements user={user} posts={posts} onAddLike={onAddLike} onDeletePost={onDeletePost} />
                 </Col>
                 <Col xs={24}>
                     <PostForm onAddPost={onAddPost} user={user} />

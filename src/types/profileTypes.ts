@@ -4,10 +4,18 @@ export interface NewPostData {
     profile: UserProfile;
 }
 
+export interface LikeData {
+    likesCount: number;
+    usersProfile: Array<UserProfile>;
+}
+
 export interface Post extends NewPostData {
     id: number;
-    likesCount: number;
-    dislikesCount: number;
+    likes: LikeData;
+}
+export interface NewLikeData {
+    id: number;
+    userProfile: UserProfile;
 }
 
 export interface UserProfileContacts {
