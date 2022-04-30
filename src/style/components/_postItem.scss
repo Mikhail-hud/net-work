@@ -1,8 +1,48 @@
 @import "../abstracts/mixin";
 @import "../abstracts/variables";
 
-.ant-comment-actions {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+.post-item {
+    .ant-comment-actions {
+        min-height: 25px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 5px;
+    }
+    .ant-badge-count {
+        color: rgba(0, 0, 0, 0.45);
+        background-color: rgba(114, 46, 209, 0.15);
+    }
+    .ant-comment-content-author-name {
+        text-transform: capitalize;
+    }
+
+    .ant-comment-content-author {
+        margin-bottom: 3px;
+    }
+    .ant-typography-edit-content {
+        margin-left: 10px;
+    }
+
+    .ant-comment-inner {
+        padding: 0;
+        margin: 10px 0;
+        .ant-comment-avatar {
+            height: fit-content;
+        }
+    }
+
+    .ant-avatar,
+    .ant-avatar-sm,
+    .ant-avatar-circle {
+        color: #f56a00;
+        background-color: #fde3cf;
+    }
+
+    .ant-avatar-group {
+        padding-right: 5px;
+    }
+}
+.ant-tooltip-content {
+    text-transform: capitalize;
 }

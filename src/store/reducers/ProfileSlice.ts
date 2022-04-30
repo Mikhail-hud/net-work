@@ -2,7 +2,14 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { profileAPI } from "../../api";
 import { Notification } from "../../components";
 import { ProfileState } from "../../types/reducerTypes";
-import { NewLikeData, NewPostData, ProfileLogoFile, UserProfile, UserProfilePhotos } from "../../types/profileTypes";
+import {
+    NewLikeData,
+    NewPostData,
+    ProfileLogoFile,
+    UpdatedPostData,
+    UserProfile,
+    UserProfilePhotos,
+} from "../../types/profileTypes";
 import { RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
 
 const initialState: ProfileState = {
@@ -88,6 +95,7 @@ export const profileSlice = createSlice({
             const rand = 100000 + Math.random() * (10000 + 1 - 10);
             const newPost = {
                 id: rand,
+                edited: false,
                 likes: {
                     likesCount: 0,
                     usersProfile: [],
@@ -96,6 +104,22 @@ export const profileSlice = createSlice({
             };
             localStorage.setItem(String(state.profile.userId), JSON.stringify([...state.posts, newPost]));
             state.posts = [...state.posts, newPost];
+        },
+        updatePost: (state: ProfileState, action: PayloadAction<UpdatedPostData>) => {
+            const { payload } = action;
+            const posts = state.posts.map(post => {
+                if (post.id === payload.id) {
+                    return {
+                        ...post,
+                        edited: true,
+                        postText: payload.postText,
+                        postDate: payload.postDate,
+                    };
+                }
+                return post;
+            });
+            localStorage.setItem(String(state.profile.userId), JSON.stringify(posts));
+            state.posts = posts;
         },
         addLike: (state: ProfileState, action: PayloadAction<NewLikeData>) => {
             const { payload } = action;
@@ -163,5 +187,5 @@ export const profileSlice = createSlice({
     },
 });
 
-export const { setStatus, addPost, deletePost, getPosts, addLike } = profileSlice.actions;
+export const { setStatus, addPost, deletePost, getPosts, addLike, updatePost } = profileSlice.actions;
 export default profileSlice.reducer;

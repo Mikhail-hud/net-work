@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent } from "react";
+import { useEffect, useState, ChangeEvent, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./redux";
 import {
@@ -10,12 +10,14 @@ import {
     getPosts,
     fetchProfile,
     addLike,
+    updatePost,
 } from "../store/reducers/ProfileSlice";
-import { NewLikeData, NewPostData } from "../types/profileTypes";
+import { NewLikeData, NewPostData, UpdatedPostData } from "../types/profileTypes";
 
 export const useProfile = () => {
     const dispatch = useAppDispatch();
     const params = useParams();
+    const postsRef = useRef(null);
     const { user } = useAppSelector(state => state.authReducer);
     const userId = params?.userId ?? user.id;
     const isOwner = !params.userId;
@@ -27,20 +29,27 @@ export const useProfile = () => {
             dispatch(savePhoto(e.target.files[0]));
         }
     };
-    const onUpdateStatus = (status: string): void => {
+    const onStatusUpdate = (status: string): void => {
         dispatch(updateStatus(status));
     };
     const onAddPost = (newPostData: NewPostData): void => {
         dispatch(addPost(newPostData));
     };
 
-    const onAddLike = (newLikeData: NewLikeData): void => {
+    const onLikeAdd = (newLikeData: NewLikeData): void => {
         dispatch(addLike(newLikeData));
     };
 
-    const onDeletePost = (id: number): void => {
+    const onPostDelete = (id: number): void => {
         dispatch(deletePost(id));
     };
+    const onPostUpdate = (updatedPostData: UpdatedPostData) => {
+        dispatch(updatePost(updatedPostData));
+    };
+
+    useEffect(() => {
+        postsRef?.current?.scrollTo(0, 0);
+    }, [posts]);
 
     useEffect(() => {
         dispatch(fetchProfile(Number(userId)));
@@ -52,10 +61,12 @@ export const useProfile = () => {
         editMode,
         setEditMode,
         onMainPhotoSelected,
-        onAddLike,
+        onLikeAdd,
         onAddPost,
-        onDeletePost,
-        onUpdateStatus,
+        onPostDelete,
+        onStatusUpdate,
+        onPostUpdate,
+        postsRef,
         user,
         status,
         isOwner,

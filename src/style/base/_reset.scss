@@ -40,6 +40,19 @@ h6 {
 .ant-comment-avatar {
     margin-top: 0.33rem !important;
 }
+.ant-typography {
+    font-family: IBM Plex Serif, serif;
+    margin-bottom: 0 !important;
+}
+textarea {
+    font-family: IBM Plex Serif, serif;
+}
+.cursor-none {
+    cursor: auto;
+}
+.ant-badge-count {
+    cursor: pointer!important;
+}
 
 input[type="file"] {
     display: none;

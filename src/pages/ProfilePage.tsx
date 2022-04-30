@@ -18,10 +18,12 @@ const ProfilePage = () => {
         user,
         setEditMode,
         onMainPhotoSelected,
-        onUpdateStatus,
-        onAddLike,
+        onStatusUpdate,
+        onLikeAdd,
         onAddPost,
-        onDeletePost,
+        onPostDelete,
+        onPostUpdate,
+        postsRef,
     } = useProfile();
 
     if (isFetching) {
@@ -31,6 +33,7 @@ const ProfilePage = () => {
             </Content>
         );
     }
+
     return (
         <Content>
             <Row className="profile-header" gutter={[10, 0]}>
@@ -55,7 +58,7 @@ const ProfilePage = () => {
             <Row className="profile-info">
                 <Col span={24}>
                     <Row className="profile-card">
-                        <Col>
+                        <Col span={24}>
                             <img src={profile?.photos?.large ?? logo} alt="avatar" />
                             {isOwner && (
                                 <Tooltip title="Upload your photo!">
@@ -66,7 +69,9 @@ const ProfilePage = () => {
                                 </Tooltip>
                             )}
                         </Col>
-                        <Col>{<ProfileStatus status={status} onUpdateStatus={onUpdateStatus} isOwner={isOwner} />}</Col>
+                        <Col span={24}>
+                            {<ProfileStatus status={status} onStatusUpdate={onStatusUpdate} isOwner={isOwner} />}
+                        </Col>
                     </Row>
                     <Row>
                         <ProfileDetails profile={profile} />
@@ -75,8 +80,15 @@ const ProfilePage = () => {
                 </Col>
             </Row>
             <Row>
-                <Col xs={24}>
-                    <PostsElements user={user} posts={posts} onAddLike={onAddLike} onDeletePost={onDeletePost} />
+                <Col className="thinScrollBar" ref={postsRef} xs={24} style={{ maxHeight: "46vh", overflow: "auto" }}>
+                    <PostsElements
+                        onPostUpdate={onPostUpdate}
+                        user={user}
+                        posts={posts}
+                        onLikeAdd={onLikeAdd}
+                        isOwner={isOwner}
+                        onPostDelete={onPostDelete}
+                    />
                 </Col>
                 <Col xs={24}>
                     <PostForm onAddPost={onAddPost} user={user} />

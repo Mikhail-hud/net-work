@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { profileReducer, usersReducer, initializeReducer, authReducer } from "./reducers";
+import { profileReducer, usersReducer, initializeReducer, authReducer, dialogsReducer } from "./reducers";
 import { usersAPI } from "../services";
 
 const rootReducer = combineReducers({
@@ -7,6 +7,7 @@ const rootReducer = combineReducers({
     initializeReducer,
     usersReducer,
     profileReducer,
+    dialogsReducer,
     [usersAPI.reducerPath]: usersAPI.reducer,
 });
 

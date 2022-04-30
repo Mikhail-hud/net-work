@@ -1,47 +1,36 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import cn from "classnames";
+import React, { useEffect, useState } from "react";
+import { MAX_STATUS_LENGTH } from "../../constants/profileConstans";
+import { Typography } from "antd";
+import { useAppSelector } from "../../hooks";
 
+const { Paragraph } = Typography;
 type Props = {
     status: string;
     isOwner: boolean;
-    onUpdateStatus: (status: string) => void;
+    onStatusUpdate: (status: string) => void;
 };
-const ProfileStatus: React.FC<Props> = ({ status, isOwner, onUpdateStatus }): JSX.Element => {
+const ProfileStatus: React.FC<Props> = ({ status, isOwner, onStatusUpdate }): JSX.Element => {
+    const { isAuth } = useAppSelector(state => state.authReducer);
     const [localStatus, setLocalStatus] = useState(status);
-    const [editMode, setEditMode] = useState(false);
 
     useEffect(() => {
         setLocalStatus(status);
     }, [status]);
 
-    const activateEditMode = (): void => {
-        if (isOwner) {
-            setEditMode(true);
-        }
-    };
-    const deactivateEditMode = (): void => {
-        onUpdateStatus(localStatus);
-        setEditMode(false);
-    };
-    const onStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
-        setLocalStatus(e.target.value);
+    const onStatusChange = (newStatusText: string): void => {
+        setLocalStatus(newStatusText);
+        onStatusUpdate(newStatusText);
     };
 
     return (
-        <div className={cn("status", { ["status_active"]: isOwner })}>
-            {editMode ? (
-                <div>
-                    <input
-                        type="text"
-                        onChange={onStatusChange}
-                        autoFocus={true}
-                        defaultValue={localStatus}
-                        onBlur={deactivateEditMode}
-                    />
-                </div>
+        <div className="status">
+            {isOwner && isAuth ? (
+                <Paragraph editable={{ onChange: onStatusChange, maxLength: MAX_STATUS_LENGTH }}>
+                    {localStatus}
+                </Paragraph>
             ) : (
                 <div>
-                    <span onDoubleClick={activateEditMode}>{localStatus || "Dubl click to change your status!!!"}</span>
+                    <p>{localStatus}</p>
                 </div>
             )}
         </div>

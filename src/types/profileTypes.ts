@@ -3,6 +3,11 @@ export interface NewPostData {
     postDate: string;
     profile: UserProfile;
 }
+export interface UpdatedPostData {
+    id: number;
+    postText: string;
+    postDate: string;
+}
 
 export interface LikeData {
     likesCount: number;
@@ -10,6 +15,7 @@ export interface LikeData {
 }
 
 export interface Post extends NewPostData {
+    edited: boolean;
     id: number;
     likes: LikeData;
 }

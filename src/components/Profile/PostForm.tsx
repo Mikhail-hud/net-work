@@ -11,6 +11,7 @@ import {
 import { User } from "../../types/userType";
 import moment from "moment";
 import { NewPostData } from "../../types/profileTypes";
+import { MAX_POST_LENGTH } from "../../constants/profileConstans";
 
 const { Text } = Typography;
 const INPUT_NAME = "newPost";
@@ -47,12 +48,12 @@ const PostForm: React.FC<Props> = ({ onAddPost, user }): JSX.Element => {
             <Col xs={24}>
                 <form onSubmit={handleSubmit(onSubmit)} className="send-message-form" autoComplete="off">
                     {errors.newPost?.type === "maxLength" && (
-                        <Text type="danger">The character limit for a single message is 100 characters</Text>
+                        <Text type="danger">The character limit for a single message is 500 characters</Text>
                     )}
                     <textarea
                         rows={2}
                         name={INPUT_NAME}
-                        {...register(INPUT_NAME, { required: true, maxLength: 100 })}
+                        {...register(INPUT_NAME, { required: true, maxLength: MAX_POST_LENGTH })}
                     />
                     <Button
                         disabled={errors?.newPost?.type === "maxLength"}

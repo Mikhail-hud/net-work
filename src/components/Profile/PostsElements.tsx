@@ -1,21 +1,38 @@
 import React from "react";
-import { NewLikeData, Post } from "../../types/profileTypes";
+import { NewLikeData, Post, UpdatedPostData } from "../../types/profileTypes";
 import { PostItem } from "../../components";
 import { User } from "../../types/userType";
 
 type Props = {
     user: User;
     posts: Array<Post>;
-    onAddLike: (newLikeData: NewLikeData) => void;
-    onDeletePost: (id: number) => void;
+    onLikeAdd: (newLikeData: NewLikeData) => void;
+    onPostUpdate: (updatedPostData: UpdatedPostData) => void;
+    onPostDelete: (id: number) => void;
+    isOwner: boolean;
 };
 
-const PostsElements: React.FC<Props> = ({ posts, onAddLike, onDeletePost, user }): JSX.Element => {
+const PostsElements: React.FC<Props> = ({
+    posts,
+    onLikeAdd,
+    onPostDelete,
+    user,
+    onPostUpdate,
+    isOwner,
+}): JSX.Element => {
     return (
         <>
             {[...posts].reverse().map(post => {
                 return (
-                    <PostItem user={user} key={post.id} post={post} onAddLike={onAddLike} onDeletePost={onDeletePost} />
+                    <PostItem
+                        isOwner={isOwner}
+                        user={user}
+                        key={post.id}
+                        onPostUpdate={onPostUpdate}
+                        post={post}
+                        onLikeAdd={onLikeAdd}
+                        onPostDelete={onPostDelete}
+                    />
                 );
             })}
         </>

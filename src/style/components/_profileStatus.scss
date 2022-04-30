@@ -2,28 +2,10 @@
 @import "../abstracts/variables";
 
 .status {
-  input {
-    background-color: white;
-    padding: 1px 6px;
-    border: none;
-    outline: none;
-    border-radius: 5px 0px 5px 0px;
-    border-bottom: 1px solid #a785a4 !important;
-    color: #313131;
-    font-weight: 200;
-  }
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   margin: 5px;
-  padding: 3px;
+  padding-left: 10px;
   text-align: center;
-  &_active {
-    cursor: pointer;
-    span {
-      &:hover {
-        @include hover-blue;
-      }
-    }
+  .ant-typography-edit-content {
+    margin-left: 18px !important;
   }
 }

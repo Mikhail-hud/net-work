@@ -5,3 +5,4 @@ export * from "./presentational";
 export * from "./UsersList";
 export * from "./Profile";
 export * from "./FriendsList";
+export * from "./Dialogs";
