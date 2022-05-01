@@ -4,10 +4,8 @@ import { UsersQueryParameters } from "../types/usersType";
 export const baseURL = "https://social-network.samuraijs.com/api/1.0/";
 export const credentials = "include";
 export const headers = {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "access-control-allow-headers": "Origin, X-Requested-With, Content-Type, Accept, API-KEY",
+    "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
     "API-KEY": "785356f0-bfad-453c-883d-856e6d5db0d2",
 };
 const instance = axios.create({
