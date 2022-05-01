@@ -6,4 +6,7 @@ export interface ProfileState {
     status: string;
     isFetching: boolean;
     isPhotoSaving: boolean;
+    isProfileSaving: boolean;
+    editMode: boolean;
+    profileDataFormError: Array<string>;
 }

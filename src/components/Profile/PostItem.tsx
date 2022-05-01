@@ -22,7 +22,15 @@ type Props = {
     isOwner: boolean;
 };
 
-const PostItem: React.FC<Props> = ({ post, onLikeAdd, onPostDelete, user, onPostUpdate, isOwner }): JSX.Element => {
+const PostItem: React.FC<Props> = ({
+    post,
+    onLikeAdd,
+    onPostDelete,
+    user,
+    onPostUpdate,
+    isOwner,
+    children,
+}): JSX.Element => {
     const { id, likes, postText, profile, postDate, edited } = post;
     const { isAuth } = useAppSelector(state => state.authReducer);
     const likeDislikeSwitch = likes?.usersProfile?.some(profile => profile?.userId === user?.id);
@@ -109,7 +117,9 @@ const PostItem: React.FC<Props> = ({ post, onLikeAdd, onPostDelete, user, onPost
                     <span>{edited ? `Edited ${moment(postDate).fromNow()}` : moment(postDate).fromNow()}</span>
                 </Tooltip>
             }
-        />
+        >
+            {children}
+        </Comment>
     );
 };
 

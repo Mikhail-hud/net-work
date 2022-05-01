@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent, useRef } from "react";
+import { useEffect, ChangeEvent, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./redux";
 import {
@@ -11,6 +11,7 @@ import {
     fetchProfile,
     addLike,
     updatePost,
+    setEditMode,
 } from "../store/reducers/ProfileSlice";
 import { NewLikeData, NewPostData, UpdatedPostData } from "../types/profileTypes";
 
@@ -21,8 +22,8 @@ export const useProfile = () => {
     const { user } = useAppSelector(state => state.authReducer);
     const userId = params?.userId ?? user.id;
     const isOwner = !params.userId;
-    const [editMode, setEditMode] = useState(false);
-    const { profile, isFetching, isPhotoSaving, status, posts } = useAppSelector(state => state.profileReducer);
+    const { profile, isFetching, isPhotoSaving, status, posts, isProfileSaving, editMode, profileDataFormError } =
+        useAppSelector(state => state.profileReducer);
 
     const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>): void => {
         if (e.target.files.length) {
@@ -43,7 +44,10 @@ export const useProfile = () => {
     const onPostDelete = (id: number): void => {
         dispatch(deletePost(id));
     };
-    const onPostUpdate = (updatedPostData: UpdatedPostData) => {
+    const onSetEditMode = (editMode: boolean): void => {
+        dispatch(setEditMode(editMode));
+    };
+    const onPostUpdate = (updatedPostData: UpdatedPostData): void => {
         dispatch(updatePost(updatedPostData));
     };
 
@@ -59,7 +63,7 @@ export const useProfile = () => {
 
     return {
         editMode,
-        setEditMode,
+        onSetEditMode,
         onMainPhotoSelected,
         onLikeAdd,
         onAddPost,
@@ -73,6 +77,8 @@ export const useProfile = () => {
         profile,
         isFetching,
         isPhotoSaving,
+        profileDataFormError,
+        isProfileSaving,
         userId,
         posts,
     };

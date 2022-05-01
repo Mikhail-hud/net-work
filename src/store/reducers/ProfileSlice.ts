@@ -10,7 +10,8 @@ import {
     UserProfile,
     UserProfilePhotos,
 } from "../../types/profileTypes";
-import { RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
+import { RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL, RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
+import { RootState } from "../store";
 
 const initialState: ProfileState = {
     posts: [],
@@ -37,6 +38,9 @@ const initialState: ProfileState = {
     },
     status: "",
     isFetching: true,
+    isProfileSaving: false,
+    editMode: false,
+    profileDataFormError: null,
     isPhotoSaving: false,
 };
 
@@ -77,6 +81,24 @@ export const savePhoto = createAsyncThunk("profile/savePhoto", async (file: Prof
     }
 });
 
+export const saveProfile = createAsyncThunk(
+    "profile/saveProfile",
+    async (profile: UserProfile, { getState, dispatch }) => {
+        try {
+            const response = await profileAPI.saveProfile(profile);
+            if (response.resultCode === RESULT_CODE_SUCCESS) {
+                const { authReducer } = getState() as RootState;
+                return await profileAPI.getProfile(authReducer?.user?.id);
+            }
+            if (response.resultCode === RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL) {
+                dispatch(setProfileDataFormError(response.messages));
+            }
+        } catch (e) {
+            Notification(e.message);
+        }
+    }
+);
+
 export const profileSlice = createSlice({
     name: "profile",
     initialState,
@@ -96,10 +118,7 @@ export const profileSlice = createSlice({
             const newPost = {
                 id: rand,
                 edited: false,
-                likes: {
-                    likesCount: 0,
-                    usersProfile: [],
-                },
+                likes: { likesCount: 0, usersProfile: [] },
                 ...payload,
             };
             localStorage.setItem(String(state.profile.userId), JSON.stringify([...state.posts, newPost]));
@@ -162,6 +181,16 @@ export const profileSlice = createSlice({
             localStorage.setItem(String(state.profile.userId), JSON.stringify(posts));
             state.posts = posts;
         },
+        setEditMode: (state: ProfileState, action: PayloadAction<boolean>) => {
+            const { payload } = action;
+            state.profileDataFormError = null;
+            state.editMode = payload;
+        },
+        setProfileDataFormError: (state: ProfileState, action: PayloadAction<Array<string>>) => {
+            const { payload } = action;
+            state.profileDataFormError = payload;
+            state.isProfileSaving = false;
+        },
     },
     extraReducers: {
         [fetchProfile.pending.type]: state => {
@@ -184,8 +213,24 @@ export const profileSlice = createSlice({
             const { payload } = action;
             state.status = payload;
         },
+        [saveProfile.pending.type]: (state: ProfileState) => {
+            state.isProfileSaving = true;
+        },
+        [saveProfile.fulfilled.type]: (state: ProfileState, action: PayloadAction<UserProfile>) => {
+            const { payload } = action;
+            if (payload) {
+                state.profile = payload;
+                state.isProfileSaving = false;
+                state.editMode = false;
+                state.profileDataFormError = null;
+            }
+        },
+        [saveProfile.rejected.type]: (state: ProfileState) => {
+            state.isProfileSaving = false;
+        },
     },
 });
 
-export const { setStatus, addPost, deletePost, getPosts, addLike, updatePost } = profileSlice.actions;
+export const { setStatus, addPost, deletePost, getPosts, addLike, updatePost, setEditMode, setProfileDataFormError } =
+    profileSlice.actions;
 export default profileSlice.reducer;

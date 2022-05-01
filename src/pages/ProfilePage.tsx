@@ -3,7 +3,7 @@ import { Layout, Row, Col, Button, Tooltip } from "antd";
 import { logo } from "../assets/img/common";
 import { EditOutlined } from "@ant-design/icons";
 import { useProfile } from "../hooks";
-import { Preloader, ProfileStatus, ProfileDetails, PostForm, PostsElements } from "../components";
+import { Preloader, ProfileStatus, ProfileDetails, PostForm, PostsElements, ProfileDataForm } from "../components";
 import { UpdateLogoImg } from "../icons";
 
 const { Content } = Layout;
@@ -16,7 +16,10 @@ const ProfilePage = () => {
         status,
         posts,
         user,
-        setEditMode,
+        editMode,
+        isProfileSaving,
+        profileDataFormError,
+        onSetEditMode,
         onMainPhotoSelected,
         onStatusUpdate,
         onLikeAdd,
@@ -47,7 +50,7 @@ const ProfilePage = () => {
                             shape="round"
                             icon={<EditOutlined />}
                             onClick={() => {
-                                setEditMode(true);
+                                onSetEditMode(true);
                             }}
                         >
                             Edit profile!
@@ -74,6 +77,13 @@ const ProfilePage = () => {
                         </Col>
                     </Row>
                     <Row>
+                        <ProfileDataForm
+                            profileDataFormError={profileDataFormError}
+                            profile={profile}
+                            editMode={editMode}
+                            onSetEditMode={onSetEditMode}
+                            isProfileSaving={isProfileSaving}
+                        />
                         <ProfileDetails profile={profile} />
                     </Row>
                     <h2>My posts</h2>
