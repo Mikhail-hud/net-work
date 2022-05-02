@@ -11,7 +11,6 @@ import {
     UserProfilePhotos,
 } from "../../types/profileTypes";
 import { RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL, RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
-import { RootState } from "../store";
 
 const initialState: ProfileState = {
     posts: [],
@@ -87,7 +86,8 @@ export const saveProfile = createAsyncThunk(
         try {
             const response = await profileAPI.saveProfile(profile);
             if (response.resultCode === RESULT_CODE_SUCCESS) {
-                const { authReducer } = getState() as RootState;
+                // @ts-ignore
+                const { authReducer } = getState();
                 return await profileAPI.getProfile(authReducer?.user?.id);
             }
             if (response.resultCode === RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL) {
@@ -233,4 +233,5 @@ export const profileSlice = createSlice({
 
 export const { setStatus, addPost, deletePost, getPosts, addLike, updatePost, setEditMode, setProfileDataFormError } =
     profileSlice.actions;
+
 export default profileSlice.reducer;
