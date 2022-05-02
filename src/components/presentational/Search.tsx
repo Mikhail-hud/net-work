@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useState } from "react";
+import React, { ChangeEvent, useCallback, useState, useEffect } from "react";
 import { Input } from "antd";
 import debounce from "lodash.debounce";
 import { useSearchParams } from "react-router-dom";
@@ -36,6 +36,9 @@ const Search: React.FC<Props> = ({ fetchFriends }): JSX.Element => {
             setSearchParams(searchParams);
         }
     };
+    useEffect(() => {
+        setLocalValue(searchValue);
+    }, [searchValue]);
 
     const handleChangeDebounced = useCallback(
         debounce(value => handleSearch(value), ASYNC_INPUT_DEBOUNCE_TIME),
