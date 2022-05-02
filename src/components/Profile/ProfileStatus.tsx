@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MAX_STATUS_LENGTH } from "../../constants/profileConstans";
+import { Col } from "antd";
 import { Typography } from "antd";
 import { useAppSelector } from "../../hooks";
 
@@ -23,17 +24,22 @@ const ProfileStatus: React.FC<Props> = ({ status, isOwner, onStatusUpdate }): JS
     };
 
     return (
-        <div className="status">
-            {isOwner && isAuth ? (
-                <Paragraph editable={{ onChange: onStatusChange, maxLength: MAX_STATUS_LENGTH }}>
-                    {localStatus}
-                </Paragraph>
-            ) : (
-                <div>
-                    <p>{localStatus}</p>
-                </div>
-            )}
-        </div>
+        <Col span={24}>
+            <div className="status">
+                {isOwner && isAuth ? (
+                    <Paragraph
+                        style={{ paddingLeft: "10px" }}
+                        editable={{ onChange: onStatusChange, maxLength: MAX_STATUS_LENGTH }}
+                    >
+                        {localStatus}
+                    </Paragraph>
+                ) : (
+                    <div>
+                        <p>{localStatus}</p>
+                    </div>
+                )}
+            </div>
+        </Col>
     );
 };
 

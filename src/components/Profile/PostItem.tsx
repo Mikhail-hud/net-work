@@ -65,7 +65,7 @@ const PostItem: React.FC<Props> = ({
                     placement="top"
                 >
                     <Link to={user?.id === profile?.userId ? PROFILE_PAGE_PATH : `/profile/` + profile?.userId}>
-                        <Avatar src={profile?.photos?.large} />
+                        <Avatar src={profile?.photos?.large ?? logo} />
                     </Link>
                 </Tooltip>
             ))}

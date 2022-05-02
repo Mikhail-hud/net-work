@@ -1,11 +1,12 @@
-import { Avatar, Button, Col, Image, List, Row, Skeleton } from "antd";
-import { GithubOutlined, MessageOutlined, UserAddOutlined, UserDeleteOutlined } from "@ant-design/icons";
+import { Avatar, Button, Col, Image, List, Row, Skeleton, Drawer } from "antd";
+import { ProfileOutlined, MessageOutlined, UserAddOutlined, UserDeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { logo } from "../../assets/img/common";
-import React from "react";
+import React, { useState } from "react";
 import { NetWorkUser } from "../../types/usersType";
 import { DIALOGS_PAGE_PATH, PROFILE_PAGE_PATH } from "../../constants/pathConstants";
-import { useAppSelector } from "../../hooks";
+import { useProfile } from "../../hooks";
+import ProfileDetails from "../Profile/ProfileDetails ";
 
 const imgStyle = { width: 100, borderRadius: "50%" };
 const avatarStyle = { width: "100px", height: "100px" };
@@ -18,7 +19,14 @@ interface Props {
 }
 
 const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, followingInProgress }): JSX.Element => {
-    const { user } = useAppSelector(state => state.authReducer);
+    const [showDrawer, setShowDrawer] = useState(false);
+    const { isFetching: profileFetching, user, profile, getUserProfileData, status } = useProfile();
+
+    const onUserDetailsClick = (showDrawer: boolean, userId: number): void => {
+        setShowDrawer(showDrawer);
+        getUserProfileData(userId);
+    };
+
     return (
         <Row justify="center">
             <Col xs={24} sm={24} md={18} lg={14} xl={12} xxl={10}>
@@ -44,7 +52,15 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                                     >
                                         {userItem?.followed ? "Unfollow" : "Follow"}
                                     </Button>,
-                                    <Button type="dashed" shape="round" key={userItem?.id} icon={<GithubOutlined />} />,
+                                    <Button
+                                        type="dashed"
+                                        shape="round"
+                                        onClick={() => onUserDetailsClick(true, userItem?.id)}
+                                        key={userItem?.id}
+                                        icon={<ProfileOutlined />}
+                                    >
+                                        Profile
+                                    </Button>,
                                     <Link to={DIALOGS_PAGE_PATH} key={userItem?.id}>
                                         <Button type="dashed" shape="round" icon={<MessageOutlined />} />
                                     </Link>,
@@ -75,6 +91,41 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                                     description={userItem?.status}
                                 />
                             </Skeleton>
+                            <Drawer
+                                title="Profile"
+                                width="70%"
+                                placement="right"
+                                closable
+                                onClose={() => setShowDrawer(false)}
+                                visible={showDrawer}
+                            >
+                                <>
+                                    <Row className="profile-card">
+                                        {profileFetching ? (
+                                            <Skeleton.Avatar
+                                                active
+                                                size="large"
+                                                style={{ width: "300px", height: "300px" }}
+                                            />
+                                        ) : (
+                                            <Col span={24}>
+                                                <img src={profile?.photos?.large ?? logo} alt="avatar" />
+                                            </Col>
+                                        )}
+
+                                        {profileFetching ? (
+                                            <Skeleton active />
+                                        ) : (
+                                            <Col span={24} className="status">
+                                                <p>{status}</p>
+                                            </Col>
+                                        )}
+                                    </Row>
+                                    <Row>
+                                        {profileFetching ? <Skeleton active /> : <ProfileDetails profile={profile} />}
+                                    </Row>
+                                </>
+                            </Drawer>
                         </List.Item>
                     )}
                 />

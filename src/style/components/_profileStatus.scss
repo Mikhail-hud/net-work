@@ -2,10 +2,12 @@
 @import "../abstracts/variables";
 
 .status {
-  margin: 5px;
-  padding-left: 10px;
-  text-align: center;
-  .ant-typography-edit-content {
-    margin-left: 18px !important;
-  }
+    margin: 5px;
+    text-align: center;
+    .ant-typography-edit-content {
+        margin-left: 18px !important;
+    }
+    p {
+        margin-bottom: 0;
+    }
 }

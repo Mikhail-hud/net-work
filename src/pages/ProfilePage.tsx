@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Row, Col, Button, Tooltip } from "antd";
+import { Layout, Row, Col, Button, Tooltip, Divider } from "antd";
 import { logo } from "../assets/img/common";
 import { EditOutlined } from "@ant-design/icons";
 import { useProfile } from "../hooks";
@@ -72,9 +72,7 @@ const ProfilePage = () => {
                                 </Tooltip>
                             )}
                         </Col>
-                        <Col span={24}>
-                            {<ProfileStatus status={status} onStatusUpdate={onStatusUpdate} isOwner={isOwner} />}
-                        </Col>
+                        <ProfileStatus status={status} onStatusUpdate={onStatusUpdate} isOwner={isOwner} />
                     </Row>
                     <Row>
                         <ProfileDataForm
@@ -86,7 +84,9 @@ const ProfilePage = () => {
                         />
                         <ProfileDetails profile={profile} />
                     </Row>
-                    <h2>My posts</h2>
+                    <Divider orientation="left">
+                        <h2>My posts</h2>
+                    </Divider>
                 </Col>
             </Row>
             <Row>

@@ -61,6 +61,12 @@ export const useProfile = () => {
         dispatch(getPosts(Number(userId)));
     }, [userId]);
 
+    const getUserProfileData = (userId: number): void => {
+        dispatch(fetchProfile(Number(userId)));
+        dispatch(getStatus(Number(userId)));
+        dispatch(getPosts(Number(userId)));
+    };
+
     return {
         editMode,
         onSetEditMode,
@@ -79,6 +85,7 @@ export const useProfile = () => {
         isPhotoSaving,
         profileDataFormError,
         isProfileSaving,
+        getUserProfileData,
         userId,
         posts,
     };
