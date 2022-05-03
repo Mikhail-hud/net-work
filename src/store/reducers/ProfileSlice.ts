@@ -199,8 +199,8 @@ export const profileSlice = createSlice({
         },
         [fetchProfile.fulfilled.type]: (state: ProfileState, action: PayloadAction<UserProfile>) => {
             const { payload } = action;
-            state.isProfileFetching = false;
             state.profile = payload;
+            state.isProfileFetching = false;
         },
         [savePhoto.pending.type]: (state: ProfileState) => {
             state.isPhotoSaving = true;

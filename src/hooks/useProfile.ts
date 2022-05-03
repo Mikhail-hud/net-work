@@ -20,7 +20,7 @@ export const useProfile = () => {
     const params = useParams();
     const postsRef = useRef(null);
     const { user } = useAppSelector(state => state.authReducer);
-    const userId = params?.userId ?? user.id;
+    const userId = params?.userId ?? user?.id;
     const isOwner = !params.userId;
     const {
         profile,
@@ -67,9 +67,11 @@ export const useProfile = () => {
     }, [posts]);
 
     useEffect(() => {
-        dispatch(fetchProfile(Number(userId)));
-        dispatch(getStatus(Number(userId)));
-        dispatch(getPosts(Number(userId)));
+        if (userId) {
+            dispatch(fetchProfile(Number(userId)));
+            dispatch(getStatus(Number(userId)));
+            dispatch(getPosts(Number(userId)));
+        }
     }, [userId]);
 
     const getUserProfileData = (userId: number): void => {
