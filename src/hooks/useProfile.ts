@@ -22,8 +22,19 @@ export const useProfile = () => {
     const { user } = useAppSelector(state => state.authReducer);
     const userId = params?.userId ?? user.id;
     const isOwner = !params.userId;
-    const { profile, isFetching, isPhotoSaving, status, posts, isProfileSaving, editMode, profileDataFormError } =
-        useAppSelector(state => state.profileReducer);
+    const {
+        profile,
+        isProfileFetching,
+        isStatusFetching,
+        isPhotoSaving,
+        status,
+        posts,
+        isProfileSaving,
+        editMode,
+        profileDataFormError,
+    } = useAppSelector(state => state.profileReducer);
+
+    const isFetching = isProfileFetching || isStatusFetching;
 
     const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>): void => {
         if (e.target.files.length) {

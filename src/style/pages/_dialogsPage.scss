@@ -2,17 +2,17 @@
 @import "../abstracts/variables";
 
 .thinScrollBar::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 2px #cfd1ce;
-  border-radius: 5px;
-  background-color: $pink;
+    -webkit-box-shadow: inset 0 0 2px #cfd1ce;
+    border-radius: 5px;
+    background-color: $pink;
 }
 
 .thinScrollBar::-webkit-scrollbar {
-  width: 0.3rem !important;
+    width: 0.3rem !important;
 }
 
 .thinScrollBar::-webkit-scrollbar-thumb {
-  background-color: $violet;
-  border-radius: 5px;
-  border: transparent;
+    background-color: $violet;
+    border-radius: 5px;
+    border: transparent;
 }

@@ -24,22 +24,24 @@ const ProfileStatus: React.FC<Props> = ({ status, isOwner, onStatusUpdate }): JS
     };
 
     return (
-        <Col span={24}>
-            <div className="status">
-                {isOwner && isAuth ? (
-                    <Paragraph
-                        style={{ paddingLeft: "10px" }}
-                        editable={{ onChange: onStatusChange, maxLength: MAX_STATUS_LENGTH }}
-                    >
-                        {localStatus}
-                    </Paragraph>
-                ) : (
-                    <div>
-                        <p>{localStatus}</p>
-                    </div>
-                )}
-            </div>
-        </Col>
+        status && (
+            <Col span={24}>
+                <div className="status">
+                    {isOwner && isAuth ? (
+                        <Paragraph
+                            style={{ paddingLeft: "10px" }}
+                            editable={{ onChange: onStatusChange, maxLength: MAX_STATUS_LENGTH }}
+                        >
+                            {localStatus}
+                        </Paragraph>
+                    ) : (
+                        <div>
+                            <p>{localStatus}</p>
+                        </div>
+                    )}
+                </div>
+            </Col>
+        )
     );
 };
 

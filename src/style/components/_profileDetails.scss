@@ -2,21 +2,21 @@
 @import "../abstracts/variables";
 
 .profile-data {
-  text-align: center;
-  h2 {
-    text-transform: capitalize
-  }
-
-  img {
-    margin: 0.3rem;
-
-    &:hover {
-      @include hover-translt;
-    }
-  }
-
-  h2 {
     text-align: center;
-    font-weight: 300;
-  }
+    h2 {
+        text-transform: capitalize;
+    }
+
+    img {
+        margin: 0.3rem;
+
+        &:hover {
+            @include hover-translt;
+        }
+    }
+
+    h2 {
+        text-align: center;
+        font-weight: 300;
+    }
 }

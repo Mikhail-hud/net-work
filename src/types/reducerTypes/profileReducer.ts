@@ -4,9 +4,10 @@ export interface ProfileState {
     posts: Array<Post>;
     profile: UserProfile;
     status: string;
-    isFetching: boolean;
+    isProfileFetching: boolean;
     isPhotoSaving: boolean;
     isProfileSaving: boolean;
     editMode: boolean;
     profileDataFormError: Array<string>;
+    isStatusFetching: boolean;
 }

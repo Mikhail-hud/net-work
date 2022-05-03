@@ -108,17 +108,17 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                                                 style={{ width: "300px", height: "300px" }}
                                             />
                                         ) : (
-                                            <Col span={24}>
-                                                <img src={profile?.photos?.large ?? logo} alt="avatar" />
-                                            </Col>
+                                            <img src={profile?.photos?.large ?? logo} alt="avatar" />
                                         )}
 
                                         {profileFetching ? (
                                             <Skeleton active />
                                         ) : (
-                                            <Col span={24} className="status">
-                                                <p>{status}</p>
-                                            </Col>
+                                            status && (
+                                                <Col span={24} className="status">
+                                                    <p>{status}</p>
+                                                </Col>
+                                            )
                                         )}
                                     </Row>
                                     <Row>

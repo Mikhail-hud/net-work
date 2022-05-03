@@ -36,8 +36,9 @@ const initialState: ProfileState = {
         userId: null,
     },
     status: "",
-    isFetching: true,
+    isProfileFetching: true,
     isProfileSaving: false,
+    isStatusFetching: false,
     editMode: false,
     profileDataFormError: null,
     isPhotoSaving: false,
@@ -194,11 +195,11 @@ export const profileSlice = createSlice({
     },
     extraReducers: {
         [fetchProfile.pending.type]: state => {
-            state.isFetching = true;
+            state.isProfileFetching = true;
         },
         [fetchProfile.fulfilled.type]: (state: ProfileState, action: PayloadAction<UserProfile>) => {
             const { payload } = action;
-            state.isFetching = false;
+            state.isProfileFetching = false;
             state.profile = payload;
         },
         [savePhoto.pending.type]: (state: ProfileState) => {
@@ -209,9 +210,13 @@ export const profileSlice = createSlice({
             state.profile.photos = payload;
             state.isPhotoSaving = false;
         },
+        [getStatus.pending.type]: (state: ProfileState) => {
+            state.isStatusFetching = true;
+        },
         [getStatus.fulfilled.type]: (state: ProfileState, action: PayloadAction<string>) => {
             const { payload } = action;
             state.status = payload;
+            state.isStatusFetching = false;
         },
         [saveProfile.pending.type]: (state: ProfileState) => {
             state.isProfileSaving = true;
