@@ -7,6 +7,7 @@ import { NetWorkUser } from "../../types/usersType";
 import { DIALOGS_PAGE_PATH, PROFILE_PAGE_PATH } from "../../constants/pathConstants";
 import { useProfile } from "../../hooks";
 import { PageLoader, ProfileDetails } from "../../components";
+import { DRAWER_INNER_WINDOW_WIDTH } from "../../constants/profileConstans";
 
 const imgStyle = { width: 100, borderRadius: "50%" };
 const avatarStyle = { width: "100px", height: "100px" };
@@ -93,7 +94,7 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                             </Skeleton>
                             <Drawer
                                 title="Profile"
-                                width="70%"
+                                width={window.innerWidth >= DRAWER_INNER_WINDOW_WIDTH ? "70%" : "100%"}
                                 placement="right"
                                 closable
                                 onClose={() => setShowDrawer(false)}

@@ -3,6 +3,7 @@ import { Drawer, Form, Button, Input, Checkbox, Alert, Divider } from "antd";
 import { UserProfile } from "../../types/profileTypes";
 import { useAppDispatch } from "../../hooks";
 import { saveProfile } from "../../store/reducers/ProfileSlice";
+import { DRAWER_INNER_WINDOW_WIDTH } from "../../constants/profileConstans";
 
 const formItemLayout = {
     labelCol: { xs: { span: 24 }, sm: { span: 8 } },
@@ -33,7 +34,7 @@ const ProfileDataForm: React.FC<Props> = ({
     return (
         <Drawer
             title="Profile Details"
-            width="70%"
+            width={window.innerWidth >= DRAWER_INNER_WINDOW_WIDTH ? "70%" : "100%"}
             onClose={() => onSetEditMode(false)}
             visible={editMode}
             bodyStyle={{ paddingBottom: "2rem" }}
