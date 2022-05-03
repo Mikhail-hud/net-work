@@ -3,7 +3,7 @@ import { Layout, Row, Col, Button, Tooltip, Divider } from "antd";
 import { logo } from "../assets/img/common";
 import { EditOutlined } from "@ant-design/icons";
 import { useProfile } from "../hooks";
-import { Preloader, ProfileStatus, ProfileDetails, PostForm, PostsElements, ProfileDataForm } from "../components";
+import { PageLoader, ProfileStatus, ProfileDetails, PostForm, PostsElements, ProfileDataForm } from "../components";
 import { UpdateLogoImg } from "../icons";
 
 const { Content } = Layout;
@@ -32,7 +32,7 @@ const ProfilePage = () => {
     if (isFetching) {
         return (
             <Content>
-                <Preloader />
+                <PageLoader isHeaderShown />
             </Content>
         );
     }

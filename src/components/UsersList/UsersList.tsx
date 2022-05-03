@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { NetWorkUser } from "../../types/usersType";
 import { DIALOGS_PAGE_PATH, PROFILE_PAGE_PATH } from "../../constants/pathConstants";
 import { useProfile } from "../../hooks";
-import ProfileDetails from "../Profile/ProfileDetails ";
+import { PageLoader, ProfileDetails } from "../../components";
 
 const imgStyle = { width: 100, borderRadius: "50%" };
 const avatarStyle = { width: "100px", height: "100px" };
@@ -20,7 +20,7 @@ interface Props {
 
 const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, followingInProgress }): JSX.Element => {
     const [showDrawer, setShowDrawer] = useState(false);
-    const { isFetching: profileFetching, user, profile, getUserProfileData, status } = useProfile();
+    const { isFetching: isProfileFetching, user, profile, getUserProfileData, status } = useProfile();
 
     const onUserDetailsClick = (showDrawer: boolean, userId: number): void => {
         setShowDrawer(showDrawer);
@@ -99,32 +99,23 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                                 onClose={() => setShowDrawer(false)}
                                 visible={showDrawer}
                             >
-                                <>
-                                    <Row className="profile-card">
-                                        {profileFetching ? (
-                                            <Skeleton.Avatar
-                                                active
-                                                size="large"
-                                                style={{ width: "300px", height: "300px" }}
-                                            />
-                                        ) : (
+                                {isProfileFetching ? (
+                                    <PageLoader />
+                                ) : (
+                                    <>
+                                        <Row className="profile-card">
                                             <img src={profile?.photos?.large ?? logo} alt="avatar" />
-                                        )}
-
-                                        {profileFetching ? (
-                                            <Skeleton active />
-                                        ) : (
-                                            status && (
+                                            {status && (
                                                 <Col span={24} className="status">
                                                     <p>{status}</p>
                                                 </Col>
-                                            )
-                                        )}
-                                    </Row>
-                                    <Row>
-                                        {profileFetching ? <Skeleton active /> : <ProfileDetails profile={profile} />}
-                                    </Row>
-                                </>
+                                            )}
+                                        </Row>
+                                        <Row>
+                                            <ProfileDetails profile={profile} />
+                                        </Row>
+                                    </>
+                                )}
                             </Drawer>
                         </List.Item>
                     )}

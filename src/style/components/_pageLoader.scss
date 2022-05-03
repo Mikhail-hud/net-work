@@ -1,0 +1,24 @@
+@import "../abstracts/variables";
+
+.page-loader {
+    .ant-skeleton-avatar-circle {
+        width: 300px;
+        max-width: 100%;
+        height: 300px;
+        max-height: 300px;
+        margin: 0px auto;
+
+        @media (max-width: 350px) {
+            height: 200px;
+            width: 200px;
+            margin: 0px auto;
+        }
+    }
+
+    .header-shown {
+        padding-bottom: 11.5px;
+    }
+}
+.ant-skeleton-element .ant-skeleton-button {
+  width: 120px !important;
+}
