@@ -1,28 +1,19 @@
-import React, { ChangeEvent, useCallback, useState, useEffect } from "react";
+import React, { ChangeEvent, useState, useEffect } from "react";
 import { Input } from "antd";
-import debounce from "lodash.debounce";
 import { useSearchParams } from "react-router-dom";
 import { PAGE, SEARCH } from "../../constants/usersConstants";
 import { SearchOutlined } from "@ant-design/icons";
-import { getSearchParams } from "../../helpers/urlHelpers";
 import { UsersQueryParameters } from "../../types/usersType";
 
-const ASYNC_INPUT_DEBOUNCE_TIME = 400;
-
 type Props = {
-    fetchFriends: boolean;
+    isFriendsFetched: boolean;
+    params: UsersQueryParameters;
 };
 
-const Search: React.FC<Props> = ({ fetchFriends }): JSX.Element => {
+const Search: React.FC<Props> = ({ isFriendsFetched, params }): JSX.Element => {
+    const { term } = params;
     const [searchParams, setSearchParams] = useSearchParams();
-    const params = getSearchParams(searchParams);
-    const searchValue = searchParams.get(SEARCH.key);
-    const [localValue, setLocalValue] = useState(searchValue);
-
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setLocalValue(event.target.value);
-        handleChangeDebounced(event.target.value);
-    };
+    const [localValue, setLocalValue] = useState(term);
 
     const handleSearch = (value: string): void => {
         if (value) {
@@ -33,18 +24,19 @@ const Search: React.FC<Props> = ({ fetchFriends }): JSX.Element => {
             } as Record<keyof UsersQueryParameters, any>);
         } else {
             searchParams.delete(SEARCH.key);
+            searchParams.set(PAGE.key, PAGE.default);
             setSearchParams(searchParams);
         }
     };
-    useEffect(() => {
-        setLocalValue(searchValue);
-    }, [searchValue]);
 
-    const handleChangeDebounced = useCallback(
-        debounce(value => handleSearch(value), ASYNC_INPUT_DEBOUNCE_TIME),
-        []
-    );
-    const showTotalPrefix = fetchFriends ? "friends" : "users";
+    const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+        setLocalValue(event.target.value);
+        handleSearch(event.target.value);
+    };
+
+    useEffect(() => setLocalValue(term), [term]);
+
+    const showTotalPrefix = isFriendsFetched ? "friends" : "users";
 
     return (
         <Input
@@ -52,7 +44,6 @@ const Search: React.FC<Props> = ({ fetchFriends }): JSX.Element => {
             suffix={<SearchOutlined style={{ fontSize: "1.1em" }} />}
             onChange={handleChange}
             placeholder={`Searching for ${showTotalPrefix}`}
-            onReset={() => handleChangeDebounced(" ")}
             value={localValue}
         />
     );

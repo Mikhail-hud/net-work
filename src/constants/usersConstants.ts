@@ -6,5 +6,4 @@ export const FRIEND = { key: "friend", default: "false" };
 export const INITIAL_PARAMS = {
     page: PAGE.default,
     count: LIMIT.default,
-    friend: FRIEND.default,
 };

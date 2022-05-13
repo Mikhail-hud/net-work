@@ -5,7 +5,8 @@ import { Paginator, Search, FriendList } from "../components";
 
 const { Content } = Layout;
 const FriendsPage: React.FC = (): JSX.Element => {
-    const { users, totalCount, isFetching, handleFollowUnfollow, followingInProgress, fetchFriends } = useUsers();
+    const { users, totalCount, isFetching, handleFollowUnfollow, followingInProgress, isFriendsFetched, params } =
+        useUsers();
     return (
         <Content>
             <Row justify="space-between" style={{ marginBottom: "1rem" }}>
@@ -13,10 +14,15 @@ const FriendsPage: React.FC = (): JSX.Element => {
                     <h1>Friends</h1>
                 </Col>
                 <Col>
-                    <Search fetchFriends={fetchFriends} />
+                    <Search params={params} isFriendsFetched={isFriendsFetched} />
                 </Col>
             </Row>
-            <Paginator isFetching={isFetching} totalItemsCount={totalCount} fetchFriends={fetchFriends} />
+            <Paginator
+                params={params}
+                isFetching={isFetching}
+                totalItemsCount={totalCount}
+                isFriendsFetched={isFriendsFetched}
+            />
             <FriendList
                 users={users}
                 isFetching={isFetching}
