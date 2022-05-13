@@ -5,8 +5,9 @@ import { UserProfile } from "../../types/profileTypes";
 
 type Props = {
     profile: UserProfile;
+    isOwner: boolean;
 };
-const ProfileDetails: React.FC<Props> = ({ profile }): JSX.Element => {
+const ProfileDetails: React.FC<Props> = ({ profile, isOwner }): JSX.Element => {
     const { fullName, aboutMe, lookingForAJob, lookingForAJobDescription, contacts } = profile;
     const icon = {
         github,
@@ -24,7 +25,7 @@ const ProfileDetails: React.FC<Props> = ({ profile }): JSX.Element => {
             <h2>{fullName}</h2>
             {aboutMe && (
                 <p>
-                    <b>About me:</b> {aboutMe}
+                    <b>{isOwner ? "About me" : "About"} :</b> {aboutMe}
                 </p>
             )}
             <p>
@@ -32,7 +33,7 @@ const ProfileDetails: React.FC<Props> = ({ profile }): JSX.Element => {
             </p>
             {lookingForAJob && (
                 <p>
-                    <b>My skills:</b> {lookingForAJobDescription}
+                    <b>{isOwner ? "My skills" : "Skills"} :</b> {lookingForAJobDescription}
                 </p>
             )}
             {Object.entries(contacts).map(([key, item]) => {
@@ -42,7 +43,6 @@ const ProfileDetails: React.FC<Props> = ({ profile }): JSX.Element => {
                             <img src={icon[key]} alt="social-icon" />
                         </a>
                     );
-                return null;
             })}
         </Col>
     );

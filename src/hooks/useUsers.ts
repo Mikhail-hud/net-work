@@ -15,7 +15,7 @@ export const useUsers = () => {
 
     const { isFetching, users, totalCount, followingInProgress } = useAppSelector(state => state.usersReducer);
 
-    const handleFollowUnfollow = (followed: boolean, userId: number) => {
+    const handleFollowUnfollow = (followed: boolean, userId: number): void => {
         if (followed) {
             dispatch(unFollow(userId));
         } else {

@@ -14,7 +14,7 @@ type Props = {
 const Paginator: React.FC<Props> = ({ totalItemsCount, isFetching, isFriendsFetched, params }): JSX.Element => {
     const { count, page } = params;
     const [, setSearchParams] = useSearchParams();
-    const onChange = (nextPage, nextPageSize) => {
+    const onChange = (nextPage: number, nextPageSize: number): void => {
         setSearchParams({
             ...params,
             [PAGE.key]: nextPage,

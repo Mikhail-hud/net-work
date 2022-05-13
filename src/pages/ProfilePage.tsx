@@ -82,10 +82,10 @@ const ProfilePage = () => {
                             onSetEditMode={onSetEditMode}
                             isProfileSaving={isProfileSaving}
                         />
-                        <ProfileDetails profile={profile} />
+                        <ProfileDetails profile={profile} isOwner={isOwner} />
                     </Row>
                     <Divider orientation="left">
-                        <h2>My posts</h2>
+                        <h2>{isOwner ? "My posts" : "Posts"}</h2>
                     </Divider>
                 </Col>
             </Row>
