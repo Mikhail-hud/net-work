@@ -1,5 +1,6 @@
 module.exports = {
     collectCoverage: true,
+    testEnvironment: "jsdom",
     coverageThreshold: {
         global: {
             statements: 75,
