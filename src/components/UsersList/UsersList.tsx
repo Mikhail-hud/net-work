@@ -110,7 +110,18 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                                 ) : (
                                     <>
                                         <Row className="profile-card">
-                                            <img src={profile?.photos?.large ?? logo} alt="avatar" />
+                                            <Avatar
+                                                size={{
+                                                    xs: 150,
+                                                    sm: 300,
+                                                    md: 300,
+                                                    lg: 300,
+                                                    xl: 300,
+                                                    xxl: 300,
+                                                }}
+                                                src={profile?.photos?.large ?? logo}
+                                                alt="avatar"
+                                            />
                                             {status && (
                                                 <Col span={24} className="status">
                                                     <p>{status}</p>
