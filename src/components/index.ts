@@ -6,3 +6,4 @@ export * from "./UsersList";
 export * from "./Profile";
 export * from "./FriendsList";
 export * from "./Dialogs";
+export * from "./Messanger";

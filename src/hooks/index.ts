@@ -3,3 +3,4 @@ export * from "./useAppInitialize";
 export * from "./redux";
 export * from "./useProfile";
 export * from "./useDialogs";
+export * from "./useMessanger";

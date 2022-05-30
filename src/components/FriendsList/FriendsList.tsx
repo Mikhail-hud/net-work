@@ -79,7 +79,7 @@ const FriendsList: React.FC<Props> = ({
                                     />
                                 ),
 
-                                <NavLink key={friend.id} to={DIALOGS_PAGE_PATH}>
+                                <NavLink key={friend.id} to={`/dialogs/` + friend?.id}>
                                     <Button type="dashed" shape="round" icon={<MessageOutlined />} />
                                 </NavLink>,
                                 <Button key={friend.id} type="dashed" shape="round" icon={<GithubOutlined />} />,

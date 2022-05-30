@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Row, Col, Button, Tooltip, Divider } from "antd";
+import { Layout, Row, Col, Button, Tooltip, Divider, Avatar } from "antd";
 import { logo } from "../assets/img/common";
 import { EditOutlined } from "@ant-design/icons";
 import { useProfile } from "../hooks";
@@ -62,7 +62,18 @@ const ProfilePage = () => {
                 <Col span={24}>
                     <Row className="profile-card">
                         <Col span={24}>
-                            <img src={profile?.photos?.large ?? logo} alt="avatar" />
+                            <Avatar
+                                size={{
+                                    xs: 150,
+                                    sm: 300,
+                                    md: 300,
+                                    lg: 300,
+                                    xl: 300,
+                                    xxl: 300,
+                                }}
+                                src={profile?.photos?.large ?? logo}
+                                alt="avatar"
+                            />
                             {isOwner && (
                                 <Tooltip title="Upload your photo!">
                                     <label>

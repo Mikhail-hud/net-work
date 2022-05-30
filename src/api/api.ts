@@ -96,3 +96,15 @@ export const securityAPI = {
         return instance.get(`security/get-captcha-url`);
     },
 };
+export const dialogsAPI = {
+    getallDialogs() {
+        return instance.get(`dialogs`).then(response => {
+            return response.data;
+        });
+    },
+    getDialogsChatting(userId) {
+        return instance.put(`dialogs/${userId}`).then(response => {
+            return response.data;
+        });
+    },
+};

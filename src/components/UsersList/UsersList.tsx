@@ -4,13 +4,10 @@ import { Link } from "react-router-dom";
 import { logo } from "../../assets/img/common";
 import React, { useState } from "react";
 import { NetWorkUser } from "../../types/usersType";
-import { DIALOGS_PAGE_PATH, PROFILE_PAGE_PATH } from "../../constants/pathConstants";
+import { PROFILE_PAGE_PATH } from "../../constants/pathConstants";
 import { useProfile } from "../../hooks";
 import { PageLoader, ProfileDetails } from "../../components";
 import { DRAWER_INNER_WINDOW_WIDTH } from "../../constants/profileConstans";
-
-const imgStyle = { width: 100, borderRadius: "50%" };
-const avatarStyle = { width: "100px", height: "100px" };
 
 interface Props {
     isFetching: boolean;
@@ -21,7 +18,7 @@ interface Props {
 
 const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, followingInProgress }): JSX.Element => {
     const [showDrawer, setShowDrawer] = useState(false);
-    const { isFetching: isProfileFetching, user, profile, getUserProfileData, status } = useProfile();
+    const { isFetching: isProfileFetching, user, profile, getUserProfileData, status, isOwner } = useProfile();
 
     const onUserDetailsClick = (showDrawer: boolean, userId: number): void => {
         setShowDrawer(showDrawer);
@@ -62,7 +59,7 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                                     >
                                         Profile
                                     </Button>,
-                                    <Link to={DIALOGS_PAGE_PATH} key={userItem?.id}>
+                                    <Link to={`/dialogs/` + userItem?.id} key={userItem?.id}>
                                         <Button type="dashed" shape="round" icon={<MessageOutlined />} />
                                     </Link>,
                                 ]
@@ -70,8 +67,15 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                             extra={
                                 !isFetching && (
                                     <Avatar
-                                        style={avatarStyle}
-                                        src={<Image src={userItem?.photos?.large ?? logo} style={imgStyle} />}
+                                        size={{
+                                            xs: 80,
+                                            sm: 80,
+                                            md: 80,
+                                            lg: 100,
+                                            xl: 100,
+                                            xxl: 100,
+                                        }}
+                                        src={<Image src={userItem?.photos?.large ?? logo} />}
                                     />
                                 )
                             }
@@ -80,6 +84,7 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                                 <List.Item.Meta
                                     title={
                                         <Link
+                                            style={{ textTransform: "capitalize" }}
                                             to={
                                                 user?.id === userItem?.id
                                                     ? PROFILE_PAGE_PATH
@@ -113,7 +118,7 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                                             )}
                                         </Row>
                                         <Row>
-                                            <ProfileDetails profile={profile} />
+                                            <ProfileDetails isOwner={isOwner} profile={profile} />
                                         </Row>
                                     </>
                                 )}

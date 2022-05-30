@@ -30,15 +30,14 @@
     }
 
     img {
-        display: block;
-        border-radius: 50%;
-        max-width: 100%;
-        height: auto;
-        max-height: 300px;
         margin: 0 auto;
     }
 
     label {
+        @media (max-width: 575px) {
+            right: -12%;
+            bottom: 0.15rem;
+        }
         width: 46px;
         border: 1px dashed $pink-color;
         border-radius: 5px;
