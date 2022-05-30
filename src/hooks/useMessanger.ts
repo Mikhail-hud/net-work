@@ -8,7 +8,7 @@ export const useMessanger = () => {
     const dispatch = useAppDispatch();
     const params = useParams();
     const { messages } = useAppSelector(state => state.dialogsReducer);
-    const userId = params?.userId;
+    const userId = Number(params?.userId);
     const onSendMessage = (newMessage: NewMessageData): void => {
         dispatch(sendMessage(newMessage));
     };

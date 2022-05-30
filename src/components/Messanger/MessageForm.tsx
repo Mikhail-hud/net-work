@@ -12,8 +12,9 @@ const INPUT_NAME = "newMessage";
 type Props = {
     onSendMessage: (newMesage: NewMessageData) => void;
     user: User;
+    userId: number;
 };
-const MessageForm: React.FC<Props> = ({ onSendMessage, user }): JSX.Element => {
+const MessageForm: React.FC<Props> = ({ onSendMessage, user, userId }): JSX.Element => {
     const {
         register,
         handleSubmit,
@@ -23,6 +24,7 @@ const MessageForm: React.FC<Props> = ({ onSendMessage, user }): JSX.Element => {
     const onSubmit = ({ newMessage }) => {
         onSendMessage({
             message: newMessage,
+            userId,
             profile: user?.profile,
         });
         reset();

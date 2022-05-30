@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DialogsState } from "../../types/reducerTypes/dialogsReducer";
-import { Dialog, NewMessageData } from "../../types/dialogsTypes";
+import { Dialog } from "../../types/dialogsTypes";
 import { dialogsAPI } from "../../api";
 import { Notification } from "../../components";
 
@@ -23,21 +23,22 @@ export const fetchDialogsChatting = createAsyncThunk("dialogs/fetchDialogsChatti
         Notification(e.message);
     }
 });
+export const sendMessage = createAsyncThunk(
+    "dialogs/sendMessage",
+    async ({ userId, message }: { userId: number; message: string }) => {
+        console.log(userId, message);
+        try {
+            await dialogsAPI.sendMessage(userId, message);
+        } catch (e) {
+            Notification(e.message);
+        }
+    }
+);
 
 export const dialogsSlice = createSlice({
     name: "dialogs",
     initialState,
-    reducers: {
-        sendMessage: (state: DialogsState, action: PayloadAction<NewMessageData>) => {
-            const { payload } = action;
-            const rand = 100000 + Math.random() * (10000 + 1 - 10);
-            const newMessage = {
-                id: rand,
-                ...payload,
-            };
-            state.messages = [...state.messages, newMessage];
-        },
-    },
+    reducers: {},
     extraReducers: {
         [fetchAllDialogs.pending.type]: (state: DialogsState) => {
             state.isFetchingDialogs = true;
@@ -49,6 +50,6 @@ export const dialogsSlice = createSlice({
     },
 });
 
-export const { sendMessage } = dialogsSlice.actions;
+// export const {} = dialogsSlice.actions;
 
 export default dialogsSlice.reducer;

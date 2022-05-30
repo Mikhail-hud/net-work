@@ -3,7 +3,8 @@ import { Photos } from "./usersType";
 
 export interface NewMessageData {
     message: string;
-    profile: UserProfile;
+    userId: number;
+    profile?: UserProfile;
 }
 export interface Dialog {
     hasNewMessages: boolean;
