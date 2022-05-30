@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./redux";
 import { NewMessageData } from "../types/dialogsTypes";
-import { fetchDialogsChatting, sendMessage } from "../store/reducers/DialogsSlice";
+import { fetchAllMessages, fetchDialogsChatting, sendMessage } from "../store/reducers/DialogsSlice";
 import { useEffect } from "react";
 
 export const useMessanger = () => {
@@ -13,6 +13,7 @@ export const useMessanger = () => {
         dispatch(sendMessage(newMessage));
     };
     useEffect(() => {
+        dispatch(fetchAllMessages(Number(userId)));
         dispatch(fetchDialogsChatting(Number(userId)));
     }, []);
 

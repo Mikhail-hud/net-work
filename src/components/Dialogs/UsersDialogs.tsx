@@ -4,6 +4,7 @@ import { List, Avatar, Drawer, Button, Space, Typography, Badge, Input } from "a
 import { CommentOutlined, SearchOutlined } from "@ant-design/icons";
 import { Dialog } from "../../types/dialogsTypes";
 import moment from "moment";
+import { logo } from "../../assets/img/common";
 
 const { Text } = Typography;
 
@@ -70,7 +71,7 @@ const UsersDialogs: React.FC<Props> = ({ dialogs, isFetchingDialogs }): JSX.Elem
                                     }
                                     avatar={
                                         <Badge count={item?.newMessagesCount} title="New Messages">
-                                            <Avatar src={item?.photos?.large} />
+                                            <Avatar src={item?.photos?.large ?? logo} />
                                         </Badge>
                                     }
                                 />

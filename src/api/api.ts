@@ -107,6 +107,11 @@ export const dialogsAPI = {
             return response.data;
         });
     },
+    getMessagesList(userId) {
+        return instance.get(`dialogs/${userId}/messages`).then(response => {
+            return response.data;
+        });
+    },
     sendMessage(userId, message) {
         return instance.post(`dialogs/${userId}/messages`, message).then(response => {
             return response.data;

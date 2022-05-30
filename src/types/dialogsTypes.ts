@@ -15,7 +15,13 @@ export interface Dialog {
     photos: Photos;
     userName: string;
 }
-
-export interface Message extends NewMessageData {
+export interface Message {
+    message: string;
     id: number;
+    profile?: UserProfile;
+}
+export interface MessagesDataEntities {
+    error: Array<string>;
+    items: Array<Message>;
+    totalCount: number;
 }
