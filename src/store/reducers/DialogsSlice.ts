@@ -7,6 +7,7 @@ import { Notification } from "../../components";
 const initialState: DialogsState = {
     dialogs: [],
     isFetchingDialogs: false,
+    isFetchingMessages: false,
     messages: [],
 };
 export const fetchAllDialogs = createAsyncThunk("dialogs/fetchAllDialogs", async () => {
@@ -55,8 +56,12 @@ export const dialogsSlice = createSlice({
             state.dialogs = action.payload;
             state.isFetchingDialogs = false;
         },
+        [fetchAllMessages.pending.type]: (state: DialogsState) => {
+            state.isFetchingMessages = true;
+        },
         [fetchAllMessages.fulfilled.type]: (state: DialogsState, action: PayloadAction<MessagesDataEntities>) => {
             state.messages = action?.payload?.items;
+            state.isFetchingMessages = false;
         },
     },
 });

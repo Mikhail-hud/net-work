@@ -2,11 +2,15 @@ import React, { useEffect, useRef } from "react";
 import { logo } from "../../assets/img/common";
 import { Row, Col, Tooltip } from "antd";
 import { Message } from "../../types/dialogsTypes";
+import { UserProfile } from "../../types/profileTypes";
+import { MessangerLoader } from "./../../components";
 
 type Props = {
     messages: Array<Message>;
+    profile: UserProfile;
+    isFetchingMessages: boolean;
 };
-const Messages: React.FC<Props> = ({ messages }): JSX.Element => {
+const Messages: React.FC<Props> = ({ messages, profile, isFetchingMessages }): JSX.Element => {
     const messagesRef = useRef(null);
 
     useEffect(() => {
@@ -21,22 +25,24 @@ const Messages: React.FC<Props> = ({ messages }): JSX.Element => {
             ref={messagesRef}
         >
             <Col xs={24} sm={24}>
-                {messages.map(item => {
-                    return (
-                        <>
+                {isFetchingMessages ? (
+                    <MessangerLoader />
+                ) : (
+                    messages.map(item => {
+                        return (
                             <div className="message-container" key={item?.id}>
-                                <Tooltip title={item?.profile?.fullName}>
+                                <Tooltip title={profile?.fullName}>
                                     <div className="logo-block">
-                                        <img src={item?.profile?.photos?.large ?? logo} alt="dialogs-logo" />
+                                        <img src={profile?.photos?.large ?? logo} alt="dialogs-logo" />
                                     </div>
                                 </Tooltip>
                                 <div className="message-block">
-                                    <p>{item?.message}</p>
+                                    <p>{item?.body}</p>
                                 </div>
                             </div>
-                        </>
-                    );
-                })}
+                        );
+                    })
+                )}
             </Col>
         </Row>
     );

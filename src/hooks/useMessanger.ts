@@ -7,7 +7,7 @@ import { useEffect } from "react";
 export const useMessanger = () => {
     const dispatch = useAppDispatch();
     const params = useParams();
-    const { messages } = useAppSelector(state => state.dialogsReducer);
+    const { messages, isFetchingMessages } = useAppSelector(state => state.dialogsReducer);
     const userId = Number(params?.userId);
     const onSendMessage = (newMessage: NewMessageData): void => {
         dispatch(sendMessage(newMessage));
@@ -19,6 +19,7 @@ export const useMessanger = () => {
 
     return {
         onSendMessage,
+        isFetchingMessages,
         messages,
         userId,
     };

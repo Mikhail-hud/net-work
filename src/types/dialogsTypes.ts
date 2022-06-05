@@ -16,9 +16,14 @@ export interface Dialog {
     userName: string;
 }
 export interface Message {
-    message: string;
-    id: number;
-    profile?: UserProfile;
+    addedAt: string;
+    body: string;
+    id: string;
+    recipientId: number;
+    senderId: number;
+    senderName: string;
+    translatedBody: string;
+    viewed: true;
 }
 export interface MessagesDataEntities {
     error: Array<string>;

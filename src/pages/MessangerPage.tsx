@@ -8,7 +8,7 @@ const { Content } = Layout;
 const MessangerPage: React.FC = (): JSX.Element => {
     const { dialogs, isFetchingDialogs } = useDialogs();
     const { user, profile, isFetching } = useProfile();
-    const { messages, onSendMessage, userId } = useMessanger();
+    const { messages, onSendMessage, userId, isFetchingMessages } = useMessanger();
     return (
         <Content>
             <h1>{isFetching ? <Skeleton.Button active /> : profile?.fullName}</h1>
@@ -17,7 +17,7 @@ const MessangerPage: React.FC = (): JSX.Element => {
                     <UsersDialogs dialogs={dialogs} isFetchingDialogs={isFetchingDialogs} />
                 </Col>
                 <Col xs={24} sm={20} style={{ maxWidth: "950px", margin: "0 auto" }}>
-                    <Messages messages={messages} />
+                    <Messages messages={messages} profile={profile} isFetchingMessages={isFetchingMessages} />
                     <MessageForm onSendMessage={onSendMessage} user={user} userId={userId} />
                 </Col>
             </Row>
