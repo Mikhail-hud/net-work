@@ -15,7 +15,7 @@ export const useMessanger = () => {
     useEffect(() => {
         dispatch(fetchAllMessages(Number(userId)));
         dispatch(fetchDialogsChatting(Number(userId)));
-    }, []);
+    }, [userId]);
 
     return {
         onSendMessage,
