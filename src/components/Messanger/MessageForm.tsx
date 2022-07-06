@@ -11,10 +11,10 @@ const INPUT_NAME = "newMessage";
 
 type Props = {
     onSendMessage: (newMesage: NewMessageData) => void;
-    user: User;
+    user?: User;
     userId: number;
 };
-const MessageForm: React.FC<Props> = ({ onSendMessage, user, userId }): JSX.Element => {
+const MessageForm: React.FC<Props> = ({ onSendMessage, userId }): JSX.Element => {
     const {
         register,
         handleSubmit,
@@ -22,11 +22,11 @@ const MessageForm: React.FC<Props> = ({ onSendMessage, user, userId }): JSX.Elem
         reset,
     } = useForm();
     const onSubmit = ({ newMessage }) => {
-        onSendMessage({
-            message: newMessage,
-            userId,
-            profile: user?.profile,
-        });
+        newMessage.trim() &&
+            onSendMessage({
+                body: newMessage,
+                recipientId: userId,
+            });
         reset();
     };
     return (
@@ -37,7 +37,7 @@ const MessageForm: React.FC<Props> = ({ onSendMessage, user, userId }): JSX.Elem
                         <Text type="danger">The character limit for a single message is 160 characters</Text>
                     )}
                     <textarea
-                        rows={2}
+                        rows={3}
                         name={INPUT_NAME}
                         {...register(INPUT_NAME, { required: true, maxLength: 160 })}
                     />

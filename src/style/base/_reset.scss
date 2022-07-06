@@ -48,7 +48,10 @@ textarea {
     font-family: IBM Plex Serif, serif;
 }
 .cursor-none {
-    cursor: auto;
+    cursor: auto !important;
+    .ant-badge-count {
+        cursor: auto !important;
+    }
 }
 .ant-badge-count {
     cursor: pointer !important;
@@ -71,6 +74,8 @@ input[type="file"] {
     color: rgba(0, 0, 0, 0.45);
     background-color: rgba(114, 46, 209, 0.15);
 }
-h1, .ant-card-meta-title, .ant-list-item-meta-title {
+h1,
+.ant-card-meta-title,
+.ant-list-item-meta-title {
     text-transform: capitalize;
 }

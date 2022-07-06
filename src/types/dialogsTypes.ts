@@ -1,10 +1,8 @@
-import { UserProfile } from "./profileTypes";
 import { Photos } from "./usersType";
 
 export interface NewMessageData {
-    message: string;
-    userId: number;
-    profile?: UserProfile;
+    recipientId: number;
+    body: string;
 }
 export interface Dialog {
     hasNewMessages: boolean;

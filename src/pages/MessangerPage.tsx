@@ -17,7 +17,12 @@ const MessangerPage: React.FC = (): JSX.Element => {
                     <UsersDialogs dialogs={dialogs} isFetchingDialogs={isFetchingDialogs} />
                 </Col>
                 <Col xs={24} sm={20} style={{ maxWidth: "950px", margin: "0 auto" }}>
-                    <Messages messages={messages} profile={profile} isFetchingMessages={isFetchingMessages} />
+                    <Messages
+                        user={user}
+                        messages={messages}
+                        profile={profile}
+                        isFetchingMessages={isFetchingMessages}
+                    />
                     <MessageForm onSendMessage={onSendMessage} user={user} userId={userId} />
                 </Col>
             </Row>

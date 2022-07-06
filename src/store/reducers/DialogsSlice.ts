@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DialogsState } from "../../types/reducerTypes/dialogsReducer";
-import { Dialog, MessagesDataEntities } from "../../types/dialogsTypes";
+import { Dialog, Message, MessagesDataEntities, NewMessageData } from "../../types/dialogsTypes";
 import { dialogsAPI } from "../../api";
 import { Notification } from "../../components";
+import { RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
 
 const initialState: DialogsState = {
     dialogs: [],
@@ -35,9 +36,13 @@ export const fetchDialogsChatting = createAsyncThunk("dialogs/fetchDialogsChatti
 });
 export const sendMessage = createAsyncThunk(
     "dialogs/sendMessage",
-    async ({ userId, message }: { userId: number; message: string }) => {
+    async (newMessageData: NewMessageData, { dispatch }) => {
+        const { recipientId, body } = newMessageData;
         try {
-            await dialogsAPI.sendMessage(userId, message);
+            const response = await dialogsAPI.sendMessage(recipientId, body);
+            if (response.resultCode === RESULT_CODE_SUCCESS) {
+                dispatch(setMessage(response.data.message));
+            }
         } catch (e) {
             Notification(e.message);
         }
@@ -47,7 +52,11 @@ export const sendMessage = createAsyncThunk(
 export const dialogsSlice = createSlice({
     name: "dialogs",
     initialState,
-    reducers: {},
+    reducers: {
+        setMessage: (state: DialogsState, action: PayloadAction<Message>) => {
+            state.messages = [...state.messages, action.payload];
+        },
+    },
     extraReducers: {
         [fetchAllDialogs.pending.type]: (state: DialogsState) => {
             state.isFetchingDialogs = true;
@@ -65,5 +74,7 @@ export const dialogsSlice = createSlice({
         },
     },
 });
+
+export const { setMessage } = dialogsSlice.actions;
 
 export default dialogsSlice.reducer;

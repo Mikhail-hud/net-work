@@ -1,13 +1,16 @@
 module.exports = {
-    collectCoverage: true,
-    testEnvironment: "jsdom",
     coverageThreshold: {
         global: {
-            statements: 75,
-            branches: 75,
-            functions: 75,
-            lines: 75,
+            branch: 77,
         },
     },
-    moduleDirectories: ["node_modules", "src"],
+    collectCoverageFrom: [
+        "**/*.{ts,tsx}",
+        "!**/index.{ts,tsx}",
+        "!src/core/services/analyticsService.ts",
+        "!src/App.tsx",
+    ],
+    preset: "@rubicon/jest-preset",
+    testPathIgnorePatterns: ["<rootDir>/src/core/utils/test.tsx"],
+    setupFilesAfterEnv: ["<rootDir>/jest.setup.ts", "jest-canvas-mock"],
 };
