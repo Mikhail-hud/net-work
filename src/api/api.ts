@@ -107,13 +107,18 @@ export const dialogsAPI = {
             return response.data;
         });
     },
-    getMessagesList(userId) {
-        return instance.get(`dialogs/${userId}/messages`).then(response => {
+    getMessagesList(userId, page, count) {
+        return instance.get(`dialogs/${userId}/messages?page=${page}&count=${count}`).then(response => {
             return response.data;
         });
     },
     sendMessage(recipientId, body) {
         return instance.post(`dialogs/${recipientId}/messages`, { body }).then(response => {
+            return response.data;
+        });
+    },
+    deleteMessage(messageId) {
+        return instance.delete(`dialogs/messages/${messageId}`).then(response => {
             return response.data;
         });
     },

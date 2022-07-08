@@ -34,12 +34,12 @@ const MessageForm: React.FC<Props> = ({ onSendMessage, userId }): JSX.Element =>
             <Col xs={24}>
                 <form onSubmit={handleSubmit(onSubmit)} className="send-message-form" autoComplete="off">
                     {errors.newMessage?.type === "maxLength" && (
-                        <Text type="danger">The character limit for a single message is 160 characters</Text>
+                        <Text type="danger">The character limit for a single message is 500 characters</Text>
                     )}
                     <textarea
-                        rows={3}
+                        rows={2}
                         name={INPUT_NAME}
-                        {...register(INPUT_NAME, { required: true, maxLength: 160 })}
+                        {...register(INPUT_NAME, { required: true, maxLength: 500 })}
                     />
                     <Button
                         disabled={errors.newMessage?.type === "maxLength"}

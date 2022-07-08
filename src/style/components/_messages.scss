@@ -22,6 +22,10 @@
         font-size: 14px;
         padding-left: 10px;
         align-items: baseline;
+        span:first-child {
+            color: rgba(0, 0, 0, 0.45) !important;
+            padding-right: 4px;
+        }
         span {
             margin-bottom: 3px;
             font-size: 12px;
@@ -31,12 +35,41 @@
         }
         div {
             min-height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             min-width: 30px;
             margin-bottom: 0;
             background-color: #fff;
             border-radius: 0 15px 15px 15px;
             filter: drop-shadow(0px 1px 2px rgba(129 129 177 / 80%));
-            padding: 10px;
+            p {
+                padding: 10px 0px 10px 10px;
+                display: block;
+                margin-bottom: 0px !important;
+            }
+            button {
+                height: 100%;
+                min-width: 20px;
+                padding: 0px;
+                margin-left: 5px;
+                border-radius: 0 15px 15px 0;
+                background: none !important;
+                &:hover {
+                    transform: none !important;
+                    span svg {
+                        fill: #40a9ff !important;
+                    }
+                }
+                span {
+                    font-size: 14px;
+                    margin-bottom: 0px;
+                    padding: 0px !important;
+                    svg {
+                        fill: #1890ff !important ;
+                    }
+                }
+            }
         }
     }
 }
@@ -45,12 +78,22 @@
     .logo-block {
         order: 1;
     }
+
     .message-block {
         align-items: flex-end;
         padding-right: 10px;
         div {
+            p {
+                order: 1;
+                padding: 10px 10px 10px 0px;
+            }
             border-radius: 15px 0 15px 15px;
             filter: drop-shadow(0px 1px 2px rgba(114 46 209 / 80%));
+            button {
+                margin-left: 0px;
+                margin-right: 5px;
+                border-radius: 15px 0px 0px 15px;
+            }
         }
     }
 }

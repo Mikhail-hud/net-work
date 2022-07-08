@@ -10,6 +10,7 @@ const initialState: DialogsState = {
     isFetchingDialogs: false,
     isFetchingMessages: false,
     messages: [],
+    totalMessagesCount: null,
 };
 export const fetchAllDialogs = createAsyncThunk("dialogs/fetchAllDialogs", async () => {
     try {
@@ -19,13 +20,16 @@ export const fetchAllDialogs = createAsyncThunk("dialogs/fetchAllDialogs", async
     }
 });
 
-export const fetchAllMessages = createAsyncThunk("dialogs/fetchAllMessages", async (userId: number) => {
-    try {
-        return await dialogsAPI.getMessagesList(userId);
-    } catch (e) {
-        Notification(e.message);
+export const fetchAllMessages = createAsyncThunk(
+    "dialogs/fetchAllMessages",
+    async ({ userId, page, count }: { userId: number; page?: number; count?: number }) => {
+        try {
+            return await dialogsAPI.getMessagesList(userId, page, count);
+        } catch (e) {
+            Notification(e.message);
+        }
     }
-});
+);
 
 export const fetchDialogsChatting = createAsyncThunk("dialogs/fetchDialogsChatting", async (userId: number) => {
     try {
@@ -48,6 +52,13 @@ export const sendMessage = createAsyncThunk(
         }
     }
 );
+export const deleteMessage = createAsyncThunk("dialogs/deleteMessage", async (messageId: string) => {
+    try {
+        await dialogsAPI.deleteMessage(messageId);
+    } catch (e) {
+        Notification(e.message);
+    }
+});
 
 export const dialogsSlice = createSlice({
     name: "dialogs",
@@ -70,6 +81,7 @@ export const dialogsSlice = createSlice({
         },
         [fetchAllMessages.fulfilled.type]: (state: DialogsState, action: PayloadAction<MessagesDataEntities>) => {
             state.messages = action?.payload?.items;
+            state.totalMessagesCount = action?.payload?.totalCount;
             state.isFetchingMessages = false;
         },
     },

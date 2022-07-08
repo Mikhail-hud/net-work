@@ -13,6 +13,7 @@ export interface Dialog {
     photos: Photos;
     userName: string;
 }
+
 export interface Message {
     addedAt: string;
     body: string;
@@ -21,7 +22,12 @@ export interface Message {
     senderId: number;
     senderName: string;
     translatedBody: string;
-    viewed: true;
+    viewed: boolean;
+    isSpam?: boolean;
+    deletedByRecipient?: boolean;
+    deletedBySender?: boolean;
+    distributionId?: number;
+    recipientName?: string;
 }
 export interface MessagesDataEntities {
     error: Array<string>;
