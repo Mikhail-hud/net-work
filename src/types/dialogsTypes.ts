@@ -4,6 +4,10 @@ export interface NewMessageData {
     recipientId: number;
     body: string;
 }
+export interface DeleteRestoreMessageData {
+    messageId: string;
+    byRecipient: boolean;
+}
 export interface Dialog {
     hasNewMessages: boolean;
     id: number;

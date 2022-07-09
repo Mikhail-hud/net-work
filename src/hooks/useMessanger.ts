@@ -1,7 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./redux";
-import { NewMessageData } from "../types/dialogsTypes";
-import { fetchAllMessages, fetchDialogsChatting, sendMessage, deleteMessage } from "../store/reducers/DialogsSlice";
+import { DeleteRestoreMessageData, NewMessageData } from "../types/dialogsTypes";
+import {
+    fetchAllMessages,
+    fetchDialogsChatting,
+    sendMessage,
+    deleteMessage,
+    markMessageAsSpam,
+    restoreMessage,
+} from "../store/reducers/DialogsSlice";
 import { useEffect } from "react";
 
 export const useMessanger = () => {
@@ -12,8 +19,14 @@ export const useMessanger = () => {
     const onSendMessage = (newMessage: NewMessageData): void => {
         dispatch(sendMessage(newMessage));
     };
-    const onDeleteMessage = (messageId: string): void => {
-        dispatch(deleteMessage(messageId));
+    const onDeleteMessage = (deleteMessageData: DeleteRestoreMessageData): void => {
+        dispatch(deleteMessage(deleteMessageData));
+    };
+    const onMarkMessageAsSpam = (messageId: string): void => {
+        dispatch(markMessageAsSpam(messageId));
+    };
+    const onRestoreMessage = (restoreMessageData: DeleteRestoreMessageData): void => {
+        dispatch(restoreMessage(restoreMessageData));
     };
     useEffect(() => {
         dispatch(fetchAllMessages({ userId: Number(userId) }));
@@ -23,6 +36,8 @@ export const useMessanger = () => {
     return {
         onSendMessage,
         onDeleteMessage,
+        onMarkMessageAsSpam,
+        onRestoreMessage,
         isFetchingMessages,
         messages,
         totalMessagesCount,

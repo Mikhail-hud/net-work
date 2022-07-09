@@ -63,7 +63,7 @@ const UsersDialogs: React.FC<Props> = ({ dialogs, isFetchingDialogs }): JSX.Elem
                                     title={item?.userName}
                                     description={
                                         <Space direction="vertical">
-                                            <Text type={item?.hasNewMessages ? "success" : "secondary"}>
+                                            <Text strong={item?.hasNewMessages}>
                                                 Last dialogs activity:
                                                 {moment(item?.lastDialogActivityDate).fromNow()}
                                             </Text>

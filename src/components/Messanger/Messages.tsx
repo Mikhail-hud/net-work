@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { logo } from "../../assets/img/common";
 import { Row, Col, Tooltip, Typography, Dropdown, Menu, Button } from "antd";
-import { DeleteTwoTone, MessageTwoTone, MoreOutlined } from "@ant-design/icons";
-import { Message } from "../../types/dialogsTypes";
+import { CheckCircleTwoTone, DeleteTwoTone, MessageTwoTone, MoreOutlined } from "@ant-design/icons";
+import { DeleteRestoreMessageData, Message } from "../../types/dialogsTypes";
 import { UserProfile } from "../../types/profileTypes";
 import { MessangerLoader } from "./../../components";
 import moment from "moment";
@@ -18,33 +18,51 @@ type Props = {
     profile: UserProfile;
     user: User;
     userId: number;
-    onDeleteMessage: (messageId: string) => void;
+    onDeleteMessage: (deleteMessageData: DeleteRestoreMessageData) => void;
+    onMarkMessageAsSpam: (messageId: string) => void;
+    onRestoreMessage: (restoreMessageData: DeleteRestoreMessageData) => void;
     totalMessagesCount: number;
     isFetchingMessages: boolean;
 };
-const Messages: React.FC<Props> = ({ messages, profile, isFetchingMessages, user, onDeleteMessage }): JSX.Element => {
+const Messages: React.FC<Props> = ({
+    messages,
+    profile,
+    isFetchingMessages,
+    user,
+    onDeleteMessage,
+    onMarkMessageAsSpam,
+    onRestoreMessage,
+}): JSX.Element => {
     const messagesRef = useRef(null);
 
     useEffect(() => {
         messagesRef.current.scrollTo(0, messagesRef?.current?.scrollHeight);
     }, [messages]);
 
-    const handleDeleteClick = (message: Message) => {
-        onDeleteMessage(message?.id);
+    const handleDeleteClick = (message: Message, owmMessage: boolean) => {
+        onDeleteMessage({ messageId: message?.id, byRecipient: owmMessage });
     };
     const handleMarkAsSpam = (message: Message) => {
-        console.log(message?.id);
+        onMarkMessageAsSpam(message?.id);
+    };
+    const handleRestoreMessage = (message: Message, owmMessage: boolean) => {
+        onRestoreMessage({ messageId: message?.id, byRecipient: owmMessage });
     };
 
-    const getMenu = (message: Message) => (
+    const getMenu = (message: Message, owmMessage: boolean) => (
         <Menu>
-            <Tooltip title="Only for you!">
-                <Menu.Item icon={<DeleteTwoTone />} onClick={() => handleDeleteClick(message)} key="1">
+            {message?.deletedByRecipient || message?.deletedBySender || message?.isSpam ? (
+                <Menu.Item icon={<DeleteTwoTone />} onClick={() => handleRestoreMessage(message, owmMessage)} key="2">
+                    Restore Message
+                </Menu.Item>
+            ) : (
+                <Menu.Item icon={<DeleteTwoTone />} onClick={() => handleDeleteClick(message, owmMessage)} key="1">
                     Delete Message
                 </Menu.Item>
-            </Tooltip>
+            )}
+
             {message?.senderId !== user.profile?.userId && (
-                <Menu.Item icon={<MessageTwoTone />} onClick={() => handleMarkAsSpam(message)} key="2">
+                <Menu.Item icon={<MessageTwoTone />} onClick={() => handleMarkAsSpam(message)} key="3">
                     Mark As Spam
                 </Menu.Item>
             )}
@@ -96,8 +114,23 @@ const Messages: React.FC<Props> = ({ messages, profile, isFetchingMessages, user
                                         </span>
                                         <span>{moment(item.addedAt).fromNow()}</span>
                                     </Tooltip>
-                                    <Paragraph>
-                                        <p>{item?.body}</p>
+                                    <Paragraph
+                                        type={
+                                            ((item.deletedBySender || item.deletedByRecipient) && "success") ||
+                                            (item.isSpam && "warning") ||
+                                            null
+                                        }
+                                    >
+                                        <p>
+                                            {item.deletedBySender || item.deletedByRecipient ? (
+                                                <>
+                                                    <CheckCircleTwoTone twoToneColor="#52c41a" />
+                                                    This message was deleted
+                                                </>
+                                            ) : (
+                                                item?.body
+                                            )}
+                                        </p>
                                         <Dropdown
                                             arrow={{
                                                 pointAtCenter: true,
@@ -105,7 +138,7 @@ const Messages: React.FC<Props> = ({ messages, profile, isFetchingMessages, user
                                             placement={
                                                 item?.senderId === user.profile?.userId ? "bottomLeft" : "bottomRight"
                                             }
-                                            overlay={() => getMenu(item)}
+                                            overlay={() => getMenu(item, item?.senderId !== user.profile?.userId)}
                                             trigger={["click"]}
                                         >
                                             <Button type="link">

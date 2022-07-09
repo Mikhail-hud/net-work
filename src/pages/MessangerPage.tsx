@@ -8,7 +8,16 @@ const { Content } = Layout;
 const MessangerPage: React.FC = (): JSX.Element => {
     const { dialogs, isFetchingDialogs } = useDialogs();
     const { user, profile, isFetching } = useProfile();
-    const { messages, onSendMessage, userId, isFetchingMessages, totalMessagesCount, onDeleteMessage } = useMessanger();
+    const {
+        messages,
+        onSendMessage,
+        userId,
+        isFetchingMessages,
+        totalMessagesCount,
+        onDeleteMessage,
+        onMarkMessageAsSpam,
+        onRestoreMessage,
+    } = useMessanger();
     return (
         <Content>
             <h1>{isFetching ? <Skeleton.Button active /> : profile?.fullName}</h1>
@@ -18,6 +27,8 @@ const MessangerPage: React.FC = (): JSX.Element => {
                 </Col>
                 <Col xs={24} sm={20} style={{ maxWidth: "950px", margin: "0 auto" }}>
                     <Messages
+                        onRestoreMessage={onRestoreMessage}
+                        onMarkMessageAsSpam={onMarkMessageAsSpam}
                         onDeleteMessage={onDeleteMessage}
                         user={user}
                         messages={messages}

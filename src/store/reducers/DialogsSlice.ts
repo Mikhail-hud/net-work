@@ -1,6 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DialogsState } from "../../types/reducerTypes/dialogsReducer";
-import { Dialog, Message, MessagesDataEntities, NewMessageData } from "../../types/dialogsTypes";
+import {
+    DeleteRestoreMessageData,
+    Dialog,
+    Message,
+    MessagesDataEntities,
+    NewMessageData,
+} from "../../types/dialogsTypes";
 import { dialogsAPI } from "../../api";
 import { Notification } from "../../components";
 import { RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
@@ -52,13 +58,45 @@ export const sendMessage = createAsyncThunk(
         }
     }
 );
-export const deleteMessage = createAsyncThunk("dialogs/deleteMessage", async (messageId: string) => {
-    try {
-        await dialogsAPI.deleteMessage(messageId);
-    } catch (e) {
-        Notification(e.message);
+export const deleteMessage = createAsyncThunk(
+    "dialogs/deleteMessage",
+    async ({ messageId, byRecipient }: DeleteRestoreMessageData, { dispatch }) => {
+        try {
+            const response = await dialogsAPI.deleteMessage(messageId);
+            if (response.resultCode === RESULT_CODE_SUCCESS) {
+                dispatch(setDeleteMessage({ messageId, byRecipient }));
+            }
+        } catch (e) {
+            Notification(e.message);
+        }
     }
-});
+);
+export const markMessageAsSpam = createAsyncThunk(
+    "dialogs/markMessageAsSpam",
+    async (messageId: string, { dispatch }) => {
+        try {
+            const response = await dialogsAPI.markMessageAsSpam(messageId);
+            if (response.resultCode === RESULT_CODE_SUCCESS) {
+                dispatch(setMarkMessageAsSpam({ messageId }));
+            }
+        } catch (e) {
+            Notification(e.message);
+        }
+    }
+);
+export const restoreMessage = createAsyncThunk(
+    "dialogs/restoreMessage",
+    async ({ messageId, byRecipient }: DeleteRestoreMessageData, { dispatch }) => {
+        try {
+            const response = await dialogsAPI.restoreMessage(messageId);
+            if (response.resultCode === RESULT_CODE_SUCCESS) {
+                dispatch(setRestoreMessage({ messageId, byRecipient }));
+            }
+        } catch (e) {
+            Notification(e.message);
+        }
+    }
+);
 
 export const dialogsSlice = createSlice({
     name: "dialogs",
@@ -66,6 +104,56 @@ export const dialogsSlice = createSlice({
     reducers: {
         setMessage: (state: DialogsState, action: PayloadAction<Message>) => {
             state.messages = [...state.messages, action.payload];
+        },
+        setDeleteMessage: (state: DialogsState, action: PayloadAction<DeleteRestoreMessageData>) => {
+            const { messageId, byRecipient } = action.payload;
+            state.messages = state.messages.map(message => {
+                if (message.id === messageId && byRecipient) {
+                    return {
+                        ...message,
+                        deletedByRecipient: true,
+                    };
+                }
+                if (message.id === messageId && !byRecipient) {
+                    return {
+                        ...message,
+                        deletedBySender: true,
+                    };
+                }
+                return message;
+            });
+        },
+        setRestoreMessage: (state: DialogsState, action: PayloadAction<DeleteRestoreMessageData>) => {
+            const { messageId, byRecipient } = action.payload;
+            state.messages = state.messages.map(message => {
+                if (message.id === messageId && byRecipient) {
+                    return {
+                        ...message,
+                        deletedByRecipient: false,
+                        isSpam: false,
+                    };
+                }
+                if (message.id === messageId && !byRecipient) {
+                    return {
+                        ...message,
+                        deletedBySender: false,
+                        isSpam: false,
+                    };
+                }
+                return message;
+            });
+        },
+        setMarkMessageAsSpam: (state: DialogsState, action: PayloadAction<{ messageId: string }>) => {
+            const { messageId } = action.payload;
+            state.messages = state.messages.map(message => {
+                if (message.id === messageId) {
+                    return {
+                        ...message,
+                        isSpam: true,
+                    };
+                }
+                return message;
+            });
         },
     },
     extraReducers: {
@@ -87,6 +175,6 @@ export const dialogsSlice = createSlice({
     },
 });
 
-export const { setMessage } = dialogsSlice.actions;
+export const { setMessage, setDeleteMessage, setRestoreMessage, setMarkMessageAsSpam } = dialogsSlice.actions;
 
 export default dialogsSlice.reducer;

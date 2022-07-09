@@ -56,11 +56,11 @@ const DialogsPage: React.FC = (): JSX.Element => {
                                             title={item?.userName}
                                             description={
                                                 <Space direction="vertical">
-                                                    <Text type={item?.hasNewMessages ? "success" : "secondary"}>
+                                                    <Text strong={item?.hasNewMessages}>
                                                         Was online:
                                                         {moment(item?.lastUserActivityDate).format(DATE_TWELVE_HOUR)}
                                                     </Text>
-                                                    <Text type={item?.hasNewMessages ? "success" : "secondary"}>
+                                                    <Text strong={item?.hasNewMessages}>
                                                         Last dialogs activity:
                                                         {moment(item?.lastDialogActivityDate).fromNow()}
                                                     </Text>

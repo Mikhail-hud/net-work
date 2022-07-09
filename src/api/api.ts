@@ -122,4 +122,14 @@ export const dialogsAPI = {
             return response.data;
         });
     },
+    markMessageAsSpam(messageId) {
+        return instance.post(`dialogs/messages/${messageId}/spam`).then(response => {
+            return response.data;
+        });
+    },
+    restoreMessage(messageId) {
+        return instance.put(`dialogs/messages/${messageId}/restore`).then(response => {
+            return response.data;
+        });
+    },
 };
