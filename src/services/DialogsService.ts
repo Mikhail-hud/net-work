@@ -7,6 +7,9 @@ export const dislogsAPI = createApi({
         baseUrl: baseURL,
         credentials,
         headers,
+        prepareHeaders: headers => {
+            return headers;
+        },
     }),
     tagTypes: ["Dialogs"],
     endpoints: build => ({
