@@ -50,7 +50,7 @@ const Navigation = () => {
     const { isAuth } = useAppSelector(state => state.authReducer);
     const { data } = useFetchListOfNewMessagesQuery(EMPTY_QUERY_PARAMS, {
         pollingInterval: NEW_MESSAGES_COUNT_POLLING_INTERVAL_DELAY,
-        skip: !isAuth,
+        // skip: !isAuth,
     });
     const navigationLinks = getNavigationLinks(data);
     const selectedKey =
