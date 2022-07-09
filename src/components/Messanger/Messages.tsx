@@ -122,14 +122,23 @@ const Messages: React.FC<Props> = ({
                                         }
                                     >
                                         <p>
-                                            {item.deletedBySender || item.deletedByRecipient ? (
+                                            {item.deletedBySender ||
+                                                (item.deletedByRecipient && (
+                                                    <>
+                                                        <CheckCircleTwoTone twoToneColor="#52c41a" />
+                                                        This message was deleted
+                                                    </>
+                                                ))}
+                                            {item.isSpam && (
                                                 <>
-                                                    <CheckCircleTwoTone twoToneColor="#52c41a" />
-                                                    This message was deleted
+                                                    <CheckCircleTwoTone twoToneColor="#faad14" />
+                                                    This message was marked as span
                                                 </>
-                                            ) : (
-                                                item?.body
                                             )}
+                                            {!item.isSpam &&
+                                                !item.deletedBySender &&
+                                                !item.deletedByRecipient &&
+                                                item?.body}
                                         </p>
                                         <Dropdown
                                             arrow={{
