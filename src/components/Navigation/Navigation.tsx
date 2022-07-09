@@ -9,6 +9,9 @@ import {
 } from "../../constants/pathConstants";
 import { MessageOutlined, TeamOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
 import { useAppSelector } from "../../hooks";
+import { useFetchListOfNewMessagesQuery } from "../../services";
+import { EMPTY_QUERY_PARAMS } from "../../api";
+import { NEW_MESSAGES_COUNT_POLLING_INTERVAL_DELAY } from "../../constants/dialogsConstans";
 
 const iconStyle = { fontSize: "17px" };
 
@@ -44,9 +47,12 @@ const getNavigationLinks = (newMessagesCount: number) => [
 ];
 const Navigation = () => {
     const { pathname } = useLocation();
-    const { newMessagesCount } = useAppSelector(state => state.dialogsReducer);
-    const navigationLinks = getNavigationLinks(newMessagesCount);
-
+    const { isAuth } = useAppSelector(state => state.authReducer);
+    const { data } = useFetchListOfNewMessagesQuery(EMPTY_QUERY_PARAMS, {
+        pollingInterval: NEW_MESSAGES_COUNT_POLLING_INTERVAL_DELAY,
+        skip: !isAuth,
+    });
+    const navigationLinks = getNavigationLinks(data);
     const selectedKey =
         (pathname.startsWith(PROFILE_PAGE_PATH) && PROFILE_PAGE_PATH) ||
         (pathname.startsWith(DIALOGS_PAGE_PATH) && DIALOGS_PAGE_PATH) ||

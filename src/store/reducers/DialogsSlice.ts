@@ -37,13 +37,6 @@ export const fetchAllMessages = createAsyncThunk(
         }
     }
 );
-export const fetchListOfNewMessages = createAsyncThunk("dialogs/fetchListOfNewMessages", async () => {
-    try {
-        return await dialogsAPI.getListOfNewMessages();
-    } catch (e) {
-        Notification(e.message);
-    }
-});
 
 export const fetchDialogsChatting = createAsyncThunk("dialogs/fetchDialogsChatting", async (userId: number) => {
     try {
@@ -179,9 +172,6 @@ export const dialogsSlice = createSlice({
             state.messages = action?.payload?.items;
             state.totalMessagesCount = action?.payload?.totalCount;
             state.isFetchingMessages = false;
-        },
-        [fetchListOfNewMessages.fulfilled.type]: (state: DialogsState, action: PayloadAction<number>) => {
-            state.newMessagesCount = action.payload;
         },
     },
 });
