@@ -132,4 +132,9 @@ export const dialogsAPI = {
             return response.data;
         });
     },
+    getListOfNewMessages() {
+        return instance.get(`dialogs/messages/new/count`).then(response => {
+            return response.data;
+        });
+    },
 };

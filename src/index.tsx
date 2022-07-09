@@ -5,6 +5,7 @@ import App from "./App";
 import { setupStore } from "./store";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
+import { WithInterval } from "./hoc";
 
 const store = setupStore();
 
@@ -13,7 +14,9 @@ const root = createRoot(container);
 root.render(
     <BrowserRouter>
         <Provider store={store}>
-            <App />
+            <WithInterval>
+                <App />
+            </WithInterval>
         </Provider>
     </BrowserRouter>
 );

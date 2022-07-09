@@ -60,8 +60,7 @@ const Messages: React.FC<Props> = ({
                     Delete Message
                 </Menu.Item>
             )}
-
-            {message?.senderId !== user.profile?.userId && (
+            {message?.senderId !== user.profile?.userId && !message.isSpam && !message.deletedByRecipient && (
                 <Menu.Item icon={<MessageTwoTone />} onClick={() => handleMarkAsSpam(message)} key="3">
                     Mark As Spam
                 </Menu.Item>
@@ -122,7 +121,7 @@ const Messages: React.FC<Props> = ({
                                         }
                                     >
                                         <p>
-                                            {(item.deletedBySender || item.deletedByRecipient) && (
+                                            {(item.deletedBySender || (item.deletedByRecipient && !item.isSpam)) && (
                                                 <>
                                                     <CheckCircleTwoTone twoToneColor="#52c41a" />
                                                     This message was deleted

@@ -5,5 +5,6 @@ export interface DialogsState {
     isFetchingDialogs: boolean;
     isFetchingMessages: boolean;
     totalMessagesCount: number;
+    newMessagesCount: number;
     messages: Array<Message>;
 }

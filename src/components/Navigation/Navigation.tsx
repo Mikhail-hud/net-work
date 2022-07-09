@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu } from "antd";
+import { Badge, Menu } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 import {
     DIALOGS_PAGE_PATH,
@@ -8,10 +8,11 @@ import {
     USERS_PAGE_PATH,
 } from "../../constants/pathConstants";
 import { MessageOutlined, TeamOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
+import { useAppSelector } from "../../hooks";
 
 const iconStyle = { fontSize: "17px" };
 
-const navigationLinks = [
+const getNavigationLinks = (newMessagesCount: number) => [
     {
         key: PROFILE_PAGE_PATH,
         slug: PROFILE_PAGE_PATH,
@@ -34,18 +35,23 @@ const navigationLinks = [
         key: DIALOGS_PAGE_PATH,
         slug: DIALOGS_PAGE_PATH,
         icon: <MessageOutlined style={iconStyle} />,
-        title: "Dialogs",
+        title: (
+            <Badge offset={[10, 0]} overflowCount={99} count={newMessagesCount} title="New Messages">
+                Dialogs
+            </Badge>
+        ),
     },
 ];
 const Navigation = () => {
     const { pathname } = useLocation();
+    const { newMessagesCount } = useAppSelector(state => state.dialogsReducer);
+    const navigationLinks = getNavigationLinks(newMessagesCount);
 
     const selectedKey =
         (pathname.startsWith(PROFILE_PAGE_PATH) && PROFILE_PAGE_PATH) ||
         (pathname.startsWith(DIALOGS_PAGE_PATH) && DIALOGS_PAGE_PATH) ||
         (pathname.startsWith(FRIENDS_PAGE_PATH) && FRIENDS_PAGE_PATH) ||
         (pathname.startsWith(USERS_PAGE_PATH) && USERS_PAGE_PATH);
-
     return (
         <Menu theme="light" mode="horizontal" selectedKeys={[selectedKey]}>
             {navigationLinks.map(item => {

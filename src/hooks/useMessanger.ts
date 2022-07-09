@@ -8,6 +8,7 @@ import {
     deleteMessage,
     markMessageAsSpam,
     restoreMessage,
+    fetchListOfNewMessages,
 } from "../store/reducers/DialogsSlice";
 import { useEffect } from "react";
 
@@ -31,6 +32,7 @@ export const useMessanger = () => {
     useEffect(() => {
         dispatch(fetchAllMessages({ userId: Number(userId) }));
         dispatch(fetchDialogsChatting(Number(userId)));
+        dispatch(fetchListOfNewMessages());
     }, [userId]);
 
     return {
