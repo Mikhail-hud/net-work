@@ -10,8 +10,6 @@ import { DATE_TWELVE_HOUR } from "../../constants/dateFormatConstants";
 import cn from "classnames";
 import { User } from "../../types/userType";
 import { USER_OWNER_NAME_PlACEHOLDER } from "../../constants/profileConstans";
-import { useFetchUsersQuery } from "../../services";
-import { useAppSelector } from "../../hooks";
 
 const { Paragraph } = Typography;
 
@@ -37,9 +35,6 @@ const Messages: React.FC<Props> = ({
 }): JSX.Element => {
     const messagesRef = useRef(null);
 
-    const { isAuth } = useAppSelector(state => state.authReducer);
-    const { data } = useFetchUsersQuery({ count: 10, page: 1, friend: true, term: "" }, { skip: !isAuth });
-    console.log(data);
     useEffect(() => {
         messagesRef.current.scrollTo(0, messagesRef?.current?.scrollHeight);
     }, [messages]);
