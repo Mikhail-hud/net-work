@@ -9,7 +9,7 @@
     "globals": {
         "JSX": true
     },
-    "extends": ["eslint:recommended", "prettier", "plugin:prettier/recommended", "plugin:react/recommended"],
+    "extends": ["eslint:recommended", "prettier", "plugin:prettier/recommended", "plugin:react/recommended","./.eslintrc-auto-import.json"],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaFeatures": {

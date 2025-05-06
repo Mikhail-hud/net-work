@@ -1,14 +1,13 @@
-import React from "react";
 import { Layout, Row, Col, Button, Tooltip, Divider, Avatar } from "antd";
 import { logo } from "../assets/img/common";
 import { EditOutlined } from "@ant-design/icons";
-import { useProfile } from "../hooks";
 import { PageLoader, ProfileStatus, ProfileDetails, PostForm, PostsElements, ProfileDataForm } from "../components";
 import { UpdateLogoImg } from "../icons";
+import { useProfile } from "@hooks";
 
 const { Content } = Layout;
 
-const ProfilePage = () => {
+export const ProfilePage = () => {
     const {
         profile,
         isFetching,
@@ -118,5 +117,3 @@ const ProfilePage = () => {
         </Content>
     );
 };
-
-export default ProfilePage;

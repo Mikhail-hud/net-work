@@ -5,10 +5,12 @@ import { logo } from "../../assets/img/common";
 import { LogOutIcon, LogInIcon } from "../../icons";
 import { LOGIN_PAGE_PATH } from "../../constants/pathConstants";
 import { Navigation } from "../Navigation";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+
 import { logOut } from "../../store/reducers/AuthSlice";
+import { useAppDispatch, useAppSelector } from "@hooks";
 
 const { Header } = Layout;
+
 const navigationColStyle = { width: "calc(100% - 80px)" };
 const logInLogOutColStyle = { display: "flex", alignItems: "center" };
 const avatarStyle = { width: 32 };
@@ -17,6 +19,7 @@ const AppHeader: React.FC = (): JSX.Element => {
     const { isAuth, user, isLoading } = useAppSelector(state => state.authReducer);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+
     const handleLoginLogout = (): void => {
         if (isAuth) {
             dispatch(logOut());
@@ -24,6 +27,7 @@ const AppHeader: React.FC = (): JSX.Element => {
             navigate(LOGIN_PAGE_PATH);
         }
     };
+
     return (
         <Header>
             <Row wrap={false} justify="space-between" gutter={10}>

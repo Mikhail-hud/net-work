@@ -52,6 +52,7 @@ const Navigation = () => {
         pollingInterval: NEW_MESSAGES_COUNT_POLLING_INTERVAL_DELAY,
         skip: !isAuth,
     });
+    console.log(data);
     const navigationLinks = getNavigationLinks(data);
     const selectedKey =
         (pathname.startsWith(PROFILE_PAGE_PATH) && PROFILE_PAGE_PATH) ||

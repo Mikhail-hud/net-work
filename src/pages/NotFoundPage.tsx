@@ -5,7 +5,7 @@ import { PROFILE_PAGE_PATH } from "../constants/pathConstants";
 
 const { Content } = Layout;
 
-const NotFoundPage: React.FC = (): JSX.Element => {
+export const NotFoundPage: React.FC = (): JSX.Element => {
     const navigate = useNavigate();
 
     const handleClick = (): void => {
@@ -26,5 +26,3 @@ const NotFoundPage: React.FC = (): JSX.Element => {
         </Content>
     );
 };
-
-export default NotFoundPage;

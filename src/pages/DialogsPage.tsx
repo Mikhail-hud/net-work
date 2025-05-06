@@ -1,16 +1,16 @@
-import React, { ChangeEvent, useState } from "react";
-import { Layout, List, Row, Col, Avatar, Badge, Skeleton, Space, Typography, Input } from "antd";
-import { useDialogs } from "../hooks";
-import { logo } from "../assets/img/common";
-import { Link } from "react-router-dom";
 import moment from "moment";
-import { DATE_TWELVE_HOUR } from "../constants/dateFormatConstants";
+import { useDialogs } from "@hooks";
+import { Link } from "react-router-dom";
+import { logo } from "@assets/img/common";
+import { ChangeEvent, FC } from "react";
 import { SearchOutlined } from "@ant-design/icons";
+import { DATE_TWELVE_HOUR } from "@constants/dateFormatConstants";
+import { Layout, List, Row, Col, Avatar, Badge, Skeleton, Space, Typography, Input } from "antd";
 
 const { Content } = Layout;
 const { Text } = Typography;
 
-const DialogsPage: React.FC = (): JSX.Element => {
+export const DialogsPage: FC = (): JSX.Element => {
     const { dialogs, isFetchingDialogs } = useDialogs();
     const [localValue, setLocalValue] = useState<string>("");
 
@@ -94,5 +94,3 @@ const DialogsPage: React.FC = (): JSX.Element => {
         </Content>
     );
 };
-
-export default DialogsPage;

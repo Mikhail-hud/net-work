@@ -1,11 +1,11 @@
 import React from "react";
 import { Col, Layout, Row } from "antd";
 import { Paginator, Search, UsersList } from "../components";
-import { useUsers } from "../hooks";
+import { useUsers } from "@hooks";
 
 const { Content } = Layout;
 
-const UsersPage: React.FC = (): JSX.Element => {
+export const UsersPage: React.FC = (): JSX.Element => {
     const { users, totalCount, isFetching, handleFollowUnfollow, followingInProgress, isFriendsFetched, params } =
         useUsers();
     return (
@@ -33,5 +33,3 @@ const UsersPage: React.FC = (): JSX.Element => {
         </Content>
     );
 };
-
-export default UsersPage;
