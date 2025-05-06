@@ -1,11 +1,11 @@
 import React from "react";
 import { Layout, Row, Col, Skeleton } from "antd";
 import { UsersDialogs, Messages, MessageForm } from "../components";
-import { useDialogs, useMessanger, useProfile } from "../hooks";
+import { useDialogs, useMessanger, useProfile } from "@hooks";
 
 const { Content } = Layout;
 
-const MessangerPage: React.FC = (): JSX.Element => {
+export const MessangerPage: React.FC = (): JSX.Element => {
     const { dialogs, isFetchingDialogs } = useDialogs();
     const { user, profile, isFetching } = useProfile();
     const {
@@ -43,5 +43,3 @@ const MessangerPage: React.FC = (): JSX.Element => {
         </Content>
     );
 };
-
-export default MessangerPage;

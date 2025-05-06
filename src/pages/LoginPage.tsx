@@ -2,10 +2,11 @@ import React from "react";
 import { Form, Input, Button, Checkbox, Row, Col, Typography, Layout } from "antd";
 import { UserOutlined, LockOutlined, SortDescendingOutlined } from "@ant-design/icons";
 import { logIn } from "../store/reducers/AuthSlice";
-import { useAppDispatch, useAppSelector } from "../hooks";
+
 import { UserCredential } from "../types/userType";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PUBLIC_PATH } from "../constants/pathConstants";
+import { useAppDispatch, useAppSelector } from "@hooks";
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -25,7 +26,7 @@ interface LocationState {
     pathname: string;
 }
 
-const LoginPage: React.FC = (): JSX.Element => {
+export const LoginPage: React.FC = (): JSX.Element => {
     const navigate = useNavigate();
     const location = useLocation();
     const { isLoading, captchaUrl, error, isAuth } = useAppSelector(state => state.authReducer);
@@ -116,5 +117,3 @@ const LoginPage: React.FC = (): JSX.Element => {
         </Content>
     );
 };
-
-export default LoginPage;

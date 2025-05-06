@@ -5,9 +5,9 @@ import { logo } from "../../assets/img/common";
 import React, { useState } from "react";
 import { NetWorkUser } from "../../types/usersType";
 import { PROFILE_PAGE_PATH } from "../../constants/pathConstants";
-import { useProfile } from "../../hooks";
 import { PageLoader, ProfileDetails } from "../../components";
 import { DRAWER_INNER_WINDOW_WIDTH } from "../../constants/profileConstans";
+import { useProfile } from "@hooks";
 
 interface Props {
     isFetching: boolean;

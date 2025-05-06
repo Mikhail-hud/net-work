@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "./components";
-import { ProfilePage, DialogsPage, UsersPage, FriendsPage, LoginPage, NotFoundPage, MessangerPage } from "./pages";
 import { RequireAuth } from "./hoc";
 import {
     PUBLIC_PATH,
@@ -14,6 +13,7 @@ import {
     NOT_FOUND_PAGE_PATH,
     MESSANGER_PAGE_PATH,
 } from "./constants/pathConstants";
+import { DialogsPage, FriendsPage, LoginPage, MessangerPage, NotFoundPage, ProfilePage, UsersPage } from "@pages";
 
 const App: React.FC = (): JSX.Element => {
     return (

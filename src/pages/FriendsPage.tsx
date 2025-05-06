@@ -1,12 +1,14 @@
-import React from "react";
+import { FC } from "react";
+import { useUsers } from "@hooks";
 import { Layout, Row, Col } from "antd";
-import { useUsers } from "../hooks";
-import { Paginator, Search, FriendList } from "../components";
+
+import { FriendList, Paginator, Search } from "@components";
 
 const { Content } = Layout;
-const FriendsPage: React.FC = (): JSX.Element => {
+export const FriendsPage: FC = (): JSX.Element => {
     const { users, totalCount, isFetching, handleFollowUnfollow, followingInProgress, isFriendsFetched, params } =
         useUsers();
+
     return (
         <Content>
             <Row justify="space-between" style={{ marginBottom: "1rem" }}>
@@ -32,5 +34,3 @@ const FriendsPage: React.FC = (): JSX.Element => {
         </Content>
     );
 };
-
-export default FriendsPage;
