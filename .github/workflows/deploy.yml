@@ -2,11 +2,9 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [master, development]
   pull_request:
-    branches:
-      - main
+    branches: [master, development]
 
 jobs:
   build:
@@ -23,7 +21,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run lint
         run: npm run lint
@@ -32,19 +30,20 @@ jobs:
         run: npm run typecheck
 
       - name: Run tests
-        run: npm run test -- --coverage
+        run: npm run test
 
       - name: Build project
         run: npm run build
 
       - name: Depploy to Netlify
+        if: github.base_ref == 'main'
         run: |
           npm install -g netlify-cli
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            netlify deploy --auth $NETLIFY_AUTH_TOKEN --site $NETLIFY_SITE_ID --dir=build --message="Preview from PR #${{ github.event.pull_request.number }}"
-          else
-            netlify deploy --auth $NETLIFY_AUTH_TOKEN --site $NETLIFY_SITE_ID --prod --dir=build --message="Production deploy"
-          fi
-          env:
+          netlify deploy \
+            --auth $NETLIFY_AUTH_TOKEN \
+            --site $NETLIFY_SITE_ID \
+            --dir=dist \
+            --message="Preview from PR #${{ github.event.pull_request.number }}"
+        env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
