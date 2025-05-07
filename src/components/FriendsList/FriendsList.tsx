@@ -4,7 +4,6 @@ import { Card, Row, Col, Button, Popconfirm } from "antd";
 import { GithubOutlined, UserDeleteOutlined, MessageOutlined, UserAddOutlined } from "@ant-design/icons";
 import { logo } from "../../assets/img/common";
 import { NetWorkUser } from "../../types/usersType";
-import { DIALOGS_PAGE_PATH } from "../../constants/pathConstants";
 
 const { Meta } = Card;
 
