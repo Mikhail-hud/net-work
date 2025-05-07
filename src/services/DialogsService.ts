@@ -17,7 +17,7 @@ export const dislogsAPI = createApi({
             query: () => ({
                 url: `dialogs/messages/new/count`,
             }),
-            providesTags: result => ["Dialogs"],
+            providesTags: ["Dialogs"],
         }),
     }),
 });
