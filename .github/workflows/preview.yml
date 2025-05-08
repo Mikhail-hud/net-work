@@ -1,12 +1,11 @@
-name: Deploy
+name: Preview
 
 on:
-  push:
-    branches: [master]
+  pull_request:
 
 jobs:
-  deploy:
-    name: Deploy to Netlify
+  preview:
+    name: Deploy Preview to Netlify
     runs-on: ubuntu-latest
 
     steps:
@@ -16,10 +15,10 @@ jobs:
           node-version: 22
       - run: npm ci
       - run: npm run build
-      - name: Deploy with Netlify CLI
+      - name: Deploy Preview
         run: |
           npm install -g netlify-cli
-          netlify deploy             --auth $NETLIFY_AUTH_TOKEN             --site $NETLIFY_SITE_ID             --prod             --dir=dist             --message="Deploy from master branch"
+          netlify deploy             --auth $NETLIFY_AUTH_TOKEN             --site $NETLIFY_SITE_ID             --dir=dist             --message="Preview from PR #${{ github.event.pull_request.number }}"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
