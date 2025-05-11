@@ -53,7 +53,7 @@ jobs:
           name: dist
           path: dist
 
-      - name: Deploy to Netlify Dev
+      - name: Deploy to Dev
         run: |
           npm install -g netlify-cli
           netlify deploy \
@@ -61,7 +61,7 @@ jobs:
           --site ${{ secrets.NETLIFY_DEV_SITE_ID }} \
           --prod \
           --dir=dist \
-          --message="Dev deploy from ${{ github.ref_name }}"
+          --message="Deploy from ${{ github.ref_name }}"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_DEV_SITE_ID: ${{ secrets.NETLIFY_DEV_SITE_ID }}
