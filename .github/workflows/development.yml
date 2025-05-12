@@ -61,7 +61,7 @@ jobs:
           --site ${{ secrets.NETLIFY_DEV_SITE_ID }} \
           --prod \
           --dir=dist \
-          --message="Deploy from ${{ github.ref_name }}"
+          --message="Deploy to Dev"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_DEV_SITE_ID: ${{ secrets.NETLIFY_DEV_SITE_ID }}
