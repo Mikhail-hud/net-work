@@ -51,6 +51,7 @@ export default defineConfig(({ mode }) => {
             coverage: {
                 provider: "v8",
                 enabled: true,
+                //TODO: increase coverage,
                 // thresholds: { statements: 80, branches: 80, functions: 80, lines: 80 },
                 exclude: ["src/**/index.tsx", "src/**/index.ts", "setup-vitest.ts"],
                 reporter: ["lcov", "text"],
