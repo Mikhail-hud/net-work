@@ -26,7 +26,7 @@ interface LocationState {
     pathname: string;
 }
 
-export const LoginPage: React.FC = (): JSX.Element => {
+export const LoginPage: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { isLoading, captchaUrl, error, isAuth } = useAppSelector(state => state.authReducer);
