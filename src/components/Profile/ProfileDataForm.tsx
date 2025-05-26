@@ -1,30 +1,30 @@
-import React from "react";
+import { FC } from "react";
+import { useAppDispatch } from "@hooks";
+import { UserProfile } from "@app/types/profileTypes";
+import { saveProfile } from "@app/store/reducers/ProfileSlice";
 import { Drawer, Form, Button, Input, Checkbox, Alert, Divider } from "antd";
-import { UserProfile } from "../../types/profileTypes";
-import { useAppDispatch } from "../../hooks";
-import { saveProfile } from "../../store/reducers/ProfileSlice";
-import { DRAWER_INNER_WINDOW_WIDTH } from "../../constants/profileConstans";
+import { DRAWER_INNER_WINDOW_WIDTH } from "@app/constants/profileConstans";
 
 const formItemLayout = {
     labelCol: { xs: { span: 24 }, sm: { span: 8 } },
     wrapperCol: { xs: { span: 24 }, sm: { span: 14 } },
 };
 
-type Props = {
+interface ProfileDataFormProps {
     profile: UserProfile;
     editMode: boolean;
     onSetEditMode: (editMode: boolean) => void;
     isProfileSaving: boolean;
     profileDataFormError: Array<string>;
-};
+}
 
-const ProfileDataForm: React.FC<Props> = ({
+export const ProfileDataForm: FC<ProfileDataFormProps> = ({
     profile,
     editMode,
     onSetEditMode,
     isProfileSaving,
     profileDataFormError,
-}): JSX.Element => {
+}) => {
     const dispatch = useAppDispatch();
 
     const onFinish = (profile: UserProfile): void => {
@@ -33,11 +33,10 @@ const ProfileDataForm: React.FC<Props> = ({
 
     return (
         <Drawer
+            open={editMode}
             title="Profile Details"
             width={window.innerWidth >= DRAWER_INNER_WINDOW_WIDTH ? "70%" : "100%"}
             onClose={() => onSetEditMode(false)}
-            visible={editMode}
-            bodyStyle={{ paddingBottom: "2rem" }}
         >
             {profileDataFormError && (
                 <Alert
@@ -123,7 +122,7 @@ const ProfileDataForm: React.FC<Props> = ({
                         loading={isProfileSaving}
                         disabled={isProfileSaving}
                         onClick={() => onSetEditMode(false)}
-                        type="primary"
+                        type="default"
                     >
                         Cancel
                     </Button>
@@ -132,5 +131,3 @@ const ProfileDataForm: React.FC<Props> = ({
         </Drawer>
     );
 };
-
-export default ProfileDataForm;

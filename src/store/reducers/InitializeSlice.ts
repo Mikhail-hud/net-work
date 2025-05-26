@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { InitializeState } from "../../types/reducerTypes";
+import { InitializeState } from "@app/types/reducerTypes";
 import { getAuthUserData } from "../actions";
 const initialState: InitializeState = {
     initialized: false,
@@ -9,10 +9,10 @@ export const initializeSlice = createSlice({
     name: "appInitialize",
     initialState,
     reducers: {},
-    extraReducers: {
-        [getAuthUserData.fulfilled.type]: (state: InitializeState) => {
+    extraReducers: builder => {
+        builder.addCase(getAuthUserData.fulfilled, (state: InitializeState) => {
             state.initialized = true;
-        },
+        });
     },
 });
 

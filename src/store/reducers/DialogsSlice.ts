@@ -7,9 +7,9 @@ import {
     MessagesDataEntities,
     NewMessageData,
 } from "../../types/dialogsTypes";
-import { dialogsAPI } from "../../api";
-import { Notification } from "../../components";
-import { RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
+import { dialogsAPI } from "@app/api";
+import { Notification } from "@components";
+import { RESULT_CODE_SUCCESS } from "@constants/apiResultCodeConstans.ts";
 
 const initialState: DialogsState = {
     dialogs: [],
@@ -157,22 +157,23 @@ export const dialogsSlice = createSlice({
             });
         },
     },
-    extraReducers: {
-        [fetchAllDialogs.pending.type]: (state: DialogsState) => {
-            state.isFetchingDialogs = true;
-        },
-        [fetchAllDialogs.fulfilled.type]: (state: DialogsState, action: PayloadAction<Array<Dialog>>) => {
-            state.dialogs = action.payload;
-            state.isFetchingDialogs = false;
-        },
-        [fetchAllMessages.pending.type]: (state: DialogsState) => {
-            state.isFetchingMessages = true;
-        },
-        [fetchAllMessages.fulfilled.type]: (state: DialogsState, action: PayloadAction<MessagesDataEntities>) => {
-            state.messages = action?.payload?.items;
-            state.totalMessagesCount = action?.payload?.totalCount;
-            state.isFetchingMessages = false;
-        },
+    extraReducers: builder => {
+        builder
+            .addCase(fetchAllDialogs.pending, (state: DialogsState) => {
+                state.isFetchingDialogs = true;
+            })
+            .addCase(fetchAllDialogs.fulfilled, (state: DialogsState, action: PayloadAction<Array<Dialog>>) => {
+                state.dialogs = action.payload;
+                state.isFetchingDialogs = false;
+            })
+            .addCase(fetchAllMessages.pending, (state: DialogsState) => {
+                state.isFetchingMessages = true;
+            })
+            .addCase(fetchAllMessages.fulfilled, (state: DialogsState, action: PayloadAction<MessagesDataEntities>) => {
+                state.messages = action?.payload?.items;
+                state.totalMessagesCount = action?.payload?.totalCount;
+                state.isFetchingMessages = false;
+            });
     },
 });
 

@@ -65,32 +65,33 @@ export const usersSlice = createSlice({
                 : state.followingInProgress.filter(id => id !== userId);
         },
     },
-    extraReducers: {
-        [fetchUsers.pending.type]: state => {
-            state.isFetching = true;
-        },
-        [fetchUsers.fulfilled.type]: (state: UsersState, action: PayloadAction<UsersDataEntities>) => {
-            const { items, totalCount } = action.payload;
-            state.isFetching = false;
-            state.totalCount = totalCount;
-            state.users = items;
-        },
-        [follow.fulfilled.type]: (state: UsersState, action: PayloadAction<number>) => {
-            state.users = state.users.map(user => {
-                if (user.id === action.payload) {
-                    return { ...user, followed: true };
-                }
-                return user;
+    extraReducers: builder => {
+        builder
+            .addCase(fetchUsers.pending, state => {
+                state.isFetching = true;
+            })
+            .addCase(fetchUsers.fulfilled, (state: UsersState, action: PayloadAction<UsersDataEntities>) => {
+                const { items, totalCount } = action.payload;
+                state.isFetching = false;
+                state.totalCount = totalCount;
+                state.users = items;
+            })
+            .addCase(follow.fulfilled, (state: UsersState, action: PayloadAction<number>) => {
+                state.users = state.users.map(user => {
+                    if (user.id === action.payload) {
+                        return { ...user, followed: true };
+                    }
+                    return user;
+                });
+            })
+            .addCase(unFollow.fulfilled, (state: UsersState, action: PayloadAction<number>) => {
+                state.users = state.users.map(user => {
+                    if (user.id === action.payload) {
+                        return { ...user, followed: false };
+                    }
+                    return user;
+                });
             });
-        },
-        [unFollow.fulfilled.type]: (state: UsersState, action: PayloadAction<number>) => {
-            state.users = state.users.map(user => {
-                if (user.id === action.payload) {
-                    return { ...user, followed: false };
-                }
-                return user;
-            });
-        },
     },
 });
 

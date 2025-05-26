@@ -2,14 +2,14 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getAuthUserData, getAuthUserProfileData, getCaptchaUrl } from "../actions";
 import { UserCredential } from "../../types/userType";
 import { ResultCodeTypes } from "../../types/apiTypes";
-import { UserDataPayload, UserState } from "../../types/reducerTypes";
-import { authAPI } from "../../api";
-import { Notification } from "../../components";
+import { UserDataPayload, UserState } from "@app/types/reducerTypes";
+import { authAPI } from "@api";
+import { Notification } from "@components";
 import {
     RESULT_CODE_REJECT_WITH_SECURITY,
     RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL,
     RESULT_CODE_SUCCESS,
-} from "../../constants/apiResultCodeConstans";
+} from "@constants/apiResultCodeConstans";
 import { UserProfile } from "../../types/profileTypes";
 
 const initialState: UserState = {
@@ -85,50 +85,50 @@ export const authSlice = createSlice({
             state.error = action.payload;
         },
     },
-    extraReducers: {
-        [logIn.fulfilled.type]: (state: UserState, action: PayloadAction<ResultCodeTypes>) => {
-            if (action.payload === RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL) {
+    extraReducers: builder => {
+        builder
+            .addCase(logIn.pending, state => {
+                state.isLoading = true;
+            })
+            .addCase(logIn.fulfilled, (state, action) => {
+                if (action.payload === RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL) {
+                    state.isLoading = false;
+                }
+                if (action.payload === RESULT_CODE_SUCCESS) {
+                    state.captchaUrl = null;
+                }
+            })
+            .addCase(logIn.rejected, state => {
                 state.isLoading = false;
-            }
-            if (action.payload === RESULT_CODE_SUCCESS) {
-                state.captchaUrl = null;
-            }
-        },
-        [logIn.pending.type]: state => {
-            state.isLoading = true;
-        },
-        [logIn.rejected.type]: state => {
-            state.isLoading = false;
-        },
-        [getAuthUserData.pending.type]: (state: UserState) => {
-            state.isLoading = true;
-        },
-        [getAuthUserData.fulfilled.type]: (state: UserState, action: PayloadAction<UserDataPayload>) => {
-            if (action.payload.resultCode === RESULT_CODE_SUCCESS) {
-                state.isAuth = true;
-                state.user = { ...state.user, ...action.payload.data };
-            } else {
+            })
+            .addCase(getAuthUserData.pending, state => {
+                state.isLoading = true;
+            })
+            .addCase(getAuthUserData.fulfilled, (state, action: PayloadAction<UserDataPayload>) => {
+                if (action.payload.resultCode === RESULT_CODE_SUCCESS) {
+                    state.isAuth = true;
+                    state.user = { ...state.user, ...action.payload.data };
+                } else {
+                    state.isLoading = false;
+                }
+            })
+            .addCase(getAuthUserData.rejected, state => {
                 state.isLoading = false;
-            }
-        },
-        [getAuthUserData.rejected.type]: state => {
-            state.isLoading = false;
-        },
-        [getAuthUserProfileData.fulfilled.type]: (state: UserState, action: PayloadAction<UserProfile>) => {
-            const { payload } = action;
-            state.isLoading = false;
-            state.user.profile = payload;
-        },
-        [getCaptchaUrl.fulfilled.type]: (state: UserState, action: PayloadAction<string>) => {
-            state.isLoading = false;
-            state.captchaUrl = action.payload;
-        },
-        [logOut.fulfilled.type]: (state: UserState, action: PayloadAction<ResultCodeTypes>) => {
-            if (action.payload === RESULT_CODE_SUCCESS) {
-                state.user = null;
-                state.isAuth = false;
-            }
-        },
+            })
+            .addCase(getAuthUserProfileData.fulfilled, (state, action: PayloadAction<UserProfile>) => {
+                state.user.profile = action.payload;
+                state.isLoading = false;
+            })
+            .addCase(getCaptchaUrl.fulfilled, (state, action: PayloadAction<string>) => {
+                state.captchaUrl = action.payload;
+                state.isLoading = false;
+            })
+            .addCase(logOut.fulfilled, (state, action: PayloadAction<ResultCodeTypes | null>) => {
+                if (action.payload === RESULT_CODE_SUCCESS) {
+                    state.user = null;
+                    state.isAuth = false;
+                }
+            });
     },
 });
 

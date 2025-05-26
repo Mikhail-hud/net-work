@@ -1,10 +1,10 @@
-import React from "react";
+import { FC } from "react";
 import { Row, Skeleton, Col } from "antd";
 
 type Props = {
     isHeaderShown?: boolean;
 };
-const PageLoader: React.FC<Props> = ({ isHeaderShown }): JSX.Element => {
+export const PageLoader: FC<Props> = ({ isHeaderShown }) => {
     return (
         <Row justify="center" className="page-loader">
             {isHeaderShown && (
@@ -28,5 +28,3 @@ const PageLoader: React.FC<Props> = ({ isHeaderShown }): JSX.Element => {
         </Row>
     );
 };
-
-export default PageLoader;

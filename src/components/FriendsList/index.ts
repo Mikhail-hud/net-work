@@ -1,1 +1,1 @@
-export { default as FriendList } from "./FriendsList";
+export * from "./FriendsList";

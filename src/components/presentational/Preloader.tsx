@@ -1,9 +1,8 @@
 import { Spin } from "antd";
+import { FC } from "react";
 
-const Preloader = () => {
+export const Preloader: FC = () => {
     return (
         <Spin style={{ position: "absolute", left: "calc(50% - 30px)", top: "10%" }} size="large" tip="Loading..." />
     );
 };
-
-export default Preloader;

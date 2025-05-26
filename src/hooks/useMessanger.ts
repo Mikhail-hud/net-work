@@ -1,21 +1,33 @@
-import { useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "./redux";
-import { DeleteRestoreMessageData, NewMessageData } from "../types/dialogsTypes";
+import { useEffect } from "react";
 import {
-    fetchAllMessages,
-    fetchDialogsChatting,
     sendMessage,
     deleteMessage,
-    markMessageAsSpam,
     restoreMessage,
-} from "../store/reducers/DialogsSlice";
-import { useEffect } from "react";
+    fetchAllMessages,
+    markMessageAsSpam,
+    fetchDialogsChatting,
+} from "@app/store/reducers/DialogsSlice";
+import { useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@app/hooks/redux";
+import { DeleteRestoreMessageData, Message, NewMessageData } from "@app/types/dialogsTypes";
 
-export const useMessanger = () => {
+interface UseMessanger {
+    onSendMessage: (newMessage: NewMessageData) => void;
+    onDeleteMessage: (deleteMessageData: DeleteRestoreMessageData) => void;
+    onMarkMessageAsSpam: (messageId: string) => void;
+    onRestoreMessage: (restoreMessageData: DeleteRestoreMessageData) => void;
+    isFetchingMessages: boolean;
+    messages: Message[];
+    totalMessagesCount: number;
+    userId: number;
+}
+
+export const useMessanger = (): UseMessanger => {
     const dispatch = useAppDispatch();
     const params = useParams();
     const { messages, isFetchingMessages, totalMessagesCount } = useAppSelector(state => state.dialogsReducer);
     const userId = Number(params?.userId);
+
     const onSendMessage = (newMessage: NewMessageData): void => {
         dispatch(sendMessage(newMessage));
     };
@@ -28,7 +40,7 @@ export const useMessanger = () => {
     const onRestoreMessage = (restoreMessageData: DeleteRestoreMessageData): void => {
         dispatch(restoreMessage(restoreMessageData));
     };
-    useEffect(() => {
+    useEffect((): void => {
         dispatch(fetchAllMessages({ userId: Number(userId) }));
         dispatch(fetchDialogsChatting(Number(userId)));
     }, [userId]);

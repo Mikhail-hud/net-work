@@ -17,7 +17,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     /* Linting */
-    "strict": false,
+//    "strict": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
@@ -42,8 +42,14 @@
       "@constants/*": [
         "./src/constants/*"
       ],
-      "@helpers/*": [
-        "./src/helpers/*"
+      "@hoc": [
+        "./src/hoc"
+      ],
+      "@services": [
+        "./src/services"
+      ],
+      "@api": [
+        "./src/api"
       ]
     },
     /* Types */

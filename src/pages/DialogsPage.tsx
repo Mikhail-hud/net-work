@@ -10,7 +10,7 @@ import { Layout, List, Row, Col, Avatar, Badge, Skeleton, Space, Typography, Inp
 const { Content } = Layout;
 const { Text } = Typography;
 
-export const DialogsPage: FC = (): JSX.Element => {
+export const DialogsPage: FC = () => {
     const { dialogs, isFetchingDialogs } = useDialogs();
     const [localValue, setLocalValue] = useState<string>("");
 
@@ -21,7 +21,7 @@ export const DialogsPage: FC = (): JSX.Element => {
         <Content>
             <Row justify="space-between" style={{ marginBottom: "1rem" }}>
                 <Col>
-                    <h1>Dialogs</h1>
+                    <Typography.Title level={4}>Dialogs</Typography.Title>
                 </Col>
                 <Col>
                     <Input
@@ -36,7 +36,6 @@ export const DialogsPage: FC = (): JSX.Element => {
             <Row justify="center">
                 <Col xs={24} sm={24} md={18} lg={14} xl={12} xxl={10}>
                     <List
-                        className="dialogs-list"
                         pagination={{
                             pageSize: 10,
                             hideOnSinglePage: true,

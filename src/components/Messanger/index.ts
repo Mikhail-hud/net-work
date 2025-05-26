@@ -1,2 +1,2 @@
-export { default as Messages } from "./Messages";
-export { default as MessageForm } from "./MessageForm";
+export * from "./Messages";
+export * from "./MessageForm";

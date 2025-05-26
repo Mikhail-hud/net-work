@@ -1,22 +1,22 @@
+import { useProfile } from "@hooks";
+import { FC, useState } from "react";
+import { Link } from "react-router-dom";
+import { logo } from "@assets/img/common";
+import { NetWorkUser } from "@app/types/usersType";
+import { PageLoader, ProfileDetails } from "@components";
+import { PROFILE_PAGE_PATH } from "@constants/pathConstants";
+import { DRAWER_INNER_WINDOW_WIDTH } from "@constants/profileConstans";
 import { Avatar, Button, Col, Image, List, Row, Skeleton, Drawer } from "antd";
 import { ProfileOutlined, MessageOutlined, UserAddOutlined, UserDeleteOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
-import { logo } from "../../assets/img/common";
-import React, { useState } from "react";
-import { NetWorkUser } from "../../types/usersType";
-import { PROFILE_PAGE_PATH } from "../../constants/pathConstants";
-import { PageLoader, ProfileDetails } from "../../components";
-import { DRAWER_INNER_WINDOW_WIDTH } from "../../constants/profileConstans";
-import { useProfile } from "@hooks";
 
-interface Props {
+interface UsersListProps {
     isFetching: boolean;
     users: Array<NetWorkUser>;
     handleFollowUnfollow: (followed: boolean, userId: number) => void;
     followingInProgress: Array<number>;
 }
 
-const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, followingInProgress }): JSX.Element => {
+export const UsersList: FC<UsersListProps> = ({ isFetching, users, handleFollowUnfollow, followingInProgress }) => {
     const [showDrawer, setShowDrawer] = useState(false);
     const { isFetching: isProfileFetching, user, profile, getUserProfileData, status, isOwner } = useProfile();
 
@@ -29,7 +29,6 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
         <Row justify="center">
             <Col xs={24} sm={24} md={18} lg={14} xl={12} xxl={10}>
                 <List
-                    className="user-list"
                     itemLayout="vertical"
                     size="large"
                     dataSource={users}
@@ -42,8 +41,7 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                                 user?.id !== userItem?.id && [
                                     <Button
                                         onClick={() => handleFollowUnfollow(userItem?.followed, userItem?.id)}
-                                        type="dashed"
-                                        shape="round"
+                                        type="text"
                                         key={userItem?.id}
                                         loading={followingInProgress.some(id => id === userItem.id)}
                                         icon={userItem?.followed ? <UserDeleteOutlined /> : <UserAddOutlined />}
@@ -51,8 +49,7 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                                         {userItem?.followed ? "Unfollow" : "Follow"}
                                     </Button>,
                                     <Button
-                                        type="dashed"
-                                        shape="round"
+                                        type="text"
                                         onClick={() => onUserDetailsClick(true, userItem?.id)}
                                         key={userItem?.id}
                                         icon={<ProfileOutlined />}
@@ -60,7 +57,7 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                                         Profile
                                     </Button>,
                                     <Link to={`/dialogs/` + userItem?.id} key={userItem?.id}>
-                                        <Button type="dashed" shape="round" icon={<MessageOutlined />} />
+                                        <Button type="text" shape="round" icon={<MessageOutlined />} />
                                     </Link>,
                                 ]
                             }
@@ -103,7 +100,7 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
                                 placement="right"
                                 closable
                                 onClose={() => setShowDrawer(false)}
-                                visible={showDrawer}
+                                open={showDrawer}
                             >
                                 {isProfileFetching ? (
                                     <PageLoader />
@@ -141,4 +138,3 @@ const UsersList: React.FC<Props> = ({ isFetching, users, handleFollowUnfollow, f
         </Row>
     );
 };
-export default UsersList;

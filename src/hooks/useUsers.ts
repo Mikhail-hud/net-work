@@ -1,9 +1,9 @@
 import { useEffect } from "react";
+import { getSearchParams } from "@app/helpers/urlHelpers";
+import { FRIENDS_PAGE_PATH } from "@constants/pathConstants";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { getSearchParams } from "../helpers/urlHelpers";
-import { useAppDispatch, useAppSelector } from "./redux";
-import { fetchUsers, follow, unFollow } from "../store/reducers/UsersSlice";
-import { FRIENDS_PAGE_PATH } from "../constants/pathConstants";
+import { useAppDispatch, useAppSelector } from "@app/hooks/redux";
+import { fetchUsers, follow, unFollow } from "@app/store/reducers/UsersSlice";
 
 export const useUsers = () => {
     const location = useLocation();

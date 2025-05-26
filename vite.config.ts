@@ -26,7 +26,6 @@ export default defineConfig(({ mode }) => {
             }),
             isProduction && visualizer({ filename: "./dist/stats.html", open: true, template: "flamegraph" }),
         ],
-        //"flamegraph"//
         resolve: {
             alias: {
                 "@app": path.resolve(__dirname, "src"),
@@ -36,6 +35,9 @@ export default defineConfig(({ mode }) => {
                 "@assets": path.resolve(__dirname, "src/assets"),
                 "@constants": path.resolve(__dirname, "src/constants"),
                 "@helpers": path.resolve(__dirname, "src/helpers"),
+                "@hoc": path.resolve(__dirname, "src/hoc"),
+                "@services": path.resolve(__dirname, "src/services"),
+                "@api": path.resolve(__dirname, "src/api"),
             },
         },
         server: { port: 3000, hmr: true, open: true },

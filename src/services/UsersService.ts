@@ -1,12 +1,14 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { baseURL, headers, credentials } from "../api";
-import { FRIEND, PAGE, LIMIT } from "../constants/usersConstants";
-import { UsersDataEntities, UsersQueryParameters } from "../types/usersType";
+import { baseURL, credentials, headers } from "@api";
+import { FRIEND, PAGE, LIMIT } from "@constants/usersConstants";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { UsersDataEntities, UsersQueryParameters } from "@app/types/usersType";
 
-export const usersAPI = createApi({
-    reducerPath: "usersAPI",
+export const USERS_TAG = "users";
+
+export const usersService = createApi({
+    reducerPath: "usersService",
     baseQuery: fetchBaseQuery({ baseUrl: baseURL, headers, credentials }),
-    tagTypes: ["Users"],
+    tagTypes: [USERS_TAG],
     endpoints: build => ({
         fetchUsers: build.query<UsersDataEntities, UsersQueryParameters>({
             query: ({ page = PAGE.default, count = LIMIT.default, friend = FRIEND.default }) => ({
@@ -17,9 +19,9 @@ export const usersAPI = createApi({
                     friend,
                 },
             }),
-            providesTags: ["Users"],
+            providesTags: [USERS_TAG],
         }),
     }),
 });
 
-export const { useFetchUsersQuery } = usersAPI;
+export const { useFetchUsersQuery } = usersService;

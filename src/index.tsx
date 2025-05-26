@@ -1,22 +1,25 @@
 import React from "react";
-import "antd/dist/antd.css";
 import "./style/main.scss";
-import App from "./App";
-import { setupStore } from "./store";
+import { store } from "@app/store";
+import { App } from "@app/App.tsx";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { ColorSchemeProvider, ThemeConfigProvider } from "@components";
 
-const store = setupStore();
 const container = document.getElementById("app");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 
 root.render(
     <React.StrictMode>
         <BrowserRouter>
-            <Provider store={store}>
-                <App />
-            </Provider>
+            <ColorSchemeProvider>
+                <ThemeConfigProvider>
+                    <Provider store={store}>
+                        <App />
+                    </Provider>
+                </ThemeConfigProvider>
+            </ColorSchemeProvider>
         </BrowserRouter>
     </React.StrictMode>
 );

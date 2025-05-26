@@ -1,9 +1,9 @@
-import { Layout, Row, Col, Button, Tooltip, Divider, Avatar } from "antd";
-import { logo } from "../assets/img/common";
-import { EditOutlined } from "@ant-design/icons";
-import { PageLoader, ProfileStatus, ProfileDetails, PostForm, PostsElements, ProfileDataForm } from "../components";
-import { UpdateLogoImg } from "../icons";
 import { useProfile } from "@hooks";
+import { logo } from "@assets/img/common";
+import { UpdateLogoImg } from "@app/icons";
+import { EditOutlined } from "@ant-design/icons";
+import { Layout, Row, Col, Button, Tooltip, Divider, Avatar, Typography } from "antd";
+import { PageLoader, ProfileStatus, PostForm, PostsElements, ProfileDataForm, ProfileDetails } from "@components";
 
 const { Content } = Layout;
 
@@ -25,7 +25,6 @@ export const ProfilePage = () => {
         onAddPost,
         onPostDelete,
         onPostUpdate,
-        postsRef,
     } = useProfile();
 
     if (isFetching) {
@@ -38,20 +37,13 @@ export const ProfilePage = () => {
 
     return (
         <Content>
-            <Row className="profile-header" gutter={[10, 0]}>
+            <Row className="profile-header">
                 <Col>
-                    <h1>{profile?.fullName}</h1>
+                    <Typography.Title level={4}>{profile?.fullName}</Typography.Title>
                 </Col>
                 <Col>
                     {isOwner && (
-                        <Button
-                            type="primary"
-                            shape="round"
-                            icon={<EditOutlined />}
-                            onClick={() => {
-                                onSetEditMode(true);
-                            }}
-                        >
+                        <Button type="text" shape="round" icon={<EditOutlined />} onClick={() => onSetEditMode(true)}>
                             Edit profile!
                         </Button>
                     )}
@@ -94,13 +86,13 @@ export const ProfilePage = () => {
                         />
                         <ProfileDetails profile={profile} isOwner={isOwner} />
                     </Row>
-                    <Divider orientation="left">
-                        <h2>{isOwner ? "My posts" : "Posts"}</h2>
+                    <Divider orientation="left" variant="solid">
+                        <Typography.Title level={4}>{isOwner ? "My posts" : "Posts"}</Typography.Title>
                     </Divider>
                 </Col>
             </Row>
-            <Row>
-                <Col className="thinScrollBar" ref={postsRef} xs={24} style={{ maxHeight: "46vh", overflow: "auto" }}>
+            <Row gutter={[16, 16]}>
+                <Col xs={24}>
                     <PostsElements
                         onPostUpdate={onPostUpdate}
                         user={user}

@@ -1,16 +1,11 @@
 import { Badge, Menu } from "antd";
+import { useAppSelector } from "@hooks";
+import { EMPTY_QUERY_PARAMS } from "@api";
 import { NavLink, useLocation } from "react-router-dom";
-import {
-    DIALOGS_PAGE_PATH,
-    FRIENDS_PAGE_PATH,
-    PROFILE_PAGE_PATH,
-    USERS_PAGE_PATH,
-} from "../../constants/pathConstants";
+import { useGetListOfNewMessagesQuery } from "@app/services/DialogsService";
+import { NEW_MESSAGES_COUNT_POLLING_INTERVAL_DELAY } from "@constants/dialogsConstans";
 import { MessageOutlined, TeamOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
-import { useAppSelector } from "../../hooks";
-import { useFetchListOfNewMessagesQuery } from "../../services";
-import { EMPTY_QUERY_PARAMS } from "../../api";
-import { NEW_MESSAGES_COUNT_POLLING_INTERVAL_DELAY } from "../../constants/dialogsConstans";
+import { DIALOGS_PAGE_PATH, FRIENDS_PAGE_PATH, PROFILE_PAGE_PATH, USERS_PAGE_PATH } from "@constants/pathConstants";
 
 const iconStyle = { fontSize: "17px" };
 
@@ -38,20 +33,25 @@ const getNavigationLinks = (newMessagesCount: number) => [
         slug: DIALOGS_PAGE_PATH,
         icon: <MessageOutlined style={iconStyle} />,
         title: (
-            <Badge offset={[10, 0]} overflowCount={99} count={newMessagesCount} title="New Messages">
+            <Badge
+                color="var(--colorPrimary)"
+                offset={[10, 0]}
+                overflowCount={99}
+                count={newMessagesCount}
+                title="New Messages"
+            >
                 Dialogs
             </Badge>
         ),
     },
 ];
-const Navigation = () => {
+export const Navigation = () => {
     const { pathname } = useLocation();
     const { isAuth } = useAppSelector(state => state.authReducer);
-    const { data } = useFetchListOfNewMessagesQuery(EMPTY_QUERY_PARAMS, {
+    const { data } = useGetListOfNewMessagesQuery(EMPTY_QUERY_PARAMS, {
         pollingInterval: NEW_MESSAGES_COUNT_POLLING_INTERVAL_DELAY,
         skip: !isAuth,
     });
-    console.log(data);
     const navigationLinks = getNavigationLinks(data);
     const selectedKey =
         (pathname.startsWith(PROFILE_PAGE_PATH) && PROFILE_PAGE_PATH) ||
@@ -59,7 +59,7 @@ const Navigation = () => {
         (pathname.startsWith(FRIENDS_PAGE_PATH) && FRIENDS_PAGE_PATH) ||
         (pathname.startsWith(USERS_PAGE_PATH) && USERS_PAGE_PATH);
     return (
-        <Menu theme="light" mode="horizontal" selectedKeys={[selectedKey]}>
+        <Menu mode="horizontal" selectedKeys={[selectedKey]}>
             {navigationLinks.map(item => {
                 return (
                     <Menu.Item key={item.key} icon={item.icon}>
@@ -70,5 +70,3 @@ const Navigation = () => {
         </Menu>
     );
 };
-
-export default Navigation;

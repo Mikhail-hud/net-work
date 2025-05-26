@@ -1,18 +1,18 @@
-import React from "react";
-import { Col, Layout, Row } from "antd";
-import { Paginator, Search, UsersList } from "../components";
+import { FC } from "react";
 import { useUsers } from "@hooks";
+import { Col, Layout, Row, Typography } from "antd";
+import { Paginator, Search, UsersList } from "@components";
 
 const { Content } = Layout;
 
-export const UsersPage: React.FC = (): JSX.Element => {
+export const UsersPage: FC = () => {
     const { users, totalCount, isFetching, handleFollowUnfollow, followingInProgress, isFriendsFetched, params } =
         useUsers();
     return (
         <Content>
             <Row justify="space-between" style={{ marginBottom: "1rem" }}>
                 <Col>
-                    <h1>Users</h1>
+                    <Typography.Title level={4}>Users</Typography.Title>
                 </Col>
                 <Col>
                     <Search params={params} isFriendsFetched={isFriendsFetched} />

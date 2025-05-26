@@ -1,19 +1,19 @@
-import React, { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
-import { List, Avatar, Drawer, Button, Space, Typography, Badge, Input } from "antd";
-import { CommentOutlined, SearchOutlined } from "@ant-design/icons";
-import { Dialog } from "../../types/dialogsTypes";
 import moment from "moment";
-import { logo } from "../../assets/img/common";
+import { Link } from "react-router-dom";
+import { logo } from "@assets/img/common";
+import { Dialog } from "@app/types/dialogsTypes";
+import { ChangeEvent, FC, useState } from "react";
+import { CommentOutlined, SearchOutlined } from "@ant-design/icons";
+import { List, Avatar, Drawer, Button, Space, Typography, Badge, Input } from "antd";
 
 const { Text } = Typography;
 
-type Props = {
+interface UsersDialogsProps {
     dialogs: Array<Dialog>;
     isFetchingDialogs: boolean;
-};
+}
 
-const UsersDialogs: React.FC<Props> = ({ dialogs, isFetchingDialogs }): JSX.Element => {
+export const UsersDialogs: FC<UsersDialogsProps> = ({ dialogs, isFetchingDialogs }) => {
     const [visible, setVisible] = useState(false);
     const [localValue, setLocalValue] = useState<string>("");
 
@@ -21,11 +21,11 @@ const UsersDialogs: React.FC<Props> = ({ dialogs, isFetchingDialogs }): JSX.Elem
         setLocalValue(event.target.value);
     };
 
-    const showDrawer = () => {
+    const showDrawer = (): void => {
         setVisible(true);
     };
 
-    const onClose = () => {
+    const onClose = (): void => {
         setVisible(false);
     };
     return (
@@ -63,7 +63,7 @@ const UsersDialogs: React.FC<Props> = ({ dialogs, isFetchingDialogs }): JSX.Elem
                                     title={item?.userName}
                                     description={
                                         <Space direction="vertical">
-                                            <Text strong={item?.hasNewMessages}>
+                                            <Text strong={item?.hasNewMessages} ellipsis>
                                                 Last dialogs activity:
                                                 {moment(item?.lastDialogActivityDate).fromNow()}
                                             </Text>
@@ -83,5 +83,3 @@ const UsersDialogs: React.FC<Props> = ({ dialogs, isFetchingDialogs }): JSX.Elem
         </>
     );
 };
-
-export default UsersDialogs;

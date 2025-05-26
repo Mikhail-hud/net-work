@@ -7,3 +7,5 @@ export * from "./Profile";
 export * from "./FriendsList";
 export * from "./Dialogs";
 export * from "./Messanger";
+export * from "./Providers";
+export * from "./ThemeToggleSegment";

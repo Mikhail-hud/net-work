@@ -1,12 +1,18 @@
-import { useAppDispatch, useAppSelector } from "./redux";
-import { fetchAllDialogs } from "../store/reducers/DialogsSlice";
 import { useEffect } from "react";
+import { Dialog } from "@app/types/dialogsTypes";
+import { useAppDispatch, useAppSelector } from "@app/hooks/redux";
+import { fetchAllDialogs } from "@app/store/reducers/DialogsSlice";
 
-export const useDialogs = () => {
+interface UseDialogs {
+    dialogs: Dialog[];
+    isFetchingDialogs: boolean;
+}
+
+export const useDialogs = (): UseDialogs => {
     const dispatch = useAppDispatch();
     const { dialogs, isFetchingDialogs } = useAppSelector(state => state.dialogsReducer);
 
-    useEffect(() => {
+    useEffect((): void => {
         dispatch(fetchAllDialogs());
     }, []);
 

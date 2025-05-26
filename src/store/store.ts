@@ -1,23 +1,22 @@
+import { dialogsService, usersService } from "@services";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { profileReducer, usersReducer, initializeReducer, authReducer, dialogsReducer } from "./reducers";
-import { usersAPI, dislogsAPI } from "../services";
+import { profileReducer, usersReducer, initializeReducer, authReducer, dialogsReducer } from "@app/store/reducers";
 
-const rootReducer = combineReducers({
+export const reducers = combineReducers({
     authReducer,
-    initializeReducer,
     usersReducer,
     profileReducer,
     dialogsReducer,
-    [usersAPI.reducerPath]: usersAPI.reducer,
-    [dislogsAPI.reducerPath]: dislogsAPI.reducer,
+    initializeReducer,
+    [usersService.reducerPath]: usersService.reducer,
+    [dialogsService.reducerPath]: dialogsService.reducer,
 });
 
-export const setupStore = () => {
-    return configureStore({
-        reducer: rootReducer,
-        middleware: getDefaultMiddleware => getDefaultMiddleware().concat([usersAPI.middleware, dislogsAPI.middleware]),
-    });
-};
-export type RootState = ReturnType<typeof rootReducer>;
-export type AppStore = ReturnType<typeof setupStore>;
-export type AppDispatch = AppStore["dispatch"];
+export const store = configureStore({
+    reducer: reducers,
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware().concat(usersService.middleware, dialogsService.middleware),
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

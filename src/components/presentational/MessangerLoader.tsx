@@ -1,7 +1,7 @@
-import React from "react";
 import { Skeleton } from "antd";
+import React, { JSX } from "react";
 
-const MessangerLoader: React.FC = (): JSX.Element => {
+export const MessangerLoader: React.FC = (): JSX.Element => {
     return (
         <>
             <Skeleton
@@ -35,5 +35,3 @@ const MessangerLoader: React.FC = (): JSX.Element => {
         </>
     );
 };
-
-export default MessangerLoader;

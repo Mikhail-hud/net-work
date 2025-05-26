@@ -1,42 +1,43 @@
-import React from "react";
-import { NewLikeData, Post, UpdatedPostData } from "../../types/profileTypes";
-import { PostItem } from "../../components";
-import { User } from "../../types/userType";
+import { List } from "antd";
+import { FC } from "react";
+import { User } from "@app/types/userType";
+import { PostItem } from "@app/components";
+import { NewLikeData, Post, UpdatedPostData } from "@app/types/profileTypes";
 
-type Props = {
+interface PostsElementsProps {
     user: User;
+    isOwner: boolean;
     posts: Array<Post>;
+    onPostDelete: (id: number) => void;
     onLikeAdd: (newLikeData: NewLikeData) => void;
     onPostUpdate: (updatedPostData: UpdatedPostData) => void;
-    onPostDelete: (id: number) => void;
-    isOwner: boolean;
-};
+}
 
-const PostsElements: React.FC<Props> = ({
+export const PostsElements: FC<PostsElementsProps> = ({
     posts,
     onLikeAdd,
     onPostDelete,
     user,
     onPostUpdate,
     isOwner,
-}): JSX.Element => {
+}) => {
     return (
-        <>
-            {[...posts].reverse().map(post => {
-                return (
-                    <PostItem
-                        isOwner={isOwner}
-                        user={user}
-                        key={post.id}
-                        onPostUpdate={onPostUpdate}
-                        post={post}
-                        onLikeAdd={onLikeAdd}
-                        onPostDelete={onPostDelete}
-                    />
-                );
-            })}
-        </>
+        <List
+            bordered={false}
+            dataSource={[...posts].reverse()}
+            itemLayout="vertical"
+            pagination={{ pageSize: 5 }}
+            renderItem={item => (
+                <PostItem
+                    key={item.id}
+                    post={item}
+                    user={user}
+                    onLikeAdd={onLikeAdd}
+                    onPostDelete={onPostDelete}
+                    onPostUpdate={onPostUpdate}
+                    isOwner={isOwner}
+                />
+            )}
+        />
     );
 };
-
-export default PostsElements;

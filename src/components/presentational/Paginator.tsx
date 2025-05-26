@@ -1,17 +1,17 @@
-import React from "react";
+import { FC } from "react";
 import { Pagination, Row, Col } from "antd";
 import { useSearchParams } from "react-router-dom";
-import { PAGE, LIMIT } from "../../constants/usersConstants";
-import { UsersQueryParameters } from "../../types/usersType";
+import { PAGE, LIMIT } from "@constants/usersConstants";
+import { UsersQueryParameters } from "@app/types/usersType";
 
-type Props = {
+interface PaginatorProps {
     totalItemsCount: number;
     isFetching: boolean;
     isFriendsFetched: boolean;
     params: UsersQueryParameters;
-};
+}
 
-const Paginator: React.FC<Props> = ({ totalItemsCount, isFetching, isFriendsFetched, params }): JSX.Element => {
+export const Paginator: FC<PaginatorProps> = ({ totalItemsCount, isFetching, isFriendsFetched, params }) => {
     const { count, page } = params;
     const [, setSearchParams] = useSearchParams();
     const onChange = (nextPage: number, nextPageSize: number): void => {
@@ -30,7 +30,7 @@ const Paginator: React.FC<Props> = ({ totalItemsCount, isFetching, isFriendsFetc
                     responsive
                     disabled={isFetching}
                     style={{ textAlign: "center", marginBottom: "2rem" }}
-                    pageSizeOptions={[5, 10, 15]}
+                    pageSizeOptions={[5, 10, 15, 20, 25, 30]}
                     pageSize={Number(count)}
                     current={Number(page)}
                     total={totalItemsCount}
@@ -43,5 +43,3 @@ const Paginator: React.FC<Props> = ({ totalItemsCount, isFetching, isFriendsFetc
         </Row>
     );
 };
-
-export default Paginator;

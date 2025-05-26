@@ -1,15 +1,15 @@
-import React, { useEffect, useRef } from "react";
-import { logo } from "../../assets/img/common";
+import moment from "moment";
+import cn from "classnames";
+import { User } from "@app/types/userType";
+import { logo } from "@assets/img/common";
+import { FC, useEffect, useRef } from "react";
+import { MessangerLoader } from "@components";
+import { UserProfile } from "@app/types/profileTypes";
+import { DATE_TWELVE_HOUR } from "@constants/dateFormatConstants";
+import { USER_OWNER_NAME_PlACEHOLDER } from "@constants/profileConstans";
+import { DeleteRestoreMessageData, Message } from "@app/types/dialogsTypes";
 import { Row, Col, Tooltip, Typography, Dropdown, Menu, Button } from "antd";
 import { CheckCircleTwoTone, DeleteTwoTone, MessageTwoTone, MoreOutlined } from "@ant-design/icons";
-import { DeleteRestoreMessageData, Message } from "../../types/dialogsTypes";
-import { UserProfile } from "../../types/profileTypes";
-import { MessangerLoader } from "./../../components";
-import moment from "moment";
-import { DATE_TWELVE_HOUR } from "../../constants/dateFormatConstants";
-import cn from "classnames";
-import { User } from "../../types/userType";
-import { USER_OWNER_NAME_PlACEHOLDER } from "../../constants/profileConstans";
 
 const { Paragraph } = Typography;
 
@@ -24,7 +24,7 @@ type Props = {
     totalMessagesCount: number;
     isFetchingMessages: boolean;
 };
-const Messages: React.FC<Props> = ({
+export const Messages: FC<Props> = ({
     messages,
     profile,
     isFetchingMessages,
@@ -32,7 +32,7 @@ const Messages: React.FC<Props> = ({
     onDeleteMessage,
     onMarkMessageAsSpam,
     onRestoreMessage,
-}): JSX.Element => {
+}) => {
     const messagesRef = useRef(null);
 
     useEffect(() => {
@@ -162,5 +162,3 @@ const Messages: React.FC<Props> = ({
         </Row>
     );
 };
-
-export default Messages;

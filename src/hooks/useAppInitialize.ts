@@ -1,11 +1,15 @@
 import { useEffect } from "react";
-import { getAuthUserData } from "../store/actions";
-import { useAppDispatch, useAppSelector } from "./redux";
+import { getAuthUserData } from "@app/store/actions";
+import { useAppDispatch, useAppSelector } from "@app/hooks/redux";
 
-export const useAppInitialize = () => {
+interface UseAppInitialize {
+    initialized: boolean;
+}
+
+export const useAppInitialize = (): UseAppInitialize => {
     const dispatch = useAppDispatch();
     const { initialized } = useAppSelector(state => state.initializeReducer);
-    useEffect(() => {
+    useEffect((): void => {
         dispatch(getAuthUserData());
     }, []);
     return {

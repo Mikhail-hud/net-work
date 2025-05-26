@@ -1,9 +1,9 @@
-import React from "react";
+import { useAppSelector } from "@hooks";
+import { FC, PropsWithChildren } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { LOGIN_PAGE_PATH } from "../constants/pathConstants";
-import { useAppSelector } from "../hooks";
+import { LOGIN_PAGE_PATH } from "@constants/pathConstants";
 
-const RequireAuth: React.FC<any> = ({ children }): JSX.Element => {
+export const RequireAuth: FC<PropsWithChildren> = ({ children }) => {
     const { pathname } = useLocation();
     const { isAuth } = useAppSelector(state => state.authReducer);
     if (!isAuth) {
@@ -11,5 +11,3 @@ const RequireAuth: React.FC<any> = ({ children }): JSX.Element => {
     }
     return children;
 };
-
-export default RequireAuth;

@@ -1,6 +1,6 @@
-import { useEffect, ChangeEvent, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "./redux";
+import { useEffect, ChangeEvent } from "react";
+import { useAppDispatch, useAppSelector } from "@app/hooks";
 import {
     getStatus,
     savePhoto,
@@ -12,13 +12,12 @@ import {
     addLike,
     updatePost,
     setEditMode,
-} from "../store/reducers/ProfileSlice";
-import { NewLikeData, NewPostData, UpdatedPostData } from "../types/profileTypes";
+} from "@app/store/reducers/ProfileSlice";
+import { NewLikeData, NewPostData, UpdatedPostData } from "@app/types/profileTypes";
 
 export const useProfile = () => {
     const dispatch = useAppDispatch();
     const params = useParams();
-    const postsRef = useRef(null);
     const { user } = useAppSelector(state => state.authReducer);
     const userId = params?.userId ?? user?.id;
     const isOwner = !params.userId;
@@ -63,10 +62,6 @@ export const useProfile = () => {
     };
 
     useEffect(() => {
-        postsRef?.current?.scrollTo(0, 0);
-    }, [posts]);
-
-    useEffect(() => {
         if (userId) {
             dispatch(fetchProfile(Number(userId)));
             dispatch(getStatus(Number(userId)));
@@ -89,7 +84,6 @@ export const useProfile = () => {
         onPostDelete,
         onStatusUpdate,
         onPostUpdate,
-        postsRef,
         user,
         status,
         isOwner,

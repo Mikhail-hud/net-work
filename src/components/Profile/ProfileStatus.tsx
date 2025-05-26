@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { MAX_STATUS_LENGTH } from "../../constants/profileConstans";
 import { Col } from "antd";
 import { Typography } from "antd";
-import { useAppSelector } from "../../hooks";
+import { useAppSelector } from "@hooks";
+import { FC, useEffect, useState } from "react";
+import { MAX_STATUS_LENGTH } from "@constants/profileConstans";
 
-const { Paragraph } = Typography;
-type Props = {
+interface ProfileStatusProps {
     status: string;
     isOwner: boolean;
     onStatusUpdate: (status: string) => void;
-};
-const ProfileStatus: React.FC<Props> = ({ status, isOwner, onStatusUpdate }): JSX.Element => {
+}
+
+export const ProfileStatus: FC<ProfileStatusProps> = ({ status, isOwner, onStatusUpdate }) => {
     const { isAuth } = useAppSelector(state => state.authReducer);
     const [localStatus, setLocalStatus] = useState(status);
 
-    useEffect(() => {
+    useEffect((): void => {
         setLocalStatus(status);
     }, [status]);
 
@@ -22,27 +22,20 @@ const ProfileStatus: React.FC<Props> = ({ status, isOwner, onStatusUpdate }): JS
         setLocalStatus(newStatusText);
         onStatusUpdate(newStatusText);
     };
+    if (!status) return null;
 
     return (
-        status && (
-            <Col span={24}>
-                <div className="status">
-                    {isOwner && isAuth ? (
-                        <Paragraph
-                            style={{ paddingLeft: "10px" }}
-                            editable={{ onChange: onStatusChange, maxLength: MAX_STATUS_LENGTH }}
-                        >
-                            {localStatus}
-                        </Paragraph>
-                    ) : (
-                        <div>
-                            <p>{localStatus}</p>
-                        </div>
-                    )}
-                </div>
-            </Col>
-        )
+        <Col span={24}>
+            {isOwner && isAuth ? (
+                <Typography.Paragraph
+                    style={{ paddingLeft: "10px", marginBottom: "0" }}
+                    editable={{ onChange: onStatusChange, maxLength: MAX_STATUS_LENGTH }}
+                >
+                    {localStatus}
+                </Typography.Paragraph>
+            ) : (
+                <Typography.Paragraph style={{ marginBottom: "0" }}>{localStatus}</Typography.Paragraph>
+            )}
+        </Col>
     );
 };
-
-export default ProfileStatus;

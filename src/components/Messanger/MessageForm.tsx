@@ -1,60 +1,62 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { Row, Col, Typography, Button } from "antd";
+import { FC } from "react";
+import { User } from "@app/types/userType";
 import { SendOutlined } from "@ant-design/icons";
-import { User } from "../../types/userType";
-import { NewMessageData } from "../../types/dialogsTypes";
+import { Row, Col, Button, Form, Input } from "antd";
+import { NewMessageData } from "@app/types/dialogsTypes";
+import { MAX_MESSAGE_LENGTH } from "@constants/profileConstans";
 
-const { Text } = Typography;
+const { TextArea } = Input;
 
 const INPUT_NAME = "newMessage";
 
-type Props = {
-    onSendMessage: (newMesage: NewMessageData) => void;
+interface NewMessageForm {
+    newMessage: string;
+}
+
+interface MessageFormProps {
+    onSendMessage: (newMessage: NewMessageData) => void;
     user?: User;
     userId: number;
-};
-const MessageForm: React.FC<Props> = ({ onSendMessage, userId }): JSX.Element => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        reset,
-    } = useForm();
-    const onSubmit = ({ newMessage }) => {
+}
+
+export const MessageForm: FC<MessageFormProps> = ({ onSendMessage, userId }) => {
+    const [form] = Form.useForm();
+    const onSubmit = ({ newMessage }: NewMessageForm): void => {
         newMessage.trim() &&
             onSendMessage({
                 body: newMessage,
                 recipientId: userId,
             });
-        reset();
+        form.resetFields();
     };
     return (
         <Row>
             <Col xs={24}>
-                <form onSubmit={handleSubmit(onSubmit)} className="send-message-form" autoComplete="off">
-                    {errors.newMessage?.type === "maxLength" && (
-                        <Text type="danger">The character limit for a single message is 500 characters</Text>
-                    )}
-                    <textarea
-                        rows={2}
-                        name={INPUT_NAME}
-                        {...register(INPUT_NAME, { required: true, maxLength: 500 })}
-                    />
-                    <Button
-                        disabled={errors.newMessage?.type === "maxLength"}
-                        htmlType="submit"
-                        type="dashed"
-                        shape="round"
-                        size="large"
-                        icon={<SendOutlined />}
+                <Form<NewMessageForm> form={form} onFinish={onSubmit}>
+                    <Form.Item
+                        name="newMessage"
+                        rules={[
+                            { whitespace: true, message: "Message cannot be a blank character" },
+                            { required: true, message: "Please enter your message" },
+                            {
+                                max: MAX_MESSAGE_LENGTH,
+                                message: `The character limit for a single message is ${MAX_MESSAGE_LENGTH} characters`,
+                            },
+                        ]}
                     >
+                        <TextArea
+                            rows={3}
+                            allowClear
+                            name={INPUT_NAME}
+                            variant="underlined"
+                            style={{ borderRadius: "16px 0px 16px 0px", marginBottom: "10px" }}
+                        />
+                    </Form.Item>
+                    <Button htmlType="submit" type="text" shape="round" size="large" icon={<SendOutlined />}>
                         Send
                     </Button>
-                </form>
+                </Form>
             </Col>
         </Row>
     );
 };
-
-export default MessageForm;

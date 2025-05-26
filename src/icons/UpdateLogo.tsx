@@ -1,5 +1,5 @@
-import Icon from "@ant-design/icons";
-import { updateLogo } from "../assets/img/common";
-
-export const UpdateLogoImg = () => <img src={updateLogo} alt="updateLogoImg" />;
-export const UpdateLogoIcon = () => <Icon component={updateLogo} />;
+export const UpdateLogoImg = () => (
+    <svg viewBox="0 0 1280 1024" width="30" height="30" fill="var(--colorPrimary)">
+        <path d="M639.34 391.12a190.72 190.72 0 1 0 190.8 190.73A190.84 190.84 0 0 0 639.34 391.13z m500.57-274.92H921.86l-6.19-19.98A139.62 139.62 0 0 0 766.98 1H511.72a138.66 138.66 0 0 0-148.69 95.34l-6.19 19.98H138.78A138.5 138.5 0 0 0 0 254.91v631.59a135.22 135.22 0 0 0 13.63 59.46 138.22 138.22 0 0 0 123.87 78.04h1002.42a138.5 138.5 0 0 0 138.78-138.28V253.67a139.06 139.06 0 0 0-138.78-137.5zM154.88 346.53a73.09 73.09 0 1 1 73.09-73.09 74.04 74.04 0 0 1-73.09 73.09zM639.35 907.56a326.35 326.35 0 1 1 325.87-327.15A326.19 326.19 0 0 1 639.35 907.56z" />
+    </svg>
+);

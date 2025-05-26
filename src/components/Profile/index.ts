@@ -1,6 +1,6 @@
-export { default as ProfileStatus } from "./ProfileStatus";
-export { default as ProfileDetails } from "./ProfileDetails ";
-export { default as PostForm } from "./PostForm";
-export { default as PostsElements } from "./PostsElements";
-export { default as PostItem } from "./PostItem";
-export { default as ProfileDataForm } from "./ProfileDataForm";
+export * from "./ProfileStatus";
+export * from "./PostForm";
+export * from "./PostsElements";
+export * from "./PostItem";
+export * from "./ProfileDataForm";
+export * from "./ProfileDetails";

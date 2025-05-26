@@ -1,6 +1,6 @@
-export { default as Notification } from "./Notification";
-export { default as Paginator } from "./Paginator";
-export { default as Preloader } from "./Preloader";
-export { default as Search } from "./Search";
-export { default as PageLoader } from "./PageLoader";
-export { default as MessangerLoader } from "./MessangerLoader";
+export * from "./Notification";
+export * from "./Paginator";
+export * from "./Preloader";
+export * from "./Search";
+export * from "./PageLoader";
+export * from "./MessangerLoader";

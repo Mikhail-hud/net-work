@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { profileAPI } from "../../api";
+import { profileAPI } from "@app/api";
 import { Notification } from "../../components";
-import { ProfileState } from "../../types/reducerTypes";
+import { ProfileState } from "@app/types/reducerTypes";
 import {
     NewLikeData,
     NewPostData,
@@ -193,46 +193,47 @@ export const profileSlice = createSlice({
             state.isProfileSaving = false;
         },
     },
-    extraReducers: {
-        [fetchProfile.pending.type]: state => {
-            state.isProfileFetching = true;
-        },
-        [fetchProfile.fulfilled.type]: (state: ProfileState, action: PayloadAction<UserProfile>) => {
-            const { payload } = action;
-            state.profile = payload;
-            state.isProfileFetching = false;
-        },
-        [savePhoto.pending.type]: (state: ProfileState) => {
-            state.isPhotoSaving = true;
-        },
-        [savePhoto.fulfilled.type]: (state: ProfileState, action: PayloadAction<UserProfilePhotos>) => {
-            const { payload } = action;
-            state.profile.photos = payload;
-            state.isPhotoSaving = false;
-        },
-        [getStatus.pending.type]: (state: ProfileState) => {
-            state.isStatusFetching = true;
-        },
-        [getStatus.fulfilled.type]: (state: ProfileState, action: PayloadAction<string>) => {
-            const { payload } = action;
-            state.status = payload;
-            state.isStatusFetching = false;
-        },
-        [saveProfile.pending.type]: (state: ProfileState) => {
-            state.isProfileSaving = true;
-        },
-        [saveProfile.fulfilled.type]: (state: ProfileState, action: PayloadAction<UserProfile>) => {
-            const { payload } = action;
-            if (payload) {
+    extraReducers: builder => {
+        builder
+            .addCase(fetchProfile.pending, state => {
+                state.isProfileFetching = true;
+            })
+            .addCase(fetchProfile.fulfilled, (state: ProfileState, action: PayloadAction<UserProfile>) => {
+                const { payload } = action;
                 state.profile = payload;
+                state.isProfileFetching = false;
+            })
+            .addCase(savePhoto.pending, (state: ProfileState) => {
+                state.isPhotoSaving = true;
+            })
+            .addCase(savePhoto.fulfilled, (state: ProfileState, action: PayloadAction<UserProfilePhotos>) => {
+                const { payload } = action;
+                state.profile.photos = payload;
+                state.isPhotoSaving = false;
+            })
+            .addCase(getStatus.pending, (state: ProfileState) => {
+                state.isStatusFetching = true;
+            })
+            .addCase(getStatus.fulfilled, (state: ProfileState, action: PayloadAction<string>) => {
+                const { payload } = action;
+                state.status = payload;
+                state.isStatusFetching = false;
+            })
+            .addCase(saveProfile.pending, (state: ProfileState) => {
+                state.isProfileSaving = true;
+            })
+            .addCase(saveProfile.fulfilled, (state: ProfileState, action: PayloadAction<UserProfile>) => {
+                const { payload } = action;
+                if (payload) {
+                    state.profile = payload;
+                    state.isProfileSaving = false;
+                    state.editMode = false;
+                    state.profileDataFormError = null;
+                }
+            })
+            .addCase(saveProfile.rejected, (state: ProfileState) => {
                 state.isProfileSaving = false;
-                state.editMode = false;
-                state.profileDataFormError = null;
-            }
-        },
-        [saveProfile.rejected.type]: (state: ProfileState) => {
-            state.isProfileSaving = false;
-        },
+            });
     },
 });
 

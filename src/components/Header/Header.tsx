@@ -1,31 +1,26 @@
-import React from "react";
-import { Layout, Avatar, Image, Row, Col, Button, Tooltip, Skeleton } from "antd";
+import { FC } from "react";
+import { logo } from "@assets/img/common";
 import { useNavigate } from "react-router-dom";
-import { logo } from "../../assets/img/common";
-import { LogOutIcon, LogInIcon } from "../../icons";
-import { LOGIN_PAGE_PATH } from "../../constants/pathConstants";
-import { Navigation } from "../Navigation";
-
-import { logOut } from "../../store/reducers/AuthSlice";
+import { logOut } from "@app/store/reducers/AuthSlice";
 import { useAppDispatch, useAppSelector } from "@hooks";
+import { LOGIN_PAGE_PATH } from "@constants/pathConstants";
+import { Navigation, ThemeToggleSegment } from "@components";
+import { LoginOutlined, LogoutOutlined } from "@ant-design/icons";
+import { Layout, Avatar, Image, Row, Col, Button, Tooltip, Skeleton, Flex } from "antd";
 
 const { Header } = Layout;
 
 const navigationColStyle = { width: "calc(100% - 80px)" };
-const logInLogOutColStyle = { display: "flex", alignItems: "center" };
+const logInLogOutColStyle = { display: "flex", alignItems: "center", justifyContent: "center" };
 const avatarStyle = { width: 32 };
 
-const AppHeader: React.FC = (): JSX.Element => {
+export const AppHeader: FC = () => {
     const { isAuth, user, isLoading } = useAppSelector(state => state.authReducer);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const handleLoginLogout = (): void => {
-        if (isAuth) {
-            dispatch(logOut());
-        } else {
-            navigate(LOGIN_PAGE_PATH);
-        }
+        isAuth ? dispatch(logOut()) : navigate(LOGIN_PAGE_PATH);
     };
 
     return (
@@ -42,19 +37,26 @@ const AppHeader: React.FC = (): JSX.Element => {
                     <Navigation />
                 </Col>
                 <Col style={logInLogOutColStyle}>
-                    <Tooltip title={isAuth ? "log Out" : "log In"}>
-                        <Button
-                            type="dashed"
-                            shape="round"
-                            size="large"
-                            onClick={handleLoginLogout}
-                            icon={isAuth ? <LogOutIcon /> : <LogInIcon />}
-                        />
-                    </Tooltip>
+                    <Flex align="center" justify="center" gap={10}>
+                        <ThemeToggleSegment />
+                        <Tooltip title={isAuth ? "log Out" : "log In"}>
+                            <Button
+                                type="text"
+                                shape="round"
+                                size="large"
+                                onClick={handleLoginLogout}
+                                icon={
+                                    isAuth ? (
+                                        <LogoutOutlined style={{ color: "var(--colorPrimary)" }} />
+                                    ) : (
+                                        <LoginOutlined style={{ color: "var(--colorPrimary)" }} />
+                                    )
+                                }
+                            />
+                        </Tooltip>
+                    </Flex>
                 </Col>
             </Row>
         </Header>
     );
 };
-
-export default AppHeader;

@@ -1,8 +1,10 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { baseURL, credentials, headers } from "../api";
+import { baseURL, credentials, headers } from "@api";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const dislogsAPI = createApi({
-    reducerPath: "dialogsAPI",
+export const DIALOGS_TAG = "dialogs";
+
+export const dialogsService = createApi({
+    reducerPath: "dialogsService",
     baseQuery: fetchBaseQuery({
         baseUrl: baseURL,
         credentials,
@@ -11,15 +13,13 @@ export const dislogsAPI = createApi({
             return headers;
         },
     }),
-    tagTypes: ["Dialogs"],
-    endpoints: build => ({
-        fetchListOfNewMessages: build.query<number, void>({
-            query: () => ({
-                url: `dialogs/messages/new/count`,
-            }),
-            providesTags: ["Dialogs"],
+    tagTypes: [DIALOGS_TAG],
+    endpoints: builder => ({
+        getListOfNewMessages: builder.query<number, void>({
+            query: () => `dialogs/messages/new/count`,
+            providesTags: [DIALOGS_TAG],
         }),
     }),
 });
 
-export const { useFetchListOfNewMessagesQuery } = dislogsAPI;
+export const { useGetListOfNewMessagesQuery } = dialogsService;

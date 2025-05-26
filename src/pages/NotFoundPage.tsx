@@ -1,16 +1,15 @@
-import React from "react";
+import { FC } from "react";
 import { Layout, Result, Button } from "antd";
 import { useNavigate } from "react-router-dom";
-import { PROFILE_PAGE_PATH } from "../constants/pathConstants";
+import { PROFILE_PAGE_PATH } from "@app/constants/pathConstants";
 
 const { Content } = Layout;
 
-export const NotFoundPage: React.FC = (): JSX.Element => {
+export const NotFoundPage: FC = () => {
     const navigate = useNavigate();
 
-    const handleClick = (): void => {
-        navigate(PROFILE_PAGE_PATH);
-    };
+    const handleClick = (): void => navigate(PROFILE_PAGE_PATH);
+
     return (
         <Content>
             <Result

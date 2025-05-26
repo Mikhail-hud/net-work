@@ -1,1 +1,1 @@
-export { default as UsersDialogs } from "./UsersDialogs";
+export * from "./UsersDialogs";

@@ -1,16 +1,16 @@
-import React, { ChangeEvent, useState, useEffect } from "react";
 import { Input } from "antd";
 import { useSearchParams } from "react-router-dom";
-import { PAGE, SEARCH } from "../../constants/usersConstants";
 import { SearchOutlined } from "@ant-design/icons";
-import { UsersQueryParameters } from "../../types/usersType";
+import { PAGE, SEARCH } from "@constants/usersConstants";
+import { UsersQueryParameters } from "@app/types/usersType";
+import { ChangeEvent, useState, useEffect, FC } from "react";
 
-type Props = {
+interface SearchProps {
     isFriendsFetched: boolean;
     params: UsersQueryParameters;
-};
+}
 
-const Search: React.FC<Props> = ({ isFriendsFetched, params }): JSX.Element => {
+export const Search: FC<SearchProps> = ({ isFriendsFetched, params }) => {
     const { term } = params;
     const [searchParams, setSearchParams] = useSearchParams();
     const [localValue, setLocalValue] = useState(term);
@@ -48,5 +48,3 @@ const Search: React.FC<Props> = ({ isFriendsFetched, params }): JSX.Element => {
         />
     );
 };
-
-export default Search;

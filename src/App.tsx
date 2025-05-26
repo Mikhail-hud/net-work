@@ -1,7 +1,6 @@
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { Layout } from "./components";
-import { RequireAuth } from "./hoc";
+import { FC } from "react";
+import { RequireAuth } from "@hoc";
+import { AppLayout } from "@components";
 import {
     PUBLIC_PATH,
     PROFILE_PAGE_PATH,
@@ -12,13 +11,14 @@ import {
     LOGIN_PAGE_PATH,
     NOT_FOUND_PAGE_PATH,
     MESSANGER_PAGE_PATH,
-} from "./constants/pathConstants";
+} from "@constants/pathConstants";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { DialogsPage, FriendsPage, LoginPage, MessangerPage, NotFoundPage, ProfilePage, UsersPage } from "@pages";
 
-const App: React.FC = (): JSX.Element => {
+export const App: FC = () => {
     return (
         <Routes>
-            <Route path={PUBLIC_PATH} element={<Layout />}>
+            <Route path={PUBLIC_PATH} element={<AppLayout />}>
                 <Route index element={<Navigate to={PROFILE_PAGE_PATH} />} />
                 <Route
                     path={PROFILE_PAGE_PATH}
@@ -60,5 +60,3 @@ const App: React.FC = (): JSX.Element => {
         </Routes>
     );
 };
-
-export default App;
