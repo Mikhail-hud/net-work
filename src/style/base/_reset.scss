@@ -1,12 +1,6 @@
 @import "../abstracts/variables";
 
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 html, body {
   margin: 0;
   overflow-x: hidden;
@@ -22,14 +16,19 @@ h6,
   margin: 0;
 }
 
+.ant-pagination-options-quick-jumper input:focus {
+  box-shadow: var(--colorPrimary) !important;
+}
+
+.ant-select-focused .ant-select-selector {
+  box-shadow: var(--colorPrimary) !important;
+}
+
 .ant-typography-secondary {
   font-weight: 100;
 }
 
 .ant-drawer-title {
-  font-family: IBM Plex Serif, serif;
-  font-weight: 500;
-  font-size: 21px;
   text-align: center;
 }
 
@@ -65,13 +64,3 @@ input[type="file"] {
   border-bottom: none;
 }
 
-.ant-badge-count {
-  color: rgba(0, 0, 0, 0.45);
-  background-color: rgba(114, 46, 209, 0.15);
-}
-
-h1,
-.ant-card-meta-title,
-.ant-list-item-meta-title {
-  text-transform: capitalize;
-}

@@ -53,11 +53,8 @@ export const Navigation = () => {
         skip: !isAuth,
     });
     const navigationLinks = getNavigationLinks(data);
-    const selectedKey =
-        (pathname.startsWith(PROFILE_PAGE_PATH) && PROFILE_PAGE_PATH) ||
-        (pathname.startsWith(DIALOGS_PAGE_PATH) && DIALOGS_PAGE_PATH) ||
-        (pathname.startsWith(FRIENDS_PAGE_PATH) && FRIENDS_PAGE_PATH) ||
-        (pathname.startsWith(USERS_PAGE_PATH) && USERS_PAGE_PATH);
+    const paths: string[] = [PROFILE_PAGE_PATH, DIALOGS_PAGE_PATH, FRIENDS_PAGE_PATH, USERS_PAGE_PATH];
+    const selectedKey: string = paths.find(path => pathname.startsWith(path)) || undefined;
     return (
         <Menu mode="horizontal" selectedKeys={[selectedKey]}>
             {navigationLinks.map(item => {

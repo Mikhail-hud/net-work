@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { profileAPI } from "@app/api";
-import { Notification } from "../../components";
+import { nanoid } from "nanoid";
+import { Notification } from "@components";
 import { ProfileState } from "@app/types/reducerTypes";
 import {
     NewLikeData,
@@ -115,9 +116,8 @@ export const profileSlice = createSlice({
         },
         addPost: (state: ProfileState, action: PayloadAction<NewPostData>) => {
             const { payload } = action;
-            const rand = 100000 + Math.random() * (10000 + 1 - 10);
             const newPost = {
-                id: rand,
+                id: nanoid(),
                 edited: false,
                 likes: { likesCount: 0, usersProfile: [] },
                 ...payload,
@@ -176,7 +176,7 @@ export const profileSlice = createSlice({
             localStorage.setItem(String(state.profile.userId), JSON.stringify(posts));
             state.posts = posts;
         },
-        deletePost: (state: ProfileState, action: PayloadAction<number>) => {
+        deletePost: (state: ProfileState, action: PayloadAction<string>) => {
             const { payload } = action;
             const posts = state.posts.filter(post => post.id !== payload);
             localStorage.setItem(String(state.profile.userId), JSON.stringify(posts));

@@ -46,9 +46,14 @@ export const MessageForm: FC<MessageFormProps> = ({ onSendMessage, userId }) => 
                     >
                         <TextArea
                             rows={3}
+                            autoFocus
                             allowClear
                             name={INPUT_NAME}
                             variant="underlined"
+                            onPressEnter={e => {
+                                e.preventDefault();
+                                form.submit();
+                            }}
                             style={{ borderRadius: "16px 0px 16px 0px", marginBottom: "10px" }}
                         />
                     </Form.Item>

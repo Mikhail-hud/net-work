@@ -4,7 +4,7 @@ export interface NewPostData {
     profile: UserProfile;
 }
 export interface UpdatedPostData {
-    id: number;
+    id: string;
     postText: string;
     postDate: string;
 }
@@ -16,11 +16,11 @@ export interface LikeData {
 
 export interface Post extends NewPostData {
     edited: boolean;
-    id: number;
+    id: string;
     likes: LikeData;
 }
 export interface NewLikeData {
-    id: number;
+    id: string;
     userProfile: UserProfile;
 }
 
