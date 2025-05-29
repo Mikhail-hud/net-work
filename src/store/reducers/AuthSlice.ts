@@ -1,16 +1,16 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getAuthUserData, getAuthUserProfileData, getCaptchaUrl } from "../actions";
-import { UserCredential } from "../../types/userType";
-import { ResultCodeTypes } from "../../types/apiTypes";
-import { UserDataPayload, UserState } from "@app/types/reducerTypes";
 import { authAPI } from "@api";
-import { Notification } from "@components";
 import {
+    RESULT_CODE_SUCCESS,
     RESULT_CODE_REJECT_WITH_SECURITY,
     RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL,
-    RESULT_CODE_SUCCESS,
 } from "@constants/apiResultCodeConstans";
-import { UserProfile } from "../../types/profileTypes";
+import { Notification } from "@components";
+import { UserState } from "@app/types/reducerTypes";
+import { UserProfile } from "@app/types/profileTypes";
+import { ResultCodeTypes } from "@app/types/apiTypes";
+import { AuthDataEntities, UserCredential } from "@app/types/userType";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { getAuthUserData, getAuthUserProfileData, getCaptchaUrl } from "@app/store/actions";
 
 const initialState: UserState = {
     user: {
@@ -45,28 +45,31 @@ const initialState: UserState = {
     error: null,
 };
 
-export const logIn = createAsyncThunk("auth/logIn", async (userData: UserCredential, { dispatch }) => {
-    const { email, password, rememberMe, captcha } = userData;
-    try {
-        const response = await authAPI.login(email, password, rememberMe, captcha);
-        if (response.resultCode === RESULT_CODE_SUCCESS) {
-            dispatch(setLoginError(null));
-            dispatch(getAuthUserData());
-            return response.resultCode;
+export const logIn = createAsyncThunk(
+    "auth/logIn",
+    async (userData: UserCredential, { dispatch }): Promise<ResultCodeTypes | void> => {
+        const { email, password, rememberMe, captcha } = userData;
+        try {
+            const response = await authAPI.login(email, password, rememberMe, captcha);
+            if (response.resultCode === RESULT_CODE_SUCCESS) {
+                dispatch(setLoginError(null));
+                dispatch(getAuthUserData());
+                return response.resultCode;
+            }
+            if (response.resultCode === RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL) {
+                dispatch(setLoginError(response.messages.join()));
+                Notification(response.messages.join(), "Please check your credentials and try again!");
+                return response.resultCode;
+            }
+            if (response.resultCode === RESULT_CODE_REJECT_WITH_SECURITY) {
+                dispatch(getCaptchaUrl());
+            }
+        } catch (e) {
+            Notification(e.message);
         }
-        if (response.resultCode === RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL) {
-            dispatch(setLoginError(response.messages.join()));
-            Notification(response.messages.join(), "Please check your credentials and try again!");
-            return response.resultCode;
-        }
-        if (response.resultCode === RESULT_CODE_REJECT_WITH_SECURITY) {
-            dispatch(getCaptchaUrl());
-        }
-    } catch (e) {
-        Notification(e.message);
     }
-});
-export const logOut = createAsyncThunk("auth/logOut", async () => {
+);
+export const logOut = createAsyncThunk("auth/logOut", async (): Promise<ResultCodeTypes> => {
     try {
         const response = await authAPI.logout();
         if (response.resultCode === RESULT_CODE_SUCCESS) {
@@ -104,7 +107,7 @@ export const authSlice = createSlice({
             .addCase(getAuthUserData.pending, state => {
                 state.isLoading = true;
             })
-            .addCase(getAuthUserData.fulfilled, (state, action: PayloadAction<UserDataPayload>) => {
+            .addCase(getAuthUserData.fulfilled, (state, action: PayloadAction<AuthDataEntities>) => {
                 if (action.payload.resultCode === RESULT_CODE_SUCCESS) {
                     state.isAuth = true;
                     state.user = { ...state.user, ...action.payload.data };

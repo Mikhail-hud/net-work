@@ -5,7 +5,6 @@ import {
     restoreMessage,
     fetchAllMessages,
     markMessageAsSpam,
-    fetchDialogsChatting,
 } from "@app/store/reducers/DialogsSlice";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@app/hooks/redux";
@@ -42,7 +41,6 @@ export const useMessanger = (): UseMessanger => {
     };
     useEffect((): void => {
         dispatch(fetchAllMessages({ userId: Number(userId) }));
-        dispatch(fetchDialogsChatting(Number(userId)));
     }, [userId]);
 
     return {

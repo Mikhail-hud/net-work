@@ -1,17 +1,10 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { profileAPI } from "@app/api";
 import { nanoid } from "nanoid";
+import { profileAPI } from "@app/api";
 import { Notification } from "@components";
 import { ProfileState } from "@app/types/reducerTypes";
-import {
-    NewLikeData,
-    NewPostData,
-    ProfileLogoFile,
-    UpdatedPostData,
-    UserProfile,
-    UserProfilePhotos,
-} from "../../types/profileTypes";
-import { RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL, RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { NewLikeData, NewPostData, UpdatedPostData, UserProfile, UserProfilePhotos } from "@app/types/profileTypes";
+import { RESULT_CODE_REJECT_WITH_WRONG_CREDENTIAL, RESULT_CODE_SUCCESS } from "@app/constants/apiResultCodeConstans";
 
 const initialState: ProfileState = {
     posts: [],
@@ -45,7 +38,7 @@ const initialState: ProfileState = {
     isPhotoSaving: false,
 };
 
-export const fetchProfile = createAsyncThunk("profile/fetchProfile", async (userId: number) => {
+export const fetchProfile = createAsyncThunk("profile/fetchProfile", async (userId: number): Promise<UserProfile> => {
     try {
         return await profileAPI.getProfile(userId);
     } catch (e) {
@@ -53,25 +46,28 @@ export const fetchProfile = createAsyncThunk("profile/fetchProfile", async (user
     }
 });
 
-export const getStatus = createAsyncThunk("profile/getStatus", async (userId: number) => {
+export const getStatus = createAsyncThunk("profile/getStatus", async (userId: number): Promise<string> => {
     try {
         return await profileAPI.getStatus(userId);
     } catch (e) {
         Notification(e.message);
     }
 });
-export const updateStatus = createAsyncThunk("profile/updateStatus", async (status: string, { dispatch }) => {
-    try {
-        const response = await profileAPI.updateStatus(status);
-        if (response.resultCode === RESULT_CODE_SUCCESS) {
-            dispatch(setStatus(status));
+export const updateStatus = createAsyncThunk(
+    "profile/updateStatus",
+    async (status: string, { dispatch }): Promise<void> => {
+        try {
+            const response = await profileAPI.updateStatus(status);
+            if (response.resultCode === RESULT_CODE_SUCCESS) {
+                dispatch(setStatus(status));
+            }
+        } catch (e) {
+            Notification(e.message);
         }
-    } catch (e) {
-        Notification(e.message);
     }
-});
+);
 
-export const savePhoto = createAsyncThunk("profile/savePhoto", async (file: ProfileLogoFile) => {
+export const savePhoto = createAsyncThunk("profile/savePhoto", async (file: Blob): Promise<UserProfilePhotos> => {
     try {
         const response = await profileAPI.savePhoto(file);
         if (response.resultCode === RESULT_CODE_SUCCESS) {
@@ -84,7 +80,7 @@ export const savePhoto = createAsyncThunk("profile/savePhoto", async (file: Prof
 
 export const saveProfile = createAsyncThunk(
     "profile/saveProfile",
-    async (profile: UserProfile, { getState, dispatch }) => {
+    async (profile: UserProfile, { getState, dispatch }): Promise<UserProfile> => {
         try {
             const response = await profileAPI.saveProfile(profile);
             if (response.resultCode === RESULT_CODE_SUCCESS) {

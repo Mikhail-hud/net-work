@@ -1,15 +1,19 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DialogsState } from "../../types/reducerTypes/dialogsReducer";
 import {
-    DeleteRestoreMessageData,
     Dialog,
     Message,
-    MessagesDataEntities,
     NewMessageData,
-} from "../../types/dialogsTypes";
+    MessagesDataEntities,
+    DeleteRestoreMessageData,
+    NewMessageDataEntities,
+    DeleteMessageDataEntities,
+    SpamMessageDataEntities,
+    RestoreMessageDataEntities,
+} from "@app/types/dialogsTypes";
 import { dialogsAPI } from "@app/api";
 import { Notification } from "@components";
-import { RESULT_CODE_SUCCESS } from "@constants/apiResultCodeConstans.ts";
+import { DialogsState } from "@app/types/reducerTypes/dialogsReducer";
+import { RESULT_CODE_SUCCESS } from "@constants/apiResultCodeConstans";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: DialogsState = {
     dialogs: [],
@@ -19,7 +23,7 @@ const initialState: DialogsState = {
     totalMessagesCount: null,
     newMessagesCount: null,
 };
-export const fetchAllDialogs = createAsyncThunk("dialogs/fetchAllDialogs", async () => {
+export const fetchAllDialogs = createAsyncThunk("dialogs/fetchAllDialogs", async (): Promise<Dialog[]> => {
     try {
         return await dialogsAPI.getallDialogs();
     } catch (e) {
@@ -29,7 +33,15 @@ export const fetchAllDialogs = createAsyncThunk("dialogs/fetchAllDialogs", async
 
 export const fetchAllMessages = createAsyncThunk(
     "dialogs/fetchAllMessages",
-    async ({ userId, page, count }: { userId: number; page?: number; count?: number }) => {
+    async ({
+        userId,
+        page,
+        count,
+    }: {
+        userId: number;
+        page?: number;
+        count?: number;
+    }): Promise<MessagesDataEntities> => {
         try {
             return await dialogsAPI.getMessagesList(userId, page, count);
         } catch (e) {
@@ -38,19 +50,12 @@ export const fetchAllMessages = createAsyncThunk(
     }
 );
 
-export const fetchDialogsChatting = createAsyncThunk("dialogs/fetchDialogsChatting", async (userId: number) => {
-    try {
-        await dialogsAPI.getDialogsChatting(userId);
-    } catch (e) {
-        Notification(e.message);
-    }
-});
 export const sendMessage = createAsyncThunk(
     "dialogs/sendMessage",
-    async (newMessageData: NewMessageData, { dispatch }) => {
+    async (newMessageData: NewMessageData, { dispatch }): Promise<void> => {
         const { recipientId, body } = newMessageData;
         try {
-            const response = await dialogsAPI.sendMessage(recipientId, body);
+            const response: NewMessageDataEntities = await dialogsAPI.sendMessage(recipientId, body);
             if (response.resultCode === RESULT_CODE_SUCCESS) {
                 dispatch(setMessage(response.data.message));
             }
@@ -63,7 +68,7 @@ export const deleteMessage = createAsyncThunk(
     "dialogs/deleteMessage",
     async ({ messageId, byRecipient }: DeleteRestoreMessageData, { dispatch }) => {
         try {
-            const response = await dialogsAPI.deleteMessage(messageId);
+            const response: DeleteMessageDataEntities = await dialogsAPI.deleteMessage(messageId);
             if (response.resultCode === RESULT_CODE_SUCCESS) {
                 dispatch(setDeleteMessage({ messageId, byRecipient }));
             }
@@ -74,9 +79,9 @@ export const deleteMessage = createAsyncThunk(
 );
 export const markMessageAsSpam = createAsyncThunk(
     "dialogs/markMessageAsSpam",
-    async (messageId: string, { dispatch }) => {
+    async (messageId: string, { dispatch }): Promise<void> => {
         try {
-            const response = await dialogsAPI.markMessageAsSpam(messageId);
+            const response: SpamMessageDataEntities = await dialogsAPI.markMessageAsSpam(messageId);
             if (response.resultCode === RESULT_CODE_SUCCESS) {
                 dispatch(setMarkMessageAsSpam({ messageId }));
             }
@@ -87,9 +92,9 @@ export const markMessageAsSpam = createAsyncThunk(
 );
 export const restoreMessage = createAsyncThunk(
     "dialogs/restoreMessage",
-    async ({ messageId, byRecipient }: DeleteRestoreMessageData, { dispatch }) => {
+    async ({ messageId, byRecipient }: DeleteRestoreMessageData, { dispatch }): Promise<void> => {
         try {
-            const response = await dialogsAPI.restoreMessage(messageId);
+            const response: RestoreMessageDataEntities = await dialogsAPI.restoreMessage(messageId);
             if (response.resultCode === RESULT_CODE_SUCCESS) {
                 dispatch(setRestoreMessage({ messageId, byRecipient }));
             }

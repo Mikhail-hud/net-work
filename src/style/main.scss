@@ -1,8 +1,6 @@
-@import "base/reset";
-@import "abstracts/mixin";
-@import "abstracts/variables";
-@import "layout/layout";
-@import "components/scroll";
-@import "components/pageLoader";
-@import "components/messages";
-@import "pages/profilePage";
+@use "base/reset";
+@use "layout/layout";
+@use "components/scroll";
+@use "components/pageLoader";
+@use "components/messages";
+@use "pages/profilePage";

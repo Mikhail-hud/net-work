@@ -1,13 +1,16 @@
 import { Photos } from "./usersType";
+import { BaseResponse } from "@app/types/apiTypes";
 
 export interface NewMessageData {
     recipientId: number;
     body: string;
 }
+
 export interface DeleteRestoreMessageData {
     messageId: string;
     byRecipient: boolean;
 }
+
 export interface Dialog {
     hasNewMessages: boolean;
     id: number;
@@ -33,8 +36,14 @@ export interface Message {
     distributionId?: number;
     recipientName?: string;
 }
+
 export interface MessagesDataEntities {
     error: Array<string>;
     items: Array<Message>;
     totalCount: number;
 }
+
+export type NewMessageDataEntities = BaseResponse<{ message: Message }>;
+export type DeleteMessageDataEntities = BaseResponse<Record<string, unknown>>;
+export type SpamMessageDataEntities = BaseResponse<Record<string, unknown>>;
+export type RestoreMessageDataEntities = BaseResponse<Record<string, unknown>>;

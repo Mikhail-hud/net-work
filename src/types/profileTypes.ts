@@ -1,8 +1,11 @@
+import { BaseResponse } from "@app/types/apiTypes";
+
 export interface NewPostData {
     postText: string;
     postDate: string;
     profile: UserProfile;
 }
+
 export interface UpdatedPostData {
     id: string;
     postText: string;
@@ -19,6 +22,7 @@ export interface Post extends NewPostData {
     id: string;
     likes: LikeData;
 }
+
 export interface NewLikeData {
     id: string;
     userProfile: UserProfile;
@@ -50,10 +54,6 @@ export interface UserProfile {
     userId: number;
 }
 
-export interface ProfileLogoFile {
-    lastModified: number;
-    name: string;
-    size: number;
-    type: string;
-    webkitRelativePath: string;
-}
+export type StatusDataEntities = BaseResponse<Record<string, unknown>>;
+export type ProfileDataEntities = BaseResponse<Record<string, unknown>>;
+export type PhotoDataEntities = BaseResponse<{ photos: UserProfilePhotos }>;

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getAuthUserData } from "@app/store/actions";
 import { InitializeState } from "@app/types/reducerTypes";
-import { getAuthUserData } from "../actions";
 const initialState: InitializeState = {
     initialized: false,
 };

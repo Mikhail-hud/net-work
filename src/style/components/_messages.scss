@@ -1,99 +1,112 @@
-@import "../abstracts/mixin";
-@import "../abstracts/variables";
-
 .message-container {
-    display: flex;
-    margin: 5px 0;
-    .logo-block {
-        img {
-            min-width: 40px;
-            max-height: 40px;
-            border-radius: 50%;
-        }
-        p {
-            text-align: center;
-            font-style: oblique;
-        }
-    }
-    .message-block {
-        width: auto;
-        display: flex;
-        flex-direction: column;
-        font-size: 14px;
-        padding-left: 10px;
-        align-items: baseline;
-        span:first-child {
-            color: var(--colorText);
-            padding-right: 4px;
-        }
-        span {
-            margin-bottom: 3px;
-            font-size: 12px;
-            line-height: 18px;
-            color:var(--colorTextSecondary);
-            white-space: nowrap;
-        }
-        div {
-            min-height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-width: 30px;
-            margin-bottom: 0;
-            box-shadow: var(--boxShadowGeneral) 0 0 10px;
-            border-radius: 0 15px 15px 15px;
-            p {
-                margin-top: 0;
-                padding: 10px 0 10px 10px;
-                margin-bottom: 0 !important;
-                display: flex;
-                align-items: center;
-                span {
-                    margin-bottom: 0;
-                    line-height: 0.575rem;
-                }
-            }
-            button {
-                height: 100%;
-                min-width: 20px;
-                padding: 0;
-                margin-left: 5px;
-                border-radius: 0 15px 15px 0;
-                span {
-                    font-size: 14px;
-                    margin-bottom: 0;
-                    padding: 0 !important;
-                }
-            }
-        }
-    }
-}
-.user-messages {
-    justify-content: flex-end;
-    .logo-block {
-        order: 1;
+  display: flex;
+  margin: 5px 0;
+
+  .logo-block {
+    img {
+      min-width: 40px;
+      max-height: 40px;
+      border-radius: 50%;
     }
 
-    .message-block {
-        align-items: flex-end;
-        padding-right: 10px;
-        div {
-            border-radius: 15px 0 15px 15px;
-            box-shadow: var(--boxShadowGeneral) 0 0 10px;
-            p {
-                order: 1;
-                padding: 10px 10px 10px 0;
-                span {
-                    order: 1;
-                    padding-right: 0;
-                    padding-left: 4px;
-                }
-            }
-            button {
-                margin-left: 0;
-                margin-right: 5px;
-                border-radius: 15px 0 0 15px;
-            }
-        }
+    p {
+      text-align: center;
+      font-style: oblique;
     }
+  }
+
+  .message-block {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    padding-left: 10px;
+    align-items: baseline;
+
+    span:first-child {
+      color: var(--colorText);
+      padding-right: 4px;
+    }
+
+    span {
+      margin-bottom: 3px;
+      font-size: 12px;
+      line-height: 18px;
+      color: var(--colorTextSecondary);
+      white-space: nowrap;
+    }
+
+    div {
+      min-height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-width: 30px;
+      margin-bottom: 0;
+      box-shadow: var(--boxShadowGeneral) 0 0 10px;
+      border-radius: 0 15px 15px 15px;
+
+      p {
+        margin-top: 0;
+        padding: 10px 0 10px 10px;
+        margin-bottom: 0 !important;
+        display: flex;
+        align-items: center;
+
+        span {
+          margin-bottom: 0;
+          line-height: 0.575rem;
+        }
+      }
+
+      button {
+        height: 100%;
+        min-width: 20px;
+        padding: 0;
+        margin-left: 5px;
+        border-radius: 0 15px 15px 0;
+
+        span {
+          font-size: 14px;
+          margin-bottom: 0;
+          padding: 0 !important;
+        }
+      }
+    }
+  }
+}
+
+.user-messages {
+  justify-content: flex-end;
+
+  .logo-block {
+    order: 1;
+  }
+
+  .message-block {
+    align-items: flex-end;
+    padding-right: 10px;
+
+    div {
+      border-radius: 15px 0 15px 15px;
+      box-shadow: var(--boxShadowGeneral) 0 0 10px;
+
+      p {
+        order: 1;
+        padding: 10px 10px 10px 0;
+
+        span {
+          order: 1;
+          padding-right: 0;
+          padding-left: 4px;
+        }
+      }
+
+      button {
+        margin-left: 0;
+        margin-right: 5px;
+        border-radius: 15px 0 0 15px;
+      }
+    }
+  }
 }

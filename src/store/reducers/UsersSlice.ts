@@ -1,10 +1,10 @@
+import { usersAPI } from "@api";
+import { Notification } from "@components";
+import { UsersState } from "@app/types/reducerTypes";
+import { RESULT_CODE_SUCCESS } from "@constants/apiResultCodeConstans";
+import { FRIEND, PAGE, SEARCH, LIMIT } from "@constants/usersConstants";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { usersAPI } from "../../api";
-import { RESULT_CODE_SUCCESS } from "../../constants/apiResultCodeConstans";
-import { Notification } from "../../components";
-import { ToggleFollowingProgressPayload, UsersDataEntities, UsersQueryParameters } from "../../types/usersType";
-import { UsersState } from "../../types/reducerTypes";
-import { FRIEND, PAGE, SEARCH, LIMIT } from "../../constants/usersConstants";
+import { ToggleFollowingProgressPayload, UsersDataEntities, UsersQueryParameters } from "@app/types/usersType";
 
 const initialState: UsersState = {
     users: [],

@@ -1,4 +1,5 @@
 import { UserProfile } from "./profileTypes";
+import { BaseResponse } from "@app/types/apiTypes";
 
 export interface User {
     id: number;
@@ -13,3 +14,7 @@ export interface UserCredential {
     rememberMe: boolean;
     captcha?: string;
 }
+
+export type AuthDataEntities = BaseResponse<Omit<User, "profile">>;
+export type LogOutDataEntities = BaseResponse<Record<string, unknown>>;
+export type LogInDataEntities = BaseResponse<{ token: string; userId: number }>;
