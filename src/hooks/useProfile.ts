@@ -51,7 +51,7 @@ export const useProfile = () => {
         dispatch(addLike(newLikeData));
     };
 
-    const onPostDelete = (id: number): void => {
+    const onPostDelete = (id: string): void => {
         dispatch(deletePost(id));
     };
     const onSetEditMode = (editMode: boolean): void => {

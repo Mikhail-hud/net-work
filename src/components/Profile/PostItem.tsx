@@ -17,7 +17,7 @@ interface PostItemProps {
     post: Post;
     onLikeAdd: (newLikeData: NewLikeData) => void;
     onPostUpdate: (updatedPostData: UpdatedPostData) => void;
-    onPostDelete: (id: number) => void;
+    onPostDelete: (id: string) => void;
     isOwner: boolean;
 }
 
@@ -40,11 +40,11 @@ export const PostItem: FC<PostItemProps> = ({ post, onLikeAdd, onPostDelete, use
         });
     };
 
-    const handleLike = (id: number, userProfile: UserProfile): void => {
+    const handleLike = (id: string, userProfile: UserProfile): void => {
         isAuth && onLikeAdd({ id, userProfile });
     };
 
-    const handleDeletePost = (id: number): void => onPostDelete(id);
+    const handleDeletePost = (id: string): void => onPostDelete(id);
 
     const actions = [
         <span key="comment-basic-like" onClick={() => handleLike(id, user?.profile)}>

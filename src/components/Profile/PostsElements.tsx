@@ -8,7 +8,7 @@ interface PostsElementsProps {
     user: User;
     isOwner: boolean;
     posts: Array<Post>;
-    onPostDelete: (id: number) => void;
+    onPostDelete: (id: string) => void;
     onLikeAdd: (newLikeData: NewLikeData) => void;
     onPostUpdate: (updatedPostData: UpdatedPostData) => void;
 }

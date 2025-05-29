@@ -14,25 +14,25 @@ const getNavigationLinks = (newMessagesCount: number) => [
         key: PROFILE_PAGE_PATH,
         slug: PROFILE_PAGE_PATH,
         icon: <UserOutlined style={iconStyle} />,
-        title: "Profile",
+        label: <NavLink to={PROFILE_PAGE_PATH}>Profile</NavLink>,
     },
     {
         key: USERS_PAGE_PATH,
         slug: USERS_PAGE_PATH,
         icon: <TeamOutlined style={iconStyle} />,
-        title: "Users",
+        label: <NavLink to={USERS_PAGE_PATH}>Users</NavLink>,
     },
     {
         key: FRIENDS_PAGE_PATH,
         slug: FRIENDS_PAGE_PATH,
         icon: <UsergroupAddOutlined style={iconStyle} />,
-        title: "Friends",
+        label: <NavLink to={FRIENDS_PAGE_PATH}>Friends</NavLink>,
     },
     {
         key: DIALOGS_PAGE_PATH,
         slug: DIALOGS_PAGE_PATH,
         icon: <MessageOutlined style={iconStyle} />,
-        title: (
+        label: (
             <Badge
                 color="var(--colorPrimary)"
                 offset={[10, 0]}
@@ -40,7 +40,7 @@ const getNavigationLinks = (newMessagesCount: number) => [
                 count={newMessagesCount}
                 title="New Messages"
             >
-                Dialogs
+                <NavLink to={DIALOGS_PAGE_PATH}>Dialogs</NavLink>
             </Badge>
         ),
     },
@@ -55,15 +55,5 @@ export const Navigation = () => {
     const navigationLinks = getNavigationLinks(data);
     const paths: string[] = [PROFILE_PAGE_PATH, DIALOGS_PAGE_PATH, FRIENDS_PAGE_PATH, USERS_PAGE_PATH];
     const selectedKey: string = paths.find(path => pathname.startsWith(path)) || undefined;
-    return (
-        <Menu mode="horizontal" selectedKeys={[selectedKey]}>
-            {navigationLinks.map(item => {
-                return (
-                    <Menu.Item key={item.key} icon={item.icon}>
-                        <NavLink to={item.slug}>{item.title}</NavLink>
-                    </Menu.Item>
-                );
-            })}
-        </Menu>
-    );
+    return <Menu mode="horizontal" selectedKeys={[selectedKey]} items={navigationLinks} />;
 };
