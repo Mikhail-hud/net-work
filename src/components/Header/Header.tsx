@@ -46,17 +46,10 @@ export const AppHeader: FC = () => {
                 <Col style={logInLogOutColStyle}>
                     <Tooltip title={isAuth ? "log Out" : "log In"}>
                         <Button
-                            type="text"
+                            type="primary"
                             shape="round"
-                            size="large"
                             onClick={handleLoginLogout}
-                            icon={
-                                isAuth ? (
-                                    <LogoutOutlined style={{ color: "var(--colorPrimary)" }} />
-                                ) : (
-                                    <LoginOutlined style={{ color: "var(--colorPrimary)" }} />
-                                )
-                            }
+                            icon={isAuth ? <LogoutOutlined /> : <LoginOutlined />}
                         />
                     </Tooltip>
                 </Col>
