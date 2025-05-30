@@ -43,7 +43,12 @@ export const ProfilePage = () => {
                 </Col>
                 <Col>
                     {isOwner && (
-                        <Button type="text" shape="round" icon={<EditOutlined />} onClick={() => onSetEditMode(true)}>
+                        <Button
+                            type="primary"
+                            shape="round"
+                            icon={<EditOutlined />}
+                            onClick={() => onSetEditMode(true)}
+                        >
                             Edit profile!
                         </Button>
                     )}
