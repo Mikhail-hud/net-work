@@ -9,3 +9,4 @@ export * from "./Dialogs";
 export * from "./Messanger";
 export * from "./Providers";
 export * from "./ThemeToggleSegment";
+export * from "./ThemeFloatButton";

@@ -1,10 +1,10 @@
-import React from "react";
+import { FC } from "react";
 import { Layout } from "antd";
 import { useAppInitialize } from "@hooks";
 import { Outlet } from "react-router-dom";
-import { Preloader, AppHeader } from "@components";
+import { Preloader, AppHeader, ThemeFloatButton } from "@components";
 
-export const AppLayout: React.FC = () => {
+export const AppLayout: FC = () => {
     const { initialized } = useAppInitialize();
     if (!initialized) {
         return <Preloader />;
@@ -13,6 +13,7 @@ export const AppLayout: React.FC = () => {
         <Layout>
             <AppHeader />
             <Outlet />
+            <ThemeFloatButton />
         </Layout>
     );
 };

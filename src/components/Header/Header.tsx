@@ -1,11 +1,11 @@
 import { FC } from "react";
+import { Navigation } from "@components";
 import { logo } from "@assets/img/common";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "@app/store/reducers/AuthSlice";
 import { useAppDispatch, useAppSelector } from "@hooks";
-import { Navigation, ThemeToggleSegment } from "@components";
+import { Layout, Avatar, Row, Col, Button, Tooltip } from "antd";
 import { LoginOutlined, LogoutOutlined } from "@ant-design/icons";
-import { Layout, Avatar, Row, Col, Button, Tooltip, Flex } from "antd";
 import { LOGIN_PAGE_PATH, PROFILE_PAGE_PATH } from "@constants/pathConstants";
 
 const { Header } = Layout;
@@ -44,24 +44,21 @@ export const AppHeader: FC = () => {
                     <Navigation />
                 </Col>
                 <Col style={logInLogOutColStyle}>
-                    <Flex align="center" justify="center" gap={10}>
-                        <ThemeToggleSegment />
-                        <Tooltip title={isAuth ? "log Out" : "log In"}>
-                            <Button
-                                type="text"
-                                shape="round"
-                                size="large"
-                                onClick={handleLoginLogout}
-                                icon={
-                                    isAuth ? (
-                                        <LogoutOutlined style={{ color: "var(--colorPrimary)" }} />
-                                    ) : (
-                                        <LoginOutlined style={{ color: "var(--colorPrimary)" }} />
-                                    )
-                                }
-                            />
-                        </Tooltip>
-                    </Flex>
+                    <Tooltip title={isAuth ? "log Out" : "log In"}>
+                        <Button
+                            type="text"
+                            shape="round"
+                            size="large"
+                            onClick={handleLoginLogout}
+                            icon={
+                                isAuth ? (
+                                    <LogoutOutlined style={{ color: "var(--colorPrimary)" }} />
+                                ) : (
+                                    <LoginOutlined style={{ color: "var(--colorPrimary)" }} />
+                                )
+                            }
+                        />
+                    </Tooltip>
                 </Col>
             </Row>
         </Header>

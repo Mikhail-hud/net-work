@@ -38,7 +38,7 @@ export const UsersDialogs: FC<UsersDialogsProps> = ({ dialogs, isFetchingDialogs
                 closable
                 onClose={onClose}
                 width={400}
-                visible={visible}
+                open={visible}
             >
                 <Input
                     style={{ marginBottom: "1rem" }}
