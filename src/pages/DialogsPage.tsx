@@ -66,7 +66,11 @@ export const DialogsPage: FC = () => {
                                                 </Space>
                                             }
                                             avatar={
-                                                <Badge count={item?.newMessagesCount} title="New Messages">
+                                                <Badge
+                                                    count={item?.newMessagesCount}
+                                                    color="var(--colorPrimary)"
+                                                    title="New Messages"
+                                                >
                                                     <Avatar
                                                         size={{
                                                             xs: 40,
